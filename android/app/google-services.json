@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "958450915538",
+    "firebase_url": "https://habllen.firebaseio.com",
+    "project_id": "habllen",
+    "storage_bucket": "habllen.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:958450915538:android:1eea2c3c02a79d8675b50b",
+        "android_client_info": {
+          "package_name": "com.habllen.habllen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "958450915538-hi1krr0s8grqtbgftltslaepin37ainl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCA3m5Uz2wi7_rbVFeTifM3zpjU3PjB6o4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "958450915538-hi1krr0s8grqtbgftltslaepin37ainl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
