@@ -1,48 +1,44 @@
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+
 import 'model/auth_failure.dart';
+import 'model/models.dart';
 import 'model/result.dart';
 
 class AuthenticationRepository {
-  AuthenticationRepository(
-      {FirebaseAuth? firebaseAuth, GoogleSignIn? googleSignIn})
-      : _googleSignIn = googleSignIn ?? GoogleSignIn.standard(),
-        _auth = firebaseAuth ?? FirebaseAuth.instance;
+  AuthenticationRepository({
+    firebase_auth.FirebaseAuth? firebaseAuth,
+    GoogleSignIn? googleSignIn,
+  })  : _googleSignIn = googleSignIn ?? GoogleSignIn.standard(),
+        _auth = firebaseAuth ?? firebase_auth.FirebaseAuth.instance;
 
   final GoogleSignIn _googleSignIn;
-  final FirebaseAuth _auth;
+  final firebase_auth.FirebaseAuth _auth;
 
-  Future<Result<User, AuthFailure>> googleSignIn() async {
+  Future<void> logInWithGoogle() async {
     try {
-      final GoogleSignInAccount googleUser =
-          await _googleSignIn.signIn() as GoogleSignInAccount;
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
-      final AuthCredential credential = GoogleAuthProvider.credential(
-          idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
-      final UserCredential authResult =
-          await _auth.signInWithCredential(credential);
-      final User? user = authResult.user;
-
-      assert(!user!.isAnonymous);
-      // ignore: unnecessary_null_comparison
-      assert(await user!.getIdToken() != null);
-      final User? currentUser = _auth.currentUser;
-      assert(currentUser?.uid == user?.uid);
-      return Result.value(currentUser!);
-    } on PlatformException catch (e) {
-      if (e.code == "ERROR_INVALID_CREDENTIAL") {
-        return Result.error(const AuthFailure.invalidCredentialError());
-      } else {
-        return Result.error(const AuthFailure.serverError());
-      }
+      final googleUser = await _googleSignIn.signIn();
+      print("654564");
+      final googleAuth = await googleUser?.authentication;
+      var idtoken = googleAuth?.idToken;
+      final credential = firebase_auth.GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+      print(idtoken);
+      await _auth.signInWithCredential(credential);
+      print("sign in success");
+    } on Exception catch (e) {
+      print("sign in error");
+      print(e);
+      throw AuthFailure.serverError();
     }
   }
 
   Future<Result<bool, AuthFailure>> isLoggedIn() async {
     try {
-      final User? user = _auth.currentUser;
+      final firebase_auth.User? user = _auth.currentUser;
       if (user != null) {
         return Result.value(true);
       }
@@ -61,5 +57,17 @@ class AuthenticationRepository {
     } on Exception {
       print("logout error");
     }
+  }
+
+  Stream<User> get user {
+    return _auth.authStateChanges().map((firebaseUser) {
+      return firebaseUser == null ? User.empty : firebaseUser.toUser;
+    });
+  }
+}
+
+extension on firebase_auth.User {
+  User get toUser {
+    return User(id: uid, email: email!, name: displayName!, photo: photoURL!);
   }
 }
