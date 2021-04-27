@@ -12,7 +12,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("hhhh"),
+        title: const Text("Habllen"),
       ),
       body: BlocProvider(
           create: (BuildContext context) {
@@ -41,16 +41,15 @@ class _Login extends StatelessWidget {
         }
       },
       child: Container(
-        child: Column(
+        child: Stack(
           children: [
-            SizedBox(
-              height: 100.0,
-            ),
-            Center(child: Text("Sign In with Google")),
-            SizedBox(
-              height: 20.0,
-            ),
-            Container(height: 50.0, child: _LoginButton()),
+            Positioned.fill(
+
+                child: Align(
+                  alignment: Alignment.center,
+                  child: _LoginButton(),
+                )
+            )
           ],
         ),
       ),
