@@ -24,6 +24,7 @@ class PdfInvoiceMaker {
 
   pw.PageTheme _buildTheme(PdfPageFormat pageFormat, pw.Font base) {
     return pw.PageTheme(
+      pageFormat: pageFormat,
       theme: pw.ThemeData.withFont(
         base: base,
       ),

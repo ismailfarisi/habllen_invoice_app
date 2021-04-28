@@ -5,7 +5,9 @@ void main() {
   PdfInvoiceMaker pdfInvoiceMaker;
   test('saving pdf', () {
     pdfInvoiceMaker = PdfInvoiceMaker();
+    print('failed 1');
     pdfInvoiceMaker.pdfPageBuilder();
+    print('failed 2');
     pdfInvoiceMaker.savePdf();
   });
 }
