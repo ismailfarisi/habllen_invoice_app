@@ -41,7 +41,7 @@ class _AppViewState extends State<AppView> {
       theme: theme,
       home: FlowBuilder<AuthenticationStatus>(
         state: context.select((AuthenticationBloc bloc) => bloc.state.status),
-        onGeneratePages: onGenerateAppViewPages,
+        onGeneratePages: GenerateRoutes.onGenerateAppViewPages,
       ),
     );
   }

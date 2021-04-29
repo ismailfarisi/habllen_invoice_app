@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:habllen/ui/create_invoice_page/create_invoice_page.dart';
 
 class HomePage extends StatelessWidget {
   static Page page() => MaterialPage<void>(child: HomePage());
@@ -40,7 +41,10 @@ class __GridTileState extends State<_GridTile> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => CreateInvoicePage()));
+      },
       child: Card(
         elevation: 0.0,
         color: Colors.lightGreen,
