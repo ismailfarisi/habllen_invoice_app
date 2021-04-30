@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "958450915538-fme76aj52g1uk7iet38qh2tcoaio6fol.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.habllen.habllen",
+            "certificate_hash": "6af70aeb9d99211ee96eff1035277a6d0b3b57f6"
+          }
+        },
+        {
           "client_id": "958450915538-rji5lm7asug3o5e30ikuuohi3obmat47.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
