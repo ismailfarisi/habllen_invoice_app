@@ -21,9 +21,9 @@ class HomePage extends StatelessWidget {
         child: GridView.count(
           crossAxisCount: 2,
           children: [
-            _GridTile("create invoice",CreateInvoicePage()),
-            _GridTile("Add expence",ExpensePage()),
-            _GridTile("add new customer",CustomerPage())
+            _GridTile("create invoice", CreateInvoicePage()),
+            _GridTile("Add expence", ExpensePage()),
+            _GridTile("add new customer", CustomerPage())
           ],
         ),
       ),
@@ -39,8 +39,7 @@ class _GridTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => route));
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) => route));
       },
       child: Card(
         elevation: 0.0,

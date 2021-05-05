@@ -11,15 +11,12 @@ class AuthenticationRepository {
   AuthenticationRepository({
     firebase_auth.FirebaseAuth? firebaseAuth,
     GoogleSignIn? googleSignIn,
-  })  : _googleSignIn = googleSignIn ?? GoogleSignIn.standard(scopes: [
-    drive.DriveApi.driveScope
-  ]),
+  })  : _googleSignIn = googleSignIn ??
+            GoogleSignIn.standard(scopes: [drive.DriveApi.driveScope]),
         _auth = firebaseAuth ?? firebase_auth.FirebaseAuth.instance;
 
   final GoogleSignIn _googleSignIn;
   final firebase_auth.FirebaseAuth _auth;
-
-  
 
   Future<void> logInWithGoogle() async {
     try {
@@ -64,8 +61,14 @@ class AuthenticationRepository {
     }
   }
 
-  Future<Map<String, String>> get authHeaders{
-    return _googleSignIn.currentUser!.authHeaders;
+  Future<Map<String, String>> get authHeaders async {
+    assert(_auth.currentUser != null, "auth user value null ..");
+    bool isGoogleSignedIN = await _googleSignIn.isSignedIn();
+
+    await _googleSignIn.signInSilently();
+    print("$isGoogleSignedIN, ");
+    assert(_googleSignIn.currentUser != null, "google user value null ..");
+    return await _googleSignIn.currentUser!.authHeaders;
   }
 
   Stream<User> get user {
@@ -74,6 +77,7 @@ class AuthenticationRepository {
     });
   }
 }
+
 extension on firebase_auth.User {
   User get toUser {
     return User(id: uid, email: email!, name: displayName!, photo: photoURL!);
