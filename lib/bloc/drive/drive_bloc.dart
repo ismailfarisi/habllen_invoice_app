@@ -30,7 +30,7 @@ class DriveBloc extends Bloc<DriveEvent, DriveState> {
   }
 
   Future<DriveState> _mapPostFetchedToState(DriveState state) async {
-    if (state.hasReachedMax) return state;
+    if (state.hasReachedMax) return state.copywith(hasReachedMax: true);
     try {
       if (state.status == FileFetchStatus.initial) {
         final files = await getFiles();
@@ -42,8 +42,12 @@ class DriveBloc extends Bloc<DriveEvent, DriveState> {
             nextPageToken: files.nextPageToken);
       }
       final files = await getFiles(state.nextPageToken);
-      return files.list.isEmpty
-          ? state.copywith(hasReachedMax: true)
+      return files.list.length < 10
+          ? state.copywith(
+              hasReachedMax: true,
+              status: FileFetchStatus.success,
+              listdata: List.of(state.listdata)..addAll(files.list),
+            )
           : state.copywith(
               status: FileFetchStatus.success,
               listdata: List.of(state.listdata)..addAll(files.list),
