@@ -2,7 +2,6 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:drive_api/drive_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:habllen/bloc/auth/authentication_bloc.dart';
 import 'package:habllen/bloc/drive/drive_bloc.dart';
 
 class CreateInvoicePage extends StatelessWidget {
@@ -41,8 +40,7 @@ class _ListDetailsState extends State<ListDetails> {
 
   @override
   Widget build(BuildContext context) {
-    listData = context.read<DriveBloc>();
-    listData.getFiles();
+    listData = context.watch<DriveBloc>();
     return ListView.builder(
       itemBuilder: (context, index) {
         return index >= listData.state.listdata.length
@@ -57,10 +55,11 @@ class _ListDetailsState extends State<ListDetails> {
   }
 
   void _onScroll() {
-    if (_isBottom) listData.getFiles();
+    if (_isBottom) listData.add(FilesFetched());
   }
 
   bool get _isBottom {
+    print(_scrollController.hasClients);
     if (!_scrollController.hasClients) return false;
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.offset;
