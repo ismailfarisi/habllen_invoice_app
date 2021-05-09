@@ -9,16 +9,17 @@ class DriveApiLocal {
 
   DriveApiLocal(this.authHeaders) : gDriveClient = GDriveClient(authHeaders);
 
-  Future<DriveFile> listInvoiceFromDrive() async {
+  Future<DriveFile> listInvoiceFromDrive([String? nextPageTokens]) async {
     final drive.DriveApi driveApi = drive.DriveApi(gDriveClient);
     var files = driveApi.files;
     var filelist = await files.list(
         q: "mimeType = 'application/vnd.google-apps.folder' and '1BqNY8_mUiIpIs7wIuGuQjqlfdvGaAt6n' in parents",
-        pageSize: 12,
-        $fields: 'nextPageToken');
+        pageSize: 10,
+        pageToken: nextPageTokens,
+        $fields: "nextPageToken,files");
     List<DriveFileList> list = [];
     String? nextPageToken = filelist.nextPageToken;
-    print(nextPageToken);
+    print('nextPageToken is $nextPageToken');
     if (filelist.files != null) {
       for (var file in filelist.files!) {
         print("Found file: ${file.name}, ${file.id}");
