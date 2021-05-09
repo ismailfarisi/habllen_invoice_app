@@ -10,7 +10,7 @@ class DriveBloc extends Bloc<DriveEvent, DriveState> {
   DriveBloc(this._authenticationRepository)
       : super(const DriveState(listdata: []));
   final AuthenticationRepository _authenticationRepository;
-  static String? nextPageToken;
+  String? nextPageToken;
 
   Future<List<DriveFileList>> getFiles() async {
     Map<String, String> _authHeaders =
