@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:authentication_repository/authentication_repository.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:drive_api/drive_api.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:rxdart/transformers.dart';
 
 part 'drive_state.dart';
 part 'drive_event.dart';
@@ -12,11 +15,14 @@ class DriveBloc extends Bloc<DriveEvent, DriveState> {
       : super(const DriveState(listdata: []));
   final AuthenticationRepository _authenticationRepository;
 
-  Future<DriveFile> getFiles([String? nextPageToken]) async {
+  // final keywordStream = StreamController<String>();
+
+  Future<DriveFile> getFiles([String? nextPageToken, String? contains]) async {
     Map<String, String> _authHeaders =
         await _authenticationRepository.authHeaders;
     final DriveApiLocal driveApiLocal = DriveApiLocal(_authHeaders);
-    DriveFile data = await driveApiLocal.listInvoiceFromDrive(nextPageToken);
+    DriveFile data =
+        await driveApiLocal.listInvoiceFromDrive(nextPageToken, contains);
     List<DriveFileList> list = data.list;
     assert(list.isNotEmpty, "list is empty");
     return DriveFile(list, data.nextPageToken);
@@ -26,6 +32,11 @@ class DriveBloc extends Bloc<DriveEvent, DriveState> {
   Stream<DriveState> mapEventToState(DriveEvent event) async* {
     if (event is FilesFetched) {
       yield await _mapPostFetchedToState(state);
+    }
+    if (event is KeywordChanged) {
+      print("key word changed: ${event.keyword}");
+      final files = await getFiles(null, event.keyword);
+      yield state.copywith(listdata: files.list);
     }
   }
 
@@ -41,7 +52,7 @@ class DriveBloc extends Bloc<DriveEvent, DriveState> {
             hasReachedMax: false,
             nextPageToken: files.nextPageToken);
       }
-      final files = await getFiles(state.nextPageToken);
+      final files = await getFiles(state.nextPageToken, null);
       return files.list.length < 10
           ? state.copywith(
               hasReachedMax: true,
@@ -56,5 +67,22 @@ class DriveBloc extends Bloc<DriveEvent, DriveState> {
     } on Exception {
       return state.copywith(status: FileFetchStatus.failure);
     }
+  }
+
+  // @override
+  // Future<void> close() {
+  //   keywordStream.close();
+  //   return super.close();
+  // }
+  @override
+  Stream<Transition<DriveEvent, DriveState>> transformEvents(
+      Stream<DriveEvent> events, transitionFn) {
+    final nonDebounceStreams =
+        events.where((event) => event is! KeywordChanged);
+    final debounceStream = events
+        .where((event) => event is KeywordChanged)
+        .debounceTime(Duration(milliseconds: 400));
+    return super.transformEvents(
+        MergeStream([nonDebounceStreams, debounceStream]), transitionFn);
   }
 }

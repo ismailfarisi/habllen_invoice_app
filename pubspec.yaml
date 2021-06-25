@@ -21,6 +21,7 @@ dependencies:
   firebase_core: ^1.0.2
   flutter_bloc: ^7.0.0
   formz: ^0.4.0-nullsafety.0
+  rxdart: ^0.27.0
   freezed: ^0.14.1+2
   google_sign_in: ^5.0.1
   googleapis: ^2.0.0
