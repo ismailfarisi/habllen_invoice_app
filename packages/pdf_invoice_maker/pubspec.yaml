@@ -26,7 +26,11 @@ flutter:
   # To add assets to your package, add an assets section, like this:
   assets:
     - assets/1.jpg
-    - assets/Roboto-Regular.ttf
+
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/Roboto-Regular.ttf
  
   
   # For details regarding assets in packages, see

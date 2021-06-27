@@ -1,7 +1,9 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:habllen/ui/customer_page/customer_page.dart';
+import 'package:habllen/bloc/auth/authentication_bloc.dart';
+import 'package:habllen/theme.dart';
 import 'package:habllen/ui/expense_page/expense_page.dart';
 import 'package:habllen/ui/invoice_page/create_invoice_page.dart';
 
@@ -11,19 +13,23 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: Icon(Icons.menu),
-        backgroundColor: Colors.lightGreen[800],
-      ),
+      drawer: Drawer(
+          child: ListView(children: [
+        ListTile(
+            title: Text("Sign Out"),
+            onTap: () {
+              context
+                  .read<AuthenticationBloc>()
+                  .add(AuthenticationLogoutRequested());
+            })
+      ])),
+      appBar: AppBar(),
       body: Container(
-        color: Colors.grey[300],
         padding: EdgeInsets.all(8.0),
-        child: GridView.count(
-          crossAxisCount: 2,
+        child: ListView(
           children: [
-            _GridTile("create invoice", CreateInvoicePage()),
-            _GridTile("Add expence", ExpensePage()),
-            _GridTile("add new customer", CustomerPage())
+            _ListTile("Sales", CreateInvoicePage()),
+            _ListTile("Expenses", ExpensePage()),
           ],
         ),
       ),
@@ -31,8 +37,8 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class _GridTile extends StatelessWidget {
-  _GridTile(this.text, this.route);
+class _ListTile extends StatelessWidget {
+  _ListTile(this.text, this.route);
   final text;
   final route;
   @override
@@ -42,10 +48,18 @@ class _GridTile extends StatelessWidget {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) => route));
       },
       child: Card(
+        margin: EdgeInsets.all(15),
         elevation: 0.0,
-        color: Colors.lightGreen,
+        color: theme.primaryColor,
         child: Center(
-          child: Text(text),
+          child: Padding(
+            padding: EdgeInsets.all(5),
+            child: Text(
+              text,
+              style: theme.textTheme.headline1,
+              textAlign: TextAlign.center,
+            ),
+          ),
         ),
       ),
     );

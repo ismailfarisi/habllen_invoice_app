@@ -1,25 +1,92 @@
 import 'package:authentication_repository/authentication_repository.dart';
-import 'package:drive_api/drive_api.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habllen/bloc/drive/drive_bloc.dart';
+import 'package:sales_api/sales_api.dart';
 
 class CreateInvoicePage extends StatelessWidget {
   static Page page() => MaterialPage<void>(child: CreateInvoicePage());
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext pageContext) {
     final AuthenticationRepository authenticationRepository =
-        context.read<AuthenticationRepository>();
+        pageContext.read<AuthenticationRepository>();
 
     return Scaffold(
       body: SafeArea(
-        child: Container(
-            child: BlocProvider<DriveBloc>(
-                create: (context) =>
-                    DriveBloc(authenticationRepository)..add(FilesFetched()),
-                child: ListDetails())),
-      ),
+          child: BlocProvider<DriveBloc>(
+              create: (blocContext) =>
+                  DriveBloc(authenticationRepository)..add(FilesFetched()),
+              child: Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.rectangle, color: Colors.white),
+                    height: 60,
+                    child: Row(
+                      children: [
+                        IconButton(
+                            icon: Icon(Icons.arrow_back),
+                            onPressed: () {
+                              Navigator.of(pageContext).pop();
+                            }),
+                        SearchTextField(),
+                      ],
+                    ),
+                  ),
+                  Expanded(child: ListDetails()),
+                ],
+              ))),
+    );
+  }
+}
+
+class SearchTextField extends StatefulWidget {
+  const SearchTextField({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  _SearchTextFieldState createState() => _SearchTextFieldState();
+}
+
+class _SearchTextFieldState extends State<SearchTextField> {
+  late TextEditingController _controller;
+  late DriveBloc driveBloc;
+  late FocusNode _focusNode;
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+    driveBloc = context.read<DriveBloc>();
+    _focusNode = FocusNode();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Row(children: [
+        Expanded(
+          child: TextField(
+            focusNode: _focusNode,
+            onChanged: (string) {
+              driveBloc.add(KeywordChanged(string));
+            },
+            controller: _controller,
+            decoration:
+                InputDecoration(hintText: "Search", border: InputBorder.none),
+            keyboardType: TextInputType.text,
+          ),
+        ),
+        IconButton(
+            onPressed: () {
+              _controller.clear();
+              _focusNode.unfocus();
+            },
+            icon: Icon(Icons.cancel))
+      ]),
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:habllen/ui/invoice_page/create_invoice_page.dart';
 import 'package:habllen/ui/home/home.dart';
 import 'package:habllen/ui/login_page/login_page.dart';
+import 'package:habllen/ui/splash_page/splash_page.dart';
 
 class GenerateRoutes {
   static List<Page> onGenerateAppViewPages(
@@ -11,6 +12,8 @@ class GenerateRoutes {
     switch (state) {
       case AuthenticationStatus.authenticated:
         return [HomePage.page()];
+      case AuthenticationStatus.unknown:
+        return [SplashPage.page()];
       case AuthenticationStatus.unauthenticated:
       default:
         return [LoginPage.page()];
