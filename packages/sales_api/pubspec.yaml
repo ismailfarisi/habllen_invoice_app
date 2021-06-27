@@ -1,0 +1,31 @@
+name: sales_api
+description: A new Flutter package project.
+version: 0.0.1
+author:
+homepage:
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  pdf: ^3.2.0
+  equatable: ^2.0.0
+  googleapis: ^2.0.0
+  http: ^0.13.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  assets:
+    - assets/1.jpg
+
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/Roboto-Regular.ttf
+ 
