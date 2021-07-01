@@ -3,6 +3,8 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habllen/bloc/drive/drive_bloc.dart';
+import 'package:provider/provider.dart';
+import 'package:sales_api/model/invoice_details.dart';
 import 'package:sales_api/sales_api.dart';
 
 class CreateInvoicePage extends StatelessWidget {
@@ -18,26 +20,42 @@ class CreateInvoicePage extends StatelessWidget {
           child: BlocProvider<DriveBloc>(
               create: (blocContext) =>
                   DriveBloc(authenticationRepository)..add(FilesFetched()),
-              child: Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        shape: BoxShape.rectangle, color: Colors.white),
-                    height: 60,
-                    child: Row(
-                      children: [
-                        IconButton(
-                            icon: Icon(Icons.arrow_back),
-                            onPressed: () {
-                              Navigator.of(pageContext).pop();
-                            }),
-                        SearchTextField(),
-                      ],
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          shape: BoxShape.rectangle,
+                          color: Colors.white),
+                      height: 60,
+                      child: Row(
+                        children: [
+                          IconButton(
+                              icon: Icon(Icons.arrow_back),
+                              onPressed: () {
+                                Navigator.of(pageContext).pop();
+                              }),
+                          SearchTextField(),
+                        ],
+                      ),
                     ),
-                  ),
-                  Expanded(child: ListDetails()),
-                ],
+                    Expanded(
+                        child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: ListDetails(),
+                    )),
+                    Positioned(
+                        bottom: 10,
+                        height: 20,
+                        child: ElevatedButton(
+                          child: Text("create new invoice"),
+                          onPressed: () {},
+                        ))
+                  ],
+                ),
               ))),
     );
   }
@@ -62,6 +80,11 @@ class _SearchTextFieldState extends State<SearchTextField> {
     _controller = TextEditingController();
     driveBloc = context.read<DriveBloc>();
     _focusNode = FocusNode();
+    _focusNode.addListener(() {
+      setState(() {
+        _focusNode.hasFocus;
+      });
+    });
   }
 
   @override
@@ -80,12 +103,13 @@ class _SearchTextFieldState extends State<SearchTextField> {
             keyboardType: TextInputType.text,
           ),
         ),
-        IconButton(
-            onPressed: () {
-              _controller.clear();
-              _focusNode.unfocus();
-            },
-            icon: Icon(Icons.cancel))
+        if (_focusNode.hasFocus)
+          IconButton(
+              onPressed: () {
+                _controller.clear();
+                _focusNode.unfocus();
+              },
+              icon: Icon(Icons.cancel))
       ]),
     );
   }
@@ -148,17 +172,40 @@ class BottomLoader extends StatelessWidget {
 }
 
 class PostListItem extends StatelessWidget {
-  final DriveFileList driveFile;
+  final InvoiceDetails driveFile;
 
   const PostListItem({Key? key, required this.driveFile}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final Color color;
+    switch (driveFile.paymentStatus) {
+      case 0:
+        color = Colors.red[700] as Color;
+        break;
+      case 1:
+        color = Colors.orange[400] as Color;
+        break;
+      case 2:
+        color = Colors.green;
+        break;
+      default:
+        color = Colors.red;
+    }
     return Card(
-      margin: EdgeInsets.all(4),
       elevation: 2,
-      child: ListTile(
-        title: Text("${driveFile.folderName}"),
-        subtitle: Text("${driveFile.folderId}"),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+          side: BorderSide(color: color.withOpacity(.6), width: 2)),
+      child: ExpansionTile(
+        childrenPadding: EdgeInsets.all(15),
+        expandedAlignment: Alignment.topLeft,
+        expandedCrossAxisAlignment: CrossAxisAlignment.start,
+        title: Text("${driveFile.invoiceNo}"),
+        subtitle: Text("${driveFile.clientName}"),
+        children: [
+          Text("Amt :${driveFile.amount}"),
+          Text("Invoice Date:${driveFile.date}"),
+        ],
       ),
     );
   }

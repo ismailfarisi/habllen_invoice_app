@@ -11,6 +11,11 @@ final theme = ThemeData(
         borderRadius: BorderRadius.circular(8),
       ),
     ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ButtonStyle(
+      minimumSize: MaterialStateProperty.all(Size.fromHeight(50)),
+      backgroundColor: MaterialStateProperty.all(Color(0xFF446418)),
+    )),
     textTheme: TextTheme(
         headline1: TextStyle(
             fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)));

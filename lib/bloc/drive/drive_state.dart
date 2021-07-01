@@ -6,17 +6,17 @@ class DriveState extends Equatable {
   const DriveState(
       {this.nextPageToken = 'initial',
       this.hasReachedMax = false,
-      this.listdata = const <DriveFileList>[],
+      this.listdata = const <InvoiceDetails>[],
       this.status = FileFetchStatus.initial});
   final FileFetchStatus status;
-  final List<DriveFileList> listdata;
+  final List<InvoiceDetails> listdata;
   final String? nextPageToken;
   final bool hasReachedMax;
   @override
   List<Object?> get props => [status, listdata, nextPageToken, hasReachedMax];
 
   DriveState copywith(
-      {List<DriveFileList>? listdata,
+      {List<InvoiceDetails>? listdata,
       bool? hasReachedMax,
       FileFetchStatus? status,
       String? nextPageToken}) {

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/transformers.dart';
+import 'package:sales_api/model/invoice_details.dart';
 import 'package:sales_api/sales_api.dart';
 
 part 'drive_state.dart';
@@ -25,7 +26,16 @@ class DriveBloc extends Bloc<DriveEvent, DriveState> {
         await driveApiLocal.listInvoiceFromDrive(nextPageToken, contains);
     List<DriveFileList> list = data.list;
     assert(list.isNotEmpty, "list is empty");
+    driveApiLocal.getInvoiceDetailList();
     return DriveFile(list, data.nextPageToken);
+  }
+
+  Future<List<InvoiceDetails>> getInvoiceDetailsList() async {
+    Map<String, String> _authHeaders =
+        await _authenticationRepository.authHeaders;
+    final DriveApiLocal driveApiLocal = DriveApiLocal(_authHeaders);
+    final list = await driveApiLocal.getInvoiceDetailList();
+    return list;
   }
 
   @override
@@ -35,39 +45,53 @@ class DriveBloc extends Bloc<DriveEvent, DriveState> {
     }
     if (event is KeywordChanged) {
       print("key word changed: ${event.keyword}");
-      final files = await getFiles(null, event.keyword);
-      yield state.copywith(listdata: files.list);
+      final files = await getInvoiceDetailsList();
+      yield state.copywith(listdata: files);
     }
   }
 
   Future<DriveState> _mapPostFetchedToState(DriveState state) async {
     if (state.hasReachedMax) return state.copywith(hasReachedMax: true);
     try {
-      if (state.status == FileFetchStatus.initial) {
-        final files = await getFiles();
-        assert(files.list.isNotEmpty, "initial fetching files empty");
-        return state.copywith(
-            status: FileFetchStatus.success,
-            listdata: files.list,
-            hasReachedMax: false,
-            nextPageToken: files.nextPageToken);
-      }
-      final files = await getFiles(state.nextPageToken, null);
-      return files.list.length < 10
-          ? state.copywith(
-              hasReachedMax: true,
-              status: FileFetchStatus.success,
-              listdata: List.of(state.listdata)..addAll(files.list),
-            )
-          : state.copywith(
-              status: FileFetchStatus.success,
-              listdata: List.of(state.listdata)..addAll(files.list),
-              hasReachedMax: false,
-              nextPageToken: files.nextPageToken);
+      final files = await getInvoiceDetailsList();
+      assert(files.isNotEmpty, "initial fetching files empty");
+      return state.copywith(
+        status: FileFetchStatus.success,
+        listdata: files,
+        hasReachedMax: true,
+      );
     } on Exception {
       return state.copywith(status: FileFetchStatus.failure);
     }
   }
+  // Future<DriveState> _mapPostFetchedToState(DriveState state) async {
+  //   if (state.hasReachedMax) return state.copywith(hasReachedMax: true);
+  //   try {
+  //     if (state.status == FileFetchStatus.initial) {
+  //       final files = await getFiles();
+  //       assert(files.list.isNotEmpty, "initial fetching files empty");
+  //       return state.copywith(
+  //           status: FileFetchStatus.success,
+  //           listdata: files.list,
+  //           hasReachedMax: false,
+  //           nextPageToken: files.nextPageToken);
+  //     }
+  //     final files = await getFiles(state.nextPageToken, null);
+  //     return files.list.length < 10
+  //         ? state.copywith(
+  //             hasReachedMax: true,
+  //             status: FileFetchStatus.success,
+  //             listdata: List.of(state.listdata)..addAll(files.list),
+  //           )
+  //         : state.copywith(
+  //             status: FileFetchStatus.success,
+  //             listdata: List.of(state.listdata)..addAll(files.list),
+  //             hasReachedMax: false,
+  //             nextPageToken: files.nextPageToken);
+  //   } on Exception {
+  //     return state.copywith(status: FileFetchStatus.failure);
+  //   }
+  // }
 
   // @override
   // Future<void> close() {

@@ -25,7 +25,7 @@ class HomePage extends StatelessWidget {
       ])),
       appBar: AppBar(),
       body: Container(
-        padding: EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(10),
         child: ListView(
           children: [
             _ListTile("Sales", CreateInvoicePage()),
@@ -43,24 +43,15 @@ class _ListTile extends StatelessWidget {
   final route;
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (_) => route));
-      },
-      child: Card(
-        margin: EdgeInsets.all(15),
-        elevation: 0.0,
-        color: theme.primaryColor,
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.all(5),
-            child: Text(
-              text,
-              style: theme.textTheme.headline1,
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: ElevatedButton(
+        style: ButtonStyle(
+            minimumSize: MaterialStateProperty.all(Size.fromHeight(60))),
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) => route));
+        },
+        child: Text(text),
       ),
     );
   }
