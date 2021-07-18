@@ -38,8 +38,14 @@ class DriveApiLocal {
   Future<List<InvoiceDetails>> getInvoiceDetailList() async {
     final SheetsApi sheetsApi = SheetsApi(gDriveClient);
     final sheet = await sheetsApi.spreadsheets.values.get(spreadsheetId, range);
-    final invoiceList = InvoiceDetailsList.fromJson(sheet.values?.toList());
-    final sorted = invoiceList.invoiceDetailList.reversed.toList();
+    final List<InvoiceDetails> invoiceList = [];
+    for (final row in sheet.values!.toList()) {
+      print(row);
+      invoiceList.add(InvoiceDetails.fromList(row));
+    }
+
+    final sorted = invoiceList.reversed.toList();
+    print(sorted);
     return sorted;
   }
 }

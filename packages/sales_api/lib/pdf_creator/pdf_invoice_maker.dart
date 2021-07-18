@@ -70,13 +70,13 @@ class PdfInvoiceMaker {
                     w.Text('Invoice for',
                         style: w.TextStyle(
                             fontSize: 12, fontWeight: w.FontWeight.bold)),
-                    w.Text(company.companyName,
+                    w.Text(company.companyName!,
                         style: w.TextStyle(
                           fontSize: 10,
                         )),
-                    w.Text(company.companyAdd1,
+                    w.Text(company.companyAdd1!,
                         style: w.TextStyle(fontSize: 10)),
-                    w.Text(company.companyAdd2,
+                    w.Text(company.companyAdd2!,
                         style: w.TextStyle(fontSize: 10)),
                     w.Text('GSTIN: ${company.companyGst}',
                         style: w.TextStyle(fontSize: 10)),

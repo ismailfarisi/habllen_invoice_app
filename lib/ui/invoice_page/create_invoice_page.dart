@@ -61,6 +61,7 @@ class CreateInvoicePage extends StatelessWidget {
   }
 }
 
+// search box widget to search invoices
 class SearchTextField extends StatefulWidget {
   const SearchTextField({
     Key? key,
@@ -115,6 +116,7 @@ class _SearchTextFieldState extends State<SearchTextField> {
   }
 }
 
+// invoice listview widget
 class ListDetails extends StatefulWidget {
   @override
   _ListDetailsState createState() => _ListDetailsState();
@@ -158,6 +160,7 @@ class _ListDetailsState extends State<ListDetails> {
   }
 }
 
+// loading animation at the bottom of invoice listview
 class BottomLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -171,6 +174,7 @@ class BottomLoader extends StatelessWidget {
   }
 }
 
+// card item decoration for the invoice details
 class PostListItem extends StatelessWidget {
   final InvoiceDetails driveFile;
 
@@ -179,13 +183,13 @@ class PostListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final Color color;
     switch (driveFile.paymentStatus) {
-      case 0:
+      case "open":
         color = Colors.red[700] as Color;
         break;
-      case 1:
+      case "partial":
         color = Colors.orange[400] as Color;
         break;
-      case 2:
+      case "closed":
         color = Colors.green;
         break;
       default:
@@ -201,7 +205,7 @@ class PostListItem extends StatelessWidget {
         expandedAlignment: Alignment.topLeft,
         expandedCrossAxisAlignment: CrossAxisAlignment.start,
         title: Text("${driveFile.invoiceNo}"),
-        subtitle: Text("${driveFile.clientName}"),
+        subtitle: Text("${driveFile.company!.companyName}"),
         children: [
           Text("Amt :${driveFile.amount}"),
           Text("Invoice Date:${driveFile.date}"),
