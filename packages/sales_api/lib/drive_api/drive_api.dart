@@ -8,10 +8,13 @@ final spreadsheetId = "1pfTY4YrJxXGpcm3SqT01O-3ZJ_L6E1jaz8AUVcTbcEQ";
 final range = "invoice_details";
 
 class DriveApiLocal {
-  final Map<String, String> authHeaders;
   final GDriveClient gDriveClient;
+  final SheetsApi sheetsApi;
 
-  DriveApiLocal(this.authHeaders) : gDriveClient = GDriveClient(authHeaders);
+  DriveApiLocal(this.gDriveClient) : sheetsApi = SheetsApi(gDriveClient);
+
+  Future<List<InvoiceDetails>> get getInvoiceDetailList =>
+      _getInvoiceDetailList(sheetsApi);
 
   Future<DriveFile> listInvoiceFromDrive(
       [String? nextPageTokens, String? contains]) async {
@@ -35,17 +38,23 @@ class DriveApiLocal {
     return DriveFile(list, nextPageToken);
   }
 
-  Future<List<InvoiceDetails>> getInvoiceDetailList() async {
-    final SheetsApi sheetsApi = SheetsApi(gDriveClient);
-    final sheet = await sheetsApi.spreadsheets.values.get(spreadsheetId, range);
-    final List<InvoiceDetails> invoiceList = [];
-    for (final row in sheet.values!.toList()) {
-      print(row);
-      invoiceList.add(InvoiceDetails.fromList(row));
-    }
+  Future<List<InvoiceDetails>> _getInvoiceDetailList(
+      SheetsApi sheetsApi) async {
+    try {
+      final sheet =
+          await sheetsApi.spreadsheets.values.get(spreadsheetId, range);
+      final List<InvoiceDetails> invoiceList = [];
+      for (final row in sheet.values!.toList()) {
+        print(row);
+        invoiceList.add(InvoiceDetails.fromList(row));
+      }
 
-    final sorted = invoiceList.reversed.toList();
-    print(sorted);
-    return sorted;
+      final sorted = invoiceList.reversed.toList();
+      print(sorted);
+      return sorted;
+    } on Exception catch (e) {
+      print(e);
+      throw Exception();
+    }
   }
 }

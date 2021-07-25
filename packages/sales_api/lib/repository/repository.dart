@@ -9,6 +9,6 @@ void createPdf(Company company) {
     pdfInvoiceMaker.pdfPageBuilder();
     pdfInvoiceMaker.savePdf();
   } on Exception catch (e) {
-    // TODO
+    print(e);
   }
 }

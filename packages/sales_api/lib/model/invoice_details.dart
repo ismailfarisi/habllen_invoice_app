@@ -30,7 +30,7 @@ class InvoiceDetails extends Equatable {
     final company = Company(companyName: list[3].toString());
     final productList = null;
     final date = list[2].toString();
-    final amount = double.parse(list[4]);
+    final amount = double.parse(list[4].toString().replaceAll(",", ""));
     final paymentStatus = list[5].toString();
 
     return InvoiceDetails(
