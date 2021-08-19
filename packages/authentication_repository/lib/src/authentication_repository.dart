@@ -2,6 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:googleapis/drive/v3.dart' as drive;
+import 'package:googleapis/sheets/v4.dart' as sheets;
 
 import 'model/auth_failure.dart';
 import 'model/models.dart';
@@ -12,7 +13,12 @@ class AuthenticationRepository {
     firebase_auth.FirebaseAuth? firebaseAuth,
     GoogleSignIn? googleSignIn,
   })  : _googleSignIn = googleSignIn ??
-            GoogleSignIn.standard(scopes: [drive.DriveApi.driveScope]),
+            GoogleSignIn.standard(scopes: [
+              'email',
+              'https://www.googleapis.com/auth/contacts.readonly',
+              drive.DriveApi.driveScope,
+              sheets.SheetsApi.spreadsheetsScope
+            ]),
         _auth = firebaseAuth ?? firebase_auth.FirebaseAuth.instance;
 
   final GoogleSignIn _googleSignIn;
@@ -20,15 +26,19 @@ class AuthenticationRepository {
 
   Future<void> logInWithGoogle() async {
     try {
+      firebase_auth.AuthCredential credential;
+
       final googleUser = await _googleSignIn.signIn();
       print("654564");
       final googleAuth = await googleUser?.authentication;
       var idtoken = googleAuth?.idToken;
-      final credential = firebase_auth.GoogleAuthProvider.credential(
+
+      credential = firebase_auth.GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
       print(idtoken);
+
       await _auth.signInWithCredential(credential);
       print("sign in success");
     } on Exception catch (e) {

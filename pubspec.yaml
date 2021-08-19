@@ -15,11 +15,14 @@ dependencies:
     path: packages/authentication_repository
   drive_api:
     path: packages/drive_api
+  sales_api:
+    path: packages/sales_api
   cupertino_icons: ^1.0.2
-  equatable: ^2.0.0
+  equatable: ^2.0.3
   firebase_auth: ^1.0.1
   firebase_core: ^1.0.2
-  flutter_bloc: ^7.0.0
+  flow_builder: ^0.0.2
+  flutter_bloc: ^7.1.0
   formz: ^0.4.0-nullsafety.0
   freezed: ^0.14.1+2
   google_sign_in: ^5.0.1
@@ -28,7 +31,10 @@ dependencies:
   http: ^0.13.1
   meta: ^1.3.0
   pedantic: ^1.11.0
-  flow_builder: ^0.0.2
+  rxdart: ^0.27.1
+  path_provider: ^2.0.2
+  permission_handler: ^8.1.4+2
+  flutter_pdfview: ^1.0.4
 
 dev_dependencies:
   flutter_test:
@@ -38,4 +44,5 @@ dev_dependencies:
 flutter:
   assets:
     - assets/1.jpg
+    - assets/Roboto-Regular.ttf
   uses-material-design: true
