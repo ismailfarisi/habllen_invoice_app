@@ -1,7 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:googleapis/drive/v3.dart' as drive;
 import 'package:googleapis/sheets/v4.dart';
 import 'package:sales_api/drive_api/drive.dart';
-import 'package:sales_api/model/drive_file.dart';
 import 'package:sales_api/model/invoice_details.dart';
 
 final spreadsheetId = "1pfTY4YrJxXGpcm3SqT01O-3ZJ_L6E1jaz8AUVcTbcEQ";
@@ -13,44 +13,46 @@ class DriveApiLocal {
 
   DriveApiLocal(this.gDriveClient) : sheetsApi = SheetsApi(gDriveClient);
 
-  Future<List<InvoiceDetails>> get getInvoiceDetailList =>
-      _getInvoiceDetailList(sheetsApi);
+  Future<List<InvoiceDetails>> get getInvoiceDetailListFromSheets =>
+      getInvoiceDetailListPrivate(sheetsApi);
 
-  Future<DriveFile> listInvoiceFromDrive(
-      [String? nextPageTokens, String? contains]) async {
-    final drive.DriveApi driveApi = drive.DriveApi(gDriveClient);
-    final contain = (contains != null) ? contains : "";
-    var files = driveApi.files;
-    var filelist = await files.list(
-        q: "mimeType = 'application/vnd.google-apps.folder' and '1kfJOMMrie7zWdx3bKw3zslCvTmolqkuT' in parents and name contains '$contain'",
-        pageSize: 10,
-        pageToken: nextPageTokens,
-        $fields: "nextPageToken,files");
-    List<DriveFileList> list = [];
-    String? nextPageToken = filelist.nextPageToken;
-    print('nextPageToken is $nextPageToken');
-    if (filelist.files != null) {
-      for (var file in filelist.files!) {
-        print("Found file: ${file.name}, ${file.id}");
-        list.add(DriveFileList(file.name!, file.id!));
-      }
+  Future<Stream<List<int>>> getInvoicePDFFromDrive(
+          String invoiceNo, String path) =>
+      getInvoicePDFFromDrivePrivate(
+          drive.DriveApi(gDriveClient), invoiceNo, path);
+
+  @visibleForTesting
+  Future<Stream<List<int>>> getInvoicePDFFromDrivePrivate(
+      drive.DriveApi driveApi, String invoiceNo, String path) async {
+    try {
+      final pdfName = "$invoiceNo.pdf";
+      final files = driveApi.files;
+      final file = await files.list(
+          q: "mimeType = 'application/pdf' and '1LmLePp8J1qTeQ3BCxD8nYQt7Wx71XJmY' in parents and name contains '$pdfName'",
+          $fields: "files/id");
+      String? fileId = file.files?[0].id;
+      print(fileId);
+      final drive.Media pdf = await files.get(fileId!,
+          downloadOptions: drive.DownloadOptions.fullMedia) as drive.Media;
+      return pdf.stream;
+    } on Exception catch (e) {
+      print(e);
+      throw Exception(e);
     }
-    return DriveFile(list, nextPageToken);
   }
 
-  Future<List<InvoiceDetails>> _getInvoiceDetailList(
+  @visibleForTesting
+  Future<List<InvoiceDetails>> getInvoiceDetailListPrivate(
       SheetsApi sheetsApi) async {
     try {
       final sheet =
-          await sheetsApi.spreadsheets.values.get(spreadsheetId, range);
+          await sheetsApi.spreadsheets.values.get(spreadsheetId, '$range');
       final List<InvoiceDetails> invoiceList = [];
       for (final row in sheet.values!.toList()) {
         print(row);
         invoiceList.add(InvoiceDetails.fromList(row));
       }
-
       final sorted = invoiceList.reversed.toList();
-      print(sorted);
       return sorted;
     } on Exception catch (e) {
       print(e);

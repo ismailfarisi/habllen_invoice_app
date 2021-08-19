@@ -1,24 +1,29 @@
 import 'dart:io';
+import 'dart:typed_data';
+import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart' as pdfs;
 import "package:pdf/widgets.dart" as w;
 import 'package:sales_api/model/company.dart';
+import 'package:sales_api/model/invoice_details.dart';
 
 class PdfInvoiceMaker {
-  PdfInvoiceMaker(this.company);
+  PdfInvoiceMaker(this.invoiceDetails) : company = invoiceDetails.company!;
 
+  final InvoiceDetails invoiceDetails;
   final Company company;
   final pdf = w.Document();
+  dynamic _header;
 
-  final _header = w.MemoryImage(File('assets/1.jpg').readAsBytesSync());
+  Future<void> pdfPageBuilder() async {
+    _header = w.MemoryImage(
+        (await rootBundle.load('assets/1.jpg')).buffer.asUint8List());
+    final font = w.Font.ttf(await rootBundle.load("assets/Roboto-Regular.ttf"));
 
-  void pdfPageBuilder() async {
-    final font1 = File('assets/Roboto-Regular.ttf').readAsBytesSync();
     pdf.addPage(
       w.MultiPage(
-          pageTheme: _buildTheme(pdfs.PdfPageFormat.a4,
-              base: w.Font.ttf(font1.buffer.asByteData())),
+          pageTheme: _buildTheme(pdfs.PdfPageFormat.a4, base: font),
           header: _buildHeader,
           build: (w.Context context) {
             return [
@@ -36,7 +41,7 @@ class PdfInvoiceMaker {
   w.PageTheme _buildTheme(pdfs.PdfPageFormat pageFormats, {w.Font? base}) {
     print('hellooooooooooo');
     return w.PageTheme(
-      theme: w.ThemeData.withFont(base: base),
+      theme: w.ThemeData.withFont(base: base, bold: base),
       pageFormat: pageFormats,
       margin: w.EdgeInsets.only(top: 60, bottom: 30, left: 30, right: 30),
     );
@@ -70,13 +75,13 @@ class PdfInvoiceMaker {
                     w.Text('Invoice for',
                         style: w.TextStyle(
                             fontSize: 12, fontWeight: w.FontWeight.bold)),
-                    w.Text(company.companyName!,
+                    w.Text('${company.companyName}',
                         style: w.TextStyle(
                           fontSize: 10,
                         )),
-                    w.Text(company.companyAdd1!,
+                    w.Text('${company.companyAdd1}',
                         style: w.TextStyle(fontSize: 10)),
-                    w.Text(company.companyAdd2!,
+                    w.Text('${company.companyAdd2}',
                         style: w.TextStyle(fontSize: 10)),
                     w.Text('GSTIN: ${company.companyGst}',
                         style: w.TextStyle(fontSize: 10)),
@@ -106,6 +111,10 @@ class PdfInvoiceMaker {
   void savePdf() async {
     final file = File('example.pdf');
     await file.writeAsBytes(await pdf.save());
+  }
+
+  Future<Uint8List> getPDFData() async {
+    return await pdf.save();
   }
 
   _contentTable(w.Context context) {

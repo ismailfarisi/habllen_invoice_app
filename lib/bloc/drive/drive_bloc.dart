@@ -1,8 +1,12 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/transformers.dart';
 import 'package:sales_api/model/invoice_details.dart';
@@ -16,26 +20,50 @@ class DriveBloc extends Bloc<DriveEvent, DriveState> {
       : super(const DriveState(listdata: []));
   final AuthenticationRepository _authenticationRepository;
 
-  // final keywordStream = StreamController<String>();
-
-  Future<DriveFile> getFiles([String? nextPageToken, String? contains]) async {
-    Map<String, String> _authHeaders =
-        await _authenticationRepository.authHeaders;
-    final DriveApiLocal driveApiLocal = DriveApiLocal(_authHeaders);
-    DriveFile data =
-        await driveApiLocal.listInvoiceFromDrive(nextPageToken, contains);
-    List<DriveFileList> list = data.list;
-    assert(list.isNotEmpty, "list is empty");
-    driveApiLocal.getInvoiceDetailList();
-    return DriveFile(list, data.nextPageToken);
-  }
-
   Future<List<InvoiceDetails>> getInvoiceDetailsList() async {
     Map<String, String> _authHeaders =
         await _authenticationRepository.authHeaders;
-    final DriveApiLocal driveApiLocal = DriveApiLocal(_authHeaders);
-    final list = await driveApiLocal.getInvoiceDetailList();
+    final DriveApiLocal driveApiLocal =
+        DriveApiLocal(GDriveClient(_authHeaders));
+    final list = await driveApiLocal.getInvoiceDetailListFromSheets;
     return list;
+  }
+
+  Future<int> getpdf() async {
+    try {
+      Map<String, String> _authHeaders =
+          await _authenticationRepository.authHeaders;
+      final DriveApiLocal driveApiLocal =
+          DriveApiLocal(GDriveClient(_authHeaders));
+      String appDocPath;
+      if (kIsWeb) {
+        appDocPath = '~/Document/';
+      } else if (Platform.isAndroid) {
+        var status = await Permission.storage.status;
+        if (status.isDenied) {
+          await Permission.storage.request();
+        }
+        Directory? appDocDir = await getExternalStorageDirectory();
+        appDocPath = appDocDir!.path;
+      } else {
+        appDocPath = "";
+      }
+      print(appDocPath);
+      final Stream<List<int>> pdfData =
+          await driveApiLocal.getInvoicePDFFromDrive("100001", appDocPath);
+      final file = File('$appDocPath/100001.pdf');
+      List<int> data = [];
+      pdfData.listen((event) {
+        data += event;
+        print('main : $event');
+      }, onDone: () {
+        file.writeAsBytes(data);
+        print('saving pdf done');
+      });
+      return 0;
+    } on Exception catch (e) {
+      throw Exception(e);
+    }
   }
 
   @override
@@ -47,6 +75,10 @@ class DriveBloc extends Bloc<DriveEvent, DriveState> {
       print("key word changed: ${event.keyword}");
       final files = await getInvoiceDetailsList();
       yield state.copywith(listdata: files);
+    }
+    if (event is CreateNewInvoicwBtnPressed) {
+      await getpdf();
+      yield state.copywith();
     }
   }
 
@@ -64,40 +96,7 @@ class DriveBloc extends Bloc<DriveEvent, DriveState> {
       return state.copywith(status: FileFetchStatus.failure);
     }
   }
-  // Future<DriveState> _mapPostFetchedToState(DriveState state) async {
-  //   if (state.hasReachedMax) return state.copywith(hasReachedMax: true);
-  //   try {
-  //     if (state.status == FileFetchStatus.initial) {
-  //       final files = await getFiles();
-  //       assert(files.list.isNotEmpty, "initial fetching files empty");
-  //       return state.copywith(
-  //           status: FileFetchStatus.success,
-  //           listdata: files.list,
-  //           hasReachedMax: false,
-  //           nextPageToken: files.nextPageToken);
-  //     }
-  //     final files = await getFiles(state.nextPageToken, null);
-  //     return files.list.length < 10
-  //         ? state.copywith(
-  //             hasReachedMax: true,
-  //             status: FileFetchStatus.success,
-  //             listdata: List.of(state.listdata)..addAll(files.list),
-  //           )
-  //         : state.copywith(
-  //             status: FileFetchStatus.success,
-  //             listdata: List.of(state.listdata)..addAll(files.list),
-  //             hasReachedMax: false,
-  //             nextPageToken: files.nextPageToken);
-  //   } on Exception {
-  //     return state.copywith(status: FileFetchStatus.failure);
-  //   }
-  // }
 
-  // @override
-  // Future<void> close() {
-  //   keywordStream.close();
-  //   return super.close();
-  // }
   @override
   Stream<Transition<DriveEvent, DriveState>> transformEvents(
       Stream<DriveEvent> events, transitionFn) {

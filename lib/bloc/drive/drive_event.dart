@@ -9,6 +9,8 @@ class DriveEvent extends Equatable {
 
 class FilesFetched extends DriveEvent {}
 
+class CreateNewInvoicwBtnPressed extends DriveEvent {}
+
 class KeywordChanged extends DriveEvent {
   final String keyword;
 

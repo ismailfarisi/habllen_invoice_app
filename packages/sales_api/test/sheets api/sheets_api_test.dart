@@ -1,13 +1,57 @@
 import 'package:_discoveryapis_commons/src/api_requester.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:googleapis/drive/v3.dart';
 import 'package:googleapis/sheets/v4.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:sales_api/drive_api/drive.dart';
 import 'package:sales_api/model/invoice_details.dart';
 import 'package:sales_api/sales_api.dart';
 
 class MockGDriveClient extends Mock implements GDriveClient {}
+
+class MockDriveApi extends Mock implements DriveApi {
+  @override
+  FilesResource get files => super
+      .noSuchMethod(Invocation.getter(#files), returnValue: MockFileResource());
+}
+
+class MockFileResource extends Mock implements FilesResource {
+  @override
+  Future<Object> get(String fileId,
+      {bool? acknowledgeAbuse,
+      String? includePermissionsForView,
+      bool? supportsAllDrives,
+      bool? supportsTeamDrives,
+      String? $fields,
+      DownloadOptions downloadOptions = DownloadOptions.metadata}) {
+    final Stream<List<int>> stream = Stream.value([12225555]);
+    return Future.value(Media(stream, 10));
+  }
+
+  @override
+  Future<FileList> list(
+      {String? corpora,
+      String? corpus,
+      String? driveId,
+      bool? includeItemsFromAllDrives,
+      String? includePermissionsForView,
+      bool? includeTeamDriveItems,
+      String? orderBy,
+      int? pageSize,
+      String? pageToken,
+      String? q,
+      String? spaces,
+      bool? supportsAllDrives,
+      bool? supportsTeamDrives,
+      String? teamDriveId,
+      String? $fields}) {
+    return Future.value(FileList.fromJson({
+      "files": [
+        {"id": "1MH62iJqvL7iDMujfLBFYTYx1jkDohsgS"}
+      ]
+    }));
+  }
+}
 
 class MockSpreadSheetResource extends Mock implements SpreadsheetsResource {
   @override
@@ -20,17 +64,19 @@ class MockSpreadsheetsValuesResource extends Mock
     implements SpreadsheetsValuesResource {
   @override
   Future<ValueRange> get(String spreadsheetId, String range,
-          {String? dateTimeRenderOption,
-          String? majorDimension,
-          String? valueRenderOption,
-          String? $fields}) =>
-      super.noSuchMethod(Invocation.method(#get, []));
+      {String? dateTimeRenderOption,
+      String? majorDimension,
+      String? valueRenderOption,
+      String? $fields}) {
+    return Future.value(ValueRange.fromJson(json));
+  }
 }
+
+class MockValueRange extends Mock implements Future<ValueRange> {}
 
 class MockApiRequester extends Mock implements ApiRequester {}
 
 class MockSheetsApi extends Mock implements SheetsApi {
-//   final MockClient _mockClient = mockClient;
   @override
   SpreadsheetsResource get spreadsheets =>
       super.noSuchMethod(Invocation.getter(#spreadsheets),
@@ -51,12 +97,20 @@ void main() {
     final mockSheetsApi = MockSheetsApi();
     MockSpreadSheetResource spreadsheets = MockSpreadSheetResource();
     MockSpreadsheetsValuesResource values = MockSpreadsheetsValuesResource();
-    when(driveApiLocal.sheetsApi).thenReturn(mockSheetsApi);
+
     when(mockSheetsApi.spreadsheets).thenReturn(spreadsheets);
     when(spreadsheets.values).thenReturn(values);
-    when(values.get("spreadsheetId", "range"))
-        .thenAnswer((_) async => ValueRange.fromJson(json));
-    print(ValueRange.fromJson(json));
+    expect(await driveApiLocal.getInvoiceDetailListPrivate(mockSheetsApi),
+        isA<List<InvoiceDetails>>());
+  });
+  setUp(() async {
+    // Create a temporary directory.
+  });
+  final MockDriveApi mockDriveApi = MockDriveApi();
+  final MockFileResource mockFileResource = MockFileResource();
+  test('download and save pdf form drive', () {
+    when(mockDriveApi.files).thenReturn(mockFileResource);
+    driveApiLocal.getInvoicePDFFromDrivePrivate(mockDriveApi, "100001", '');
   });
 }
 

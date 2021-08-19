@@ -3,9 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:habllen/bloc/auth/authentication_bloc.dart';
-import 'package:habllen/theme.dart';
 import 'package:habllen/ui/expense_page/expense_page.dart';
-import 'package:habllen/ui/invoice_page/create_invoice_page.dart';
+import 'package:habllen/ui/invoice_page/sales_page.dart';
 
 class HomePage extends StatelessWidget {
   static Page page() => MaterialPage<void>(child: HomePage());
