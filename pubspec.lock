@@ -652,6 +652,7 @@ packages:
       name: rxdart
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "0.27.1"
   sales_api:
     dependency: "direct main"
@@ -660,6 +661,9 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+=======
+    version: "0.27.0"
+>>>>>>> refs/remotes/origin/master
   shelf:
     dependency: transitive
     description:
