@@ -16,26 +16,38 @@ class CreateInvoicePage extends StatelessWidget {
         pageContext.read<AuthenticationRepository>();
 
     return Scaffold(
-      body: SafeArea(
-          child: BlocProvider<DriveBloc>(
-              create: (blocContext) =>
-                  DriveBloc(authenticationRepository)..add(FilesFetched()),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    TopActionBar(),
-                    Expanded(
-                        child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: ListDetails(),
-                    )),
-                    CreateInvoiceBtn()
-                  ],
-                ),
-              ))),
+      body: SafeArea(child: InvoiceBody()),
     );
+  }
+}
+
+class InvoiceBody extends StatelessWidget {
+  const InvoiceBody({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final AuthenticationRepository authenticationRepository =
+        context.read<AuthenticationRepository>();
+    return BlocProvider<DriveBloc>(
+        create: (blocContext) =>
+            DriveBloc(authenticationRepository)..add(FilesFetched()),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TopActionBar(),
+              Expanded(
+                  child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: ListDetails(),
+              )),
+              CreateInvoiceBtn()
+            ],
+          ),
+        ));
   }
 }
 
@@ -54,11 +66,6 @@ class TopActionBar extends StatelessWidget {
       height: 60,
       child: Row(
         children: [
-          IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.of(context).pop();
-              }),
           SearchTextField(),
         ],
       ),
@@ -114,6 +121,9 @@ class _SearchTextFieldState extends State<SearchTextField> {
   Widget build(BuildContext context) {
     return Expanded(
       child: Row(children: [
+        SizedBox(
+          width: 15,
+        ),
         Expanded(
           child: TextField(
             focusNode: _focusNode,

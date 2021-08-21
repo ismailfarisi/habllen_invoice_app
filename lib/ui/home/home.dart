@@ -1,57 +1,76 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:habllen/bloc/auth/authentication_bloc.dart';
+import 'package:habllen/theme.dart';
 import 'package:habllen/ui/expense_page/expense_page.dart';
 import 'package:habllen/ui/invoice_page/sales_page.dart';
+import 'package:habllen/ui/settings_page/settings_page.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   static Page page() => MaterialPage<void>(child: HomePage());
 
   @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: Drawer(
-          child: ListView(children: [
-        ListTile(
-            title: Text("Sign Out"),
-            onTap: () {
-              context
-                  .read<AuthenticationBloc>()
-                  .add(AuthenticationLogoutRequested());
-            })
-      ])),
-      appBar: AppBar(),
-      body: Container(
-        padding: EdgeInsets.all(10),
-        child: ListView(
-          children: [
-            _ListTile("Sales", CreateInvoicePage()),
-            _ListTile("Expenses", ExpensePage()),
+    return SafeArea(
+      child: Scaffold(
+        body: SwitchBody(_selectedIndex),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.business),
+              label: "Invoice",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.note),
+              label: "Expense",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.account_balance),
+              label: "Finance",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: "Settings",
+            ),
           ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: theme.primaryColor,
+          unselectedItemColor: Colors.grey,
+          onTap: _onItemTapped,
         ),
       ),
     );
   }
 }
 
-class _ListTile extends StatelessWidget {
-  _ListTile(this.text, this.route);
-  final text;
-  final route;
+class SwitchBody extends StatelessWidget {
+  const SwitchBody(this.selectedIndex, {Key? key}) : super(key: key);
+  final selectedIndex;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: ElevatedButton(
-        style: ButtonStyle(
-            minimumSize: MaterialStateProperty.all(Size.fromHeight(60))),
-        onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (_) => route));
-        },
-        child: Text(text),
-      ),
-    );
+    switch (selectedIndex) {
+      case 0:
+        return InvoiceBody();
+      case 1:
+        return ExpensePage();
+      case 2:
+        return Container();
+      case 3:
+        return SettingsPage();
+      default:
+        return InvoiceBody();
+    }
   }
 }

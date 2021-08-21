@@ -49,10 +49,10 @@ class DriveApiLocal {
           await sheetsApi.spreadsheets.values.get(spreadsheetId, '$range');
       final List<InvoiceDetails> invoiceList = [];
       for (final row in sheet.values!.toList()) {
-        print(row);
         invoiceList.add(InvoiceDetails.fromList(row));
       }
       final sorted = invoiceList.reversed.toList();
+      print(sorted);
       return sorted;
     } on Exception catch (e) {
       print(e);

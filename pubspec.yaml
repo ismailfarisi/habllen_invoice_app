@@ -13,8 +13,6 @@ dependencies:
     sdk: flutter
   authentication_repository:
     path: packages/authentication_repository
-  drive_api:
-    path: packages/drive_api
   sales_api:
     path: packages/sales_api
   cupertino_icons: ^1.0.2
