@@ -23,33 +23,31 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: SwitchBody(_selectedIndex),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.business),
-              label: "Invoice",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.note),
-              label: "Expense",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.account_balance),
-              label: "Finance",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: "Settings",
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: theme.primaryColor,
-          unselectedItemColor: Colors.grey,
-          onTap: _onItemTapped,
-        ),
+    return Scaffold(
+      body: SwitchBody(_selectedIndex),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.business),
+            label: "Invoice",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.note),
+            label: "Expense",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_balance),
+            label: "Finance",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: "Settings",
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: theme.primaryColor,
+        unselectedItemColor: Colors.grey,
+        onTap: _onItemTapped,
       ),
     );
   }

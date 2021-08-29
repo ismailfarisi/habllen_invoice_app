@@ -1,5 +1,4 @@
 import 'dart:async';
-<<<<<<< HEAD
 import 'dart:io';
 
 import 'package:authentication_repository/authentication_repository.dart';
@@ -12,15 +11,6 @@ import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/transformers.dart';
 import 'package:sales_api/model/invoice_details.dart';
 import 'package:sales_api/sales_api.dart';
-=======
-
-import 'package:authentication_repository/authentication_repository.dart';
-import 'package:drive_api/drive_api.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:rxdart/rxdart.dart';
-import 'package:rxdart/transformers.dart';
->>>>>>> refs/remotes/origin/master
 
 part 'drive_state.dart';
 part 'drive_event.dart';
@@ -30,7 +20,6 @@ class DriveBloc extends Bloc<DriveEvent, DriveState> {
       : super(const DriveState(listdata: []));
   final AuthenticationRepository _authenticationRepository;
 
-<<<<<<< HEAD
   Future<List<InvoiceDetails>> getInvoiceDetailsList() async {
     Map<String, String> _authHeaders =
         await _authenticationRepository.authHeaders;
@@ -75,19 +64,6 @@ class DriveBloc extends Bloc<DriveEvent, DriveState> {
     } on Exception catch (e) {
       throw Exception(e);
     }
-=======
-  // final keywordStream = StreamController<String>();
-
-  Future<DriveFile> getFiles([String? nextPageToken, String? contains]) async {
-    Map<String, String> _authHeaders =
-        await _authenticationRepository.authHeaders;
-    final DriveApiLocal driveApiLocal = DriveApiLocal(_authHeaders);
-    DriveFile data =
-        await driveApiLocal.listInvoiceFromDrive(nextPageToken, contains);
-    List<DriveFileList> list = data.list;
-    assert(list.isNotEmpty, "list is empty");
-    return DriveFile(list, data.nextPageToken);
->>>>>>> refs/remotes/origin/master
   }
 
   @override
@@ -97,24 +73,18 @@ class DriveBloc extends Bloc<DriveEvent, DriveState> {
     }
     if (event is KeywordChanged) {
       print("key word changed: ${event.keyword}");
-<<<<<<< HEAD
       final files = await getInvoiceDetailsList();
       yield state.copywith(listdata: files);
     }
     if (event is CreateNewInvoicwBtnPressed) {
       await getpdf();
       yield state.copywith();
-=======
-      final files = await getFiles(null, event.keyword);
-      yield state.copywith(listdata: files.list);
->>>>>>> refs/remotes/origin/master
     }
   }
 
   Future<DriveState> _mapPostFetchedToState(DriveState state) async {
     if (state.hasReachedMax) return state.copywith(hasReachedMax: true);
     try {
-<<<<<<< HEAD
       final files = await getInvoiceDetailsList();
       assert(files.isNotEmpty, "initial fetching files empty");
       return state.copywith(
@@ -122,42 +92,11 @@ class DriveBloc extends Bloc<DriveEvent, DriveState> {
         listdata: files,
         hasReachedMax: true,
       );
-=======
-      if (state.status == FileFetchStatus.initial) {
-        final files = await getFiles();
-        assert(files.list.isNotEmpty, "initial fetching files empty");
-        return state.copywith(
-            status: FileFetchStatus.success,
-            listdata: files.list,
-            hasReachedMax: false,
-            nextPageToken: files.nextPageToken);
-      }
-      final files = await getFiles(state.nextPageToken, null);
-      return files.list.length < 10
-          ? state.copywith(
-              hasReachedMax: true,
-              status: FileFetchStatus.success,
-              listdata: List.of(state.listdata)..addAll(files.list),
-            )
-          : state.copywith(
-              status: FileFetchStatus.success,
-              listdata: List.of(state.listdata)..addAll(files.list),
-              hasReachedMax: false,
-              nextPageToken: files.nextPageToken);
->>>>>>> refs/remotes/origin/master
     } on Exception {
       return state.copywith(status: FileFetchStatus.failure);
     }
   }
 
-<<<<<<< HEAD
-=======
-  // @override
-  // Future<void> close() {
-  //   keywordStream.close();
-  //   return super.close();
-  // }
->>>>>>> refs/remotes/origin/master
   @override
   Stream<Transition<DriveEvent, DriveState>> transformEvents(
       Stream<DriveEvent> events, transitionFn) {

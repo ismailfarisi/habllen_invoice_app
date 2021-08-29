@@ -3,23 +3,9 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habllen/bloc/drive/drive_bloc.dart';
-import 'package:habllen/ui/invoice_page/new_invoice_page.dart';
+import 'package:habllen/ui/new_invoice_page/new_invoice_page.dart';
 import 'package:habllen/ui/view_pdf_page/view_pdf_page.dart';
 import 'package:sales_api/model/invoice_details.dart';
-
-class CreateInvoicePage extends StatelessWidget {
-  static Page page() => MaterialPage<void>(child: CreateInvoicePage());
-
-  @override
-  Widget build(BuildContext pageContext) {
-    final AuthenticationRepository authenticationRepository =
-        pageContext.read<AuthenticationRepository>();
-
-    return Scaffold(
-      body: SafeArea(child: InvoiceBody()),
-    );
-  }
-}
 
 class InvoiceBody extends StatelessWidget {
   const InvoiceBody({
@@ -33,19 +19,21 @@ class InvoiceBody extends StatelessWidget {
     return BlocProvider<DriveBloc>(
         create: (blocContext) =>
             DriveBloc(authenticationRepository)..add(FilesFetched()),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              TopActionBar(),
-              Expanded(
-                  child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: ListDetails(),
-              )),
-              CreateInvoiceBtn()
-            ],
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                TopActionBar(),
+                Expanded(
+                    child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: ListDetails(),
+                )),
+                CreateInvoiceBtn()
+              ],
+            ),
           ),
         ));
   }
@@ -84,7 +72,7 @@ class CreateInvoiceBtn extends StatelessWidget {
       child: Text("create new invoice"),
       onPressed: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (_) => NewInvoicePge()));
+            context, MaterialPageRoute(builder: (_) => NewInvoicePage()));
       },
     );
   }

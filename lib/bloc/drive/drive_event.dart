@@ -9,11 +9,8 @@ class DriveEvent extends Equatable {
 
 class FilesFetched extends DriveEvent {}
 
-<<<<<<< HEAD
 class CreateNewInvoicwBtnPressed extends DriveEvent {}
 
-=======
->>>>>>> refs/remotes/origin/master
 class KeywordChanged extends DriveEvent {
   final String keyword;
 
