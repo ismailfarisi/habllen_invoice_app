@@ -4,17 +4,17 @@ import 'package:equatable/equatable.dart';
 part 'new_invoice_event.dart';
 part 'new_invoice_state.dart';
 
-class NewInvoiceBloc extends Bloc<NewInvoiceEvent, NewInvoiceState> {
-  NewInvoiceBloc() : super(NewInvoiceState.stage1());
+class NewInvoiceBloc extends Bloc<NewInvoiceEvent, ScreenStage> {
+  NewInvoiceBloc() : super(ScreenStage());
 
   @override
-  Stream<NewInvoiceState> mapEventToState(event) async* {
-    if (event is ScreenOneFinished) {
-      yield NewInvoiceState.stage2();
-    } else if (event is ScreenTwoFinished) {
-      yield NewInvoiceState.stage3();
+  Stream<ScreenStage> mapEventToState(event) async* {
+    if (event is CustomerAdded) {
+      yield state.copywith(2);
+    } else if (event is ProductAdded) {
+      yield state.copywith(3);
     } else {
-      yield NewInvoiceState.stage1();
+      yield state.copywith(1);
     }
   }
 }

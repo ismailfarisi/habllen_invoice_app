@@ -12,7 +12,7 @@ class Screen1 extends StatelessWidget {
         Text("screen1"),
         TextButton(
             onPressed: () {
-              context.read<NewInvoiceBloc>()..add(ScreenOneFinished());
+              context.read<NewInvoiceBloc>()..add(CustomerAdded());
             },
             child: Text("Next"))
       ],

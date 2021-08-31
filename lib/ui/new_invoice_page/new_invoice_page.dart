@@ -11,11 +11,47 @@ class NewInvoicePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back),
+          ),
           title: Text("CREATE NEW INVOICE"),
         ),
         body: BlocProvider(
           create: (context) => NewInvoiceBloc(),
-          child: FlowForm(),
+          child: Column(
+            children: [
+              Stepper(
+                  steps: steps,
+                  currentStep: context.select(
+                      (NewInvoiceBloc value) => value.state.currentIndex),
+                  controlsBuilder: (BuildContext context,
+                      {VoidCallback? onStepContinue,
+                      VoidCallback? onStepCancel}) {
+                    return Row(
+                      children: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            context.read<NewInvoiceBloc>()
+                              ..add(CustomerAdded());
+                          },
+                          child: const Text('NEXT'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            context.read<NewInvoiceBloc>()..add(ProductAdded());
+                          },
+                          child: const Text('CANCEL'),
+                        ),
+                      ],
+                    );
+                  }),
+
+              //FlowForm(),
+            ],
+          ),
         ));
   }
 }
@@ -27,9 +63,22 @@ class FlowForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlowBuilder<ScreenStage>(
+    return FlowBuilder<int>(
       onGeneratePages: onGenerateRoute,
-      state: context.select((NewInvoiceBloc bloc) => bloc.state.screenStage),
+      state: context.select((NewInvoiceBloc bloc) => bloc.state.currentIndex),
     );
   }
 }
+
+List<Step> steps = [
+  Step(
+      title: Text("Add customer"),
+      content: Column(
+        children: [TextFormField(), TextFormField(), Text("invoice")],
+      )),
+  Step(
+      title: Text("Add Product"),
+      content: Column(
+        children: [TextFormField(), TextFormField(), Text("invoice")],
+      ))
+];
