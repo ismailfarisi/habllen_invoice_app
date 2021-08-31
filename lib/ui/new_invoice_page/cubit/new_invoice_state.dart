@@ -3,7 +3,7 @@ part of 'new_invoice_Bloc.dart';
 class ScreenStage extends Equatable {
   final int currentIndex;
 
-  ScreenStage({this.currentIndex = 1});
+  ScreenStage({this.currentIndex = 0});
   @override
   List<Object?> get props => [currentIndex];
 
