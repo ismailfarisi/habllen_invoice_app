@@ -48,25 +48,9 @@ class NewInvoicePage extends StatelessWidget {
                       ],
                     );
                   }),
-
-              //FlowForm(),
             ],
           ),
         ));
-  }
-}
-
-class FlowForm extends StatelessWidget {
-  const FlowForm({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return FlowBuilder<int>(
-      onGeneratePages: onGenerateRoute,
-      state: context.select((NewInvoiceBloc bloc) => bloc.state.currentIndex),
-    );
   }
 }
 
