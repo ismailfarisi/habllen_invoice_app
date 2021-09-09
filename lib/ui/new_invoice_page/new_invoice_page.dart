@@ -1,8 +1,8 @@
-import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habllen/model/company.dart';
+import 'package:habllen/repository/repository.dart';
 import 'package:habllen/ui/new_invoice_page/cubit/new_invoice_Bloc.dart';
-import 'package:habllen/ui/new_invoice_page/onGenerate.dart';
 
 class NewInvoicePage extends StatelessWidget {
   const NewInvoicePage({Key? key}) : super(key: key);
@@ -20,49 +20,68 @@ class NewInvoicePage extends StatelessWidget {
           title: Text("CREATE NEW INVOICE"),
         ),
         body: BlocProvider(
-          create: (context) => NewInvoiceBloc(),
-          child: Column(
-            children: [
-              Stepper(
-                  steps: steps,
-                  currentStep: context.select(
-                      (NewInvoiceBloc value) => value.state.currentIndex),
-                  controlsBuilder: (BuildContext context,
-                      {VoidCallback? onStepContinue,
-                      VoidCallback? onStepCancel}) {
-                    return Row(
-                      children: <Widget>[
-                        TextButton(
-                          onPressed: () {
-                            context.read<NewInvoiceBloc>()
-                              ..add(CustomerAdded());
-                          },
-                          child: const Text('NEXT'),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            context.read<NewInvoiceBloc>()..add(ProductAdded());
-                          },
-                          child: const Text('CANCEL'),
-                        ),
-                      ],
-                    );
-                  }),
-            ],
-          ),
+          create: (blocContext) => NewInvoiceBloc(Repository()),
+          child: StepperWidget(),
         ));
   }
 }
 
-List<Step> steps = [
-  Step(
-      title: Text("Add customer"),
-      content: Column(
-        children: [TextFormField(), TextFormField(), Text("invoice")],
-      )),
-  Step(
-      title: Text("Add Product"),
-      content: Column(
-        children: [TextFormField(), TextFormField(), Text("invoice")],
-      ))
-];
+class StepperWidget extends StatelessWidget {
+  const StepperWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = context.read<NewInvoiceBloc>();
+    bloc.add(FirstStarted());
+    final TextEditingController _companyController = TextEditingController();
+    final TextEditingController _controller = TextEditingController();
+    return BlocBuilder(
+        bloc: bloc,
+        builder: (BuildContext context, ScreenStage state) {
+          return Stepper(
+            steps: steps(_companyController, bloc, state.companylist),
+            currentStep: bloc.state.currentIndex,
+          );
+        });
+  }
+}
+
+List<Step> steps(TextEditingController _controller, NewInvoiceBloc bloc,
+        List<Company> customerList) =>
+    [
+      Step(
+          title: Text("Add customer"),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Autocomplete(
+                optionsBuilder: (textEditingVale) {
+                  return customerList.map((e) => e.companyName
+                      .toLowerCase()
+                      .contains(textEditingVale.text));
+                },
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Text("invoice")
+            ],
+          )),
+      Step(
+          title: Text("Add Product"),
+          content: Column(
+            children: [
+              TextFormField(),
+              SizedBox(
+                height: 15,
+              ),
+              TextFormField(),
+              SizedBox(
+                height: 15,
+              ),
+              Text("invoice")
+            ],
+          ))
+    ];
