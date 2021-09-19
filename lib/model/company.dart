@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class Company extends Equatable {
-  final String companyId;
+  final int companyId;
   final String companyName;
   final String addOne;
   final String addTwo;
@@ -15,7 +15,7 @@ class Company extends Equatable {
       required this.gst});
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [companyId, companyName, addOne, addTwo, gst];
 
   factory Company.fromjson(Map<String, dynamic> json) {
     return Company(

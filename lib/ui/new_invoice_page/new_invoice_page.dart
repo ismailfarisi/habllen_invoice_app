@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habllen/model/company.dart';
@@ -30,7 +31,6 @@ class StepperWidget extends StatelessWidget {
   const StepperWidget({
     Key? key,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<NewInvoiceBloc>();
@@ -41,7 +41,11 @@ class StepperWidget extends StatelessWidget {
         bloc: bloc,
         builder: (BuildContext context, ScreenStage state) {
           return Stepper(
-            steps: steps(_companyController, bloc, state.companylist),
+            steps: steps(
+              _companyController,
+              bloc,
+              state.companylist,
+            ),
             currentStep: bloc.state.currentIndex,
           );
         });
@@ -58,15 +62,27 @@ List<Step> steps(TextEditingController _controller, NewInvoiceBloc bloc,
             children: [
               Autocomplete(
                 optionsBuilder: (textEditingVale) {
-                  return customerList.map((e) => e.companyName
+                  return customerList.where((element) => element
+                      .toString()
                       .toLowerCase()
                       .contains(textEditingVale.text));
+                },
+                displayStringForOption: (Company company) =>
+                    company.companyName,
+                onSelected: (str) {
+                  print('selected is $str');
                 },
               ),
               SizedBox(
                 height: 15,
               ),
-              Text("invoice")
+              Container(
+                height: 30,
+                child: CupertinoDatePicker(
+                  onDateTimeChanged: (date) {},
+                  initialDateTime: DateTime.now(),
+                ),
+              )
             ],
           )),
       Step(
