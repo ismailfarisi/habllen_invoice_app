@@ -23,7 +23,7 @@ class ProductAdded extends NewInvoiceEvent {
   List<Object?> get props => [invoiceProduct];
 }
 
-class ScreenThreeFinished extends NewInvoiceEvent {
+class IndexChanged extends NewInvoiceEvent {
   @override
   List<Object?> get props => [];
 }

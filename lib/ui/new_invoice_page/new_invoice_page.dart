@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:googleapis/admob/v1.dart';
 import 'package:habllen/model/company.dart';
 import 'package:habllen/repository/repository.dart';
 import 'package:habllen/ui/new_invoice_page/cubit/new_invoice_Bloc.dart';
@@ -53,51 +54,53 @@ class StepperWidget extends StatelessWidget {
 }
 
 List<Step> steps(TextEditingController _controller, NewInvoiceBloc bloc,
-        List<Company> customerList) =>
-    [
-      Step(
-          title: Text("Add customer"),
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Autocomplete(
-                optionsBuilder: (textEditingVale) {
-                  return customerList.where((element) => element
-                      .toString()
-                      .toLowerCase()
-                      .contains(textEditingVale.text));
-                },
-                displayStringForOption: (Company company) =>
-                    company.companyName,
-                onSelected: (str) {
-                  print('selected is $str');
-                },
+    List<Company> customerList) {
+  final DateTime today = DateTime.now();
+  return [
+    Step(
+        title: Text("Add customer"),
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Autocomplete(
+              optionsBuilder: (textEditingVale) {
+                return customerList.where((element) => element
+                    .toString()
+                    .toLowerCase()
+                    .contains(textEditingVale.text));
+              },
+              displayStringForOption: (Company company) => company.companyName,
+              onSelected: (str) {
+                print('selected is $str');
+              },
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Container(
+              height: 30,
+              child: DatePickerDialog(
+                initialDate: today,
+                firstDate: today.subtract(const Duration(days: 185)),
+                lastDate: today.add(const Duration(days: 60)),
               ),
-              SizedBox(
-                height: 15,
-              ),
-              Container(
-                height: 30,
-                child: CupertinoDatePicker(
-                  onDateTimeChanged: (date) {},
-                  initialDateTime: DateTime.now(),
-                ),
-              )
-            ],
-          )),
-      Step(
-          title: Text("Add Product"),
-          content: Column(
-            children: [
-              TextFormField(),
-              SizedBox(
-                height: 15,
-              ),
-              TextFormField(),
-              SizedBox(
-                height: 15,
-              ),
-              Text("invoice")
-            ],
-          ))
-    ];
+            )
+          ],
+        )),
+    Step(
+        title: Text("Add Product"),
+        content: Column(
+          children: [
+            TextFormField(),
+            SizedBox(
+              height: 15,
+            ),
+            TextFormField(),
+            SizedBox(
+              height: 15,
+            ),
+            Text("invoice")
+          ],
+        ))
+  ];
+}

@@ -24,4 +24,8 @@ final theme = ThemeData(
     )),
     textTheme: TextTheme(
         headline1: TextStyle(
-            fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)));
+            fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+        headline2: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF446418))));

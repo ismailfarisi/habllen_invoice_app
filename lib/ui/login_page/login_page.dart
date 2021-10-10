@@ -44,12 +44,10 @@ class _Login extends StatelessWidget {
         child: Stack(
           children: [
             Positioned.fill(
-
                 child: Align(
-                  alignment: Alignment.center,
-                  child: _LoginButton(),
-                )
-            )
+              alignment: Alignment.center,
+              child: _LoginButton(),
+            ))
           ],
         ),
       ),
@@ -66,12 +64,6 @@ class _LoginButton extends StatelessWidget {
             ? const CircularProgressIndicator()
             : ElevatedButton(
                 key: const Key('loginForm_continue_raisedButton'),
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  primary: const Color(0xFFFFD600),
-                ),
                 child: const Text('LOGIN'),
                 onPressed: () => context.read<LoginCubit>().logInWithGoogle(),
               );

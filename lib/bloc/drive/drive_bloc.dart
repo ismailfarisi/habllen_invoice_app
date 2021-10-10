@@ -5,8 +5,6 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/transformers.dart';
 import 'package:sales_api/model/invoice_details.dart';
@@ -36,18 +34,19 @@ class DriveBloc extends Bloc<DriveEvent, DriveState> {
       final DriveApiLocal driveApiLocal =
           DriveApiLocal(GDriveClient(_authHeaders));
       String appDocPath;
-      if (kIsWeb) {
-        appDocPath = '~/Document/';
-      } else if (Platform.isAndroid) {
-        var status = await Permission.storage.status;
-        if (status.isDenied) {
-          await Permission.storage.request();
-        }
-        Directory? appDocDir = await getExternalStorageDirectory();
-        appDocPath = appDocDir!.path;
-      } else {
-        appDocPath = "";
-      }
+      // if (kIsWeb) {
+      //   appDocPath = '~/Document/';
+      // } else if (Platform.isAndroid) {
+      //   var status = await Permission.storage.status;
+      //   if (status.isDenied) {
+      //     await Permission.storage.request();
+      //   }
+      //   Directory? appDocDir = await getExternalStorageDirectory();
+      //   appDocPath = appDocDir!.path;
+      // } else {
+      //   appDocPath = "";
+      // }
+      appDocPath = '/';
       print(appDocPath);
       final Stream<List<int>> pdfData =
           await driveApiLocal.getInvoicePDFFromDrive("100001", appDocPath);
