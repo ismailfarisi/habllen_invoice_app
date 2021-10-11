@@ -25,6 +25,9 @@ class AuthenticationBloc
   Stream<AuthenticationState> mapEventToState(
     AuthenticationEvent event,
   ) async* {
+    if (event is AppStarted) {
+      yield AuthenticationState.unknown();
+    }
     if (event is AuthenticationUserChanged) {
       yield _mapAuthenticationUserChangedToState(event);
     } else if (event is AuthenticationLogoutRequested) {

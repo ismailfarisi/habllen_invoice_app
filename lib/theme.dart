@@ -19,9 +19,11 @@ final theme = ThemeData(
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
-      minimumSize: MaterialStateProperty.all(Size.fromHeight(50)),
       backgroundColor: MaterialStateProperty.all(Color(0xFF446418)),
     )),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+        style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all(Color(0xFF446418)))),
     textTheme: TextTheme(
         headline1: TextStyle(
             fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),

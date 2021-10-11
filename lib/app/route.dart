@@ -15,7 +15,7 @@ class GenerateRoutes {
         return [SplashPage.page()];
       case AuthenticationStatus.unauthenticated:
       default:
-        return [LoginPage.page()];
+        return [HomePage.page()];
     }
   }
 }
