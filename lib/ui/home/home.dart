@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:habllen/theme.dart';
+import 'package:habllen/ui/customer_page/customer_page.dart';
 import 'package:habllen/ui/expense_page/expense_page.dart';
 import 'package:habllen/ui/invoice_page/sales_page.dart';
 import 'package:habllen/ui/settings_page/settings_page.dart';
@@ -64,7 +65,7 @@ class SwitchBody extends StatelessWidget {
       case 1:
         return ExpensePage();
       case 2:
-        return Container();
+        return CustomerPage();
       case 3:
         return SettingsPage();
       default:

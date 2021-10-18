@@ -55,6 +55,7 @@ class SettingsPage extends StatelessWidget {
             TextButton(
                 onPressed: () {
                   context
+
                       .read<AuthenticationBloc>()
                       .add(AuthenticationLogoutRequested());
                 },

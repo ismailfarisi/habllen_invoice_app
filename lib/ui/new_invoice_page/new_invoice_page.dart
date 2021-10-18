@@ -69,7 +69,7 @@ List<Step> steps(TextEditingController _controller, NewInvoiceBloc bloc,
                     .toLowerCase()
                     .contains(textEditingVale.text));
               },
-              displayStringForOption: (Company company) => company.companyName,
+              displayStringForOption: (Company company) => company.name,
               onSelected: (str) {
                 print('selected is $str');
               },
