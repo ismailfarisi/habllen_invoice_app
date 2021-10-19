@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habllen/theme.dart';
 
-import '../bloc/auth/authentication_bloc.dart';
+import 'bloc/auth/authentication_bloc.dart';
 import 'route.dart';
 
 class App extends StatelessWidget {

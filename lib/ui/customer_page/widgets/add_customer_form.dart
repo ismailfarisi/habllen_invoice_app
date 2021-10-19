@@ -31,7 +31,8 @@ class _AddCustomerFormState extends State<AddCustomerForm> {
     final cubit = context.watch<CustomerCubit>();
     if (cubit.state == CustomerState.loading()) {
       return AlertDialog(
-        content: CircularProgressIndicator(),
+        content:
+            SizedBox(height: 60, width: 60, child: CircularProgressIndicator()),
       );
     } else if (cubit.state == CustomerState.success()) {
       Navigator.pop(context);

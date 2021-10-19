@@ -11,9 +11,9 @@ part 'new_invoice_state.dart';
 class NewInvoiceBloc extends Bloc<NewInvoiceEvent, ScreenStage> {
   NewInvoiceBloc(this.repository) : super(ScreenStage());
 
-  late Company company;
-  late Invoice invoice;
-  late InvoiceProduct invoiceProducts;
+  Company? company;
+  Invoice? invoice;
+  InvoiceProduct? invoiceProducts;
   final Repository repository;
 
   @override
