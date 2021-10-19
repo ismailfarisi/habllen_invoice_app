@@ -7,7 +7,7 @@ import 'package:habllen/repository/remote/firestore.dart';
 part 'customer_state.dart';
 
 class CustomerCubit extends Cubit<CustomerState> {
-  CustomerCubit() : super(InitialState());
+  CustomerCubit() : super(CustomerState.initial());
   final FirebaseRepository _firebaseRepository = FirebaseRepository();
   late final Company customer;
   String? name;
@@ -17,7 +17,7 @@ class CustomerCubit extends Cubit<CustomerState> {
 
   void addCustomer() async {
     print(name);
-    emit(Loading());
+    emit(CustomerState.loading());
     try {
       customer = Company(
           name: name!,
@@ -26,9 +26,9 @@ class CustomerCubit extends Cubit<CustomerState> {
           addressTwo: addressTwo);
       print(customer);
       await _firebaseRepository.addCustomer(customer);
-      emit(SubmissionSuccess());
+      emit(CustomerState.success());
     } catch (e) {
-      emit(SubmissionFailed());
+      emit(CustomerState.failure());
     }
   }
 }
