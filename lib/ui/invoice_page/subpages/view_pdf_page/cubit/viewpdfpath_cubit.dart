@@ -22,7 +22,7 @@ class ViewpdfpathCubit extends Cubit<ViewpdfpathState> {
     emit(state.copywith(loading: true));
     final PdfInvoiceMaker pdfInvoiceMaker = PdfInvoiceMaker(invoiceDetails);
     await pdfInvoiceMaker.pdfPageBuilder();
-    final Uint8List pdfData = await pdfInvoiceMaker.getPDFData();
+    final pdfData = pdfInvoiceMaker.getPDFData();
     emit(state.copywith(loading: false, pdfData: pdfData));
     print(state.loading);
   }

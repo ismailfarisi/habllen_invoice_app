@@ -11,10 +11,10 @@ class ViewpdfpathState extends Equatable {
   List<Object?> get props => [loading, pdfData, path];
 
   final String? path;
-  final Uint8List? pdfData;
+  final Future<Uint8List>? pdfData;
   final bool loading;
   ViewpdfpathState copywith(
-      {bool loading = true, String? path, Uint8List? pdfData}) {
+      {bool loading = true, String? path, Future<Uint8List>? pdfData}) {
     return ViewpdfpathState(loading: loading, path: path, pdfData: pdfData);
   }
 }

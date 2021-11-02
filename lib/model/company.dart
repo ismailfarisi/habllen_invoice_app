@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 
 class Company extends Equatable {
   final int? id;
@@ -21,10 +20,10 @@ class Company extends Equatable {
   factory Company.fromjson(Map<String, dynamic> json) {
     return Company(
         id: json["id"],
-        name: json["companyName"],
-        addressOne: json['companyAdd1'],
-        addressTwo: json['companyAdd2'],
-        gst: json['gstIn']);
+        name: json["name"],
+        addressOne: json['addressOne'],
+        addressTwo: json['addressTwo'],
+        gst: json['gst']);
   }
   Map<String, dynamic> toJson() => _companyToJson(this);
 }

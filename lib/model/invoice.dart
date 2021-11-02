@@ -1,18 +1,43 @@
 import 'package:equatable/equatable.dart';
 import 'package:habllen/model/company.dart';
-import 'package:habllen/model/product.dart';
+
+import 'invoice_product.dart';
 
 class Invoice extends Equatable {
-  final int invoiceId;
+  final String? id;
+  final int invoiceNo;
   final Company company;
-  final List<Product> product;
+  final DateTime date;
+  final List<InvoiceProduct> product;
 
-  Invoice(this.invoiceId, this.company, this.product);
+  const Invoice(
+      {required this.invoiceNo,
+      this.id,
+      required this.company,
+      this.product = const [],
+      required this.date});
 
   @override
-  List<Object?> get props => [invoiceId, company, product];
+  List<Object?> get props => [id, company, product, date];
 
   factory Invoice.fromjson(Map<String, dynamic> json) {
-    return Invoice(json["id"], json["company"], json["product"]);
+    return Invoice(
+        id: json["id"],
+        invoiceNo: json["invoiceNo"],
+        company: json["company"],
+        product: json["product"],
+        date: json["date"]);
   }
+  Map<String, dynamic> toJson() => _invoicetojson(this);
+}
+
+Map<String, dynamic> _invoicetojson(Invoice invoice) {
+  final productList = invoice.product.map((e) => e.toJson()).toList();
+
+  return <String, dynamic>{
+    "invoiceNo": invoice.invoiceNo,
+    "company": invoice.company.toJson(),
+    "product": productList,
+    "date": invoice.date
+  };
 }

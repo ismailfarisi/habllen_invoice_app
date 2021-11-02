@@ -4,7 +4,6 @@ final theme = ThemeData(
     primaryColorDark: const Color(0xFF446418),
     primaryColorLight: const Color(0xFFc6e686),
     primaryColor: const Color(0xFF96b753),
-    accentColor: const Color(0xFFbfc7a7),
     scaffoldBackgroundColor: const Color(0xFFE0F2F1),
     appBarTheme: AppBarTheme(
         backgroundColor: const Color(0xFFE0F2F1),

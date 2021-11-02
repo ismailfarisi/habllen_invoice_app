@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:habllen/model/Result.dart';
 import 'package:habllen/model/company.dart';
 import 'package:habllen/model/invoice.dart';
@@ -24,9 +23,20 @@ class FirebaseRepository {
   Future<String> addCustomer(Company customer) async {
     print("started");
     try {
-      final clients =
+      final instance =
           await firestore.collection("customers").add(customer.toJson());
-      print("client.id");
+      print("${instance.id}");
+      return instance.id;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<String> addProduct(Product product) async {
+    print("started");
+    try {
+      final clients =
+          await firestore.collection("products").add(product.toJson());
       return clients.id;
     } catch (e) {
       throw e;
@@ -51,11 +61,37 @@ class FirebaseRepository {
   Future<List<Product>> getProducts() async {
     final List<Product> list = [];
     try {
-      final invoices = await firestore.collection("products").get();
-      invoices.docs.forEach((element) {
+      final instance = await firestore.collection("products").get();
+      instance.docs.forEach((element) {
         list.add(Product.fromJson(element.data()));
       });
+      print(list);
       return list;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<String> createInvoice(Invoice invoice) async {
+    print(invoice.toJson());
+    try {
+      final instance =
+          await firestore.collection("invoices").add(invoice.toJson());
+      return instance.id;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<int> getLastInvoiceNo() async {
+    try {
+      // final instance = await firestore
+      //     .collection("invoices")
+      //     .orderBy("id", descending: true)
+      //     .limit(1)
+      //     .get();
+      // final invoiceNo = instance.docs.first.get("invoiceNo") as int;
+      return 10000;
     } catch (e) {
       throw e;
     }

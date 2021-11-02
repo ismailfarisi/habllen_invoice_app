@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habllen/repository/repository.dart';
+import 'package:habllen/repository/repositoryimpl.dart';
 import 'package:habllen/theme.dart';
 import 'package:habllen/ui/customer_page/customer_page.dart';
 import 'package:habllen/ui/expense_page/expense_page.dart';
@@ -7,8 +10,13 @@ import 'package:habllen/ui/invoice_page/sales_page.dart';
 import 'package:habllen/ui/settings_page/settings_page.dart';
 
 class HomePage extends StatefulWidget {
-  static Page page() => MaterialPage<void>(child: HomePage());
+  const HomePage({Key? key, required this.repository}) : super(key: key);
 
+  static Page page() => MaterialPage<void>(
+          child: HomePage(
+        repository: RepositoryImpl(),
+      ));
+  final Repository repository;
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -24,7 +32,11 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return
+        //  RepositoryProvider<Repository>.value(
+        //   value: widget.repository,
+        //   child:
+        Scaffold(
       body: SwitchBody(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -50,6 +62,7 @@ class _HomePageState extends State<HomePage> {
         unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
       ),
+      // ),
     );
   }
 }

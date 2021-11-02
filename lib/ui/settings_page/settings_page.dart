@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habllen/app/bloc/auth/authentication_bloc.dart';
 import 'package:habllen/theme.dart';
+import 'package:habllen/ui/settings_page/sub_pages/products_page/products_page.dart';
 import 'package:habllen/widgets/my_card.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -49,8 +50,19 @@ class SettingsPage extends StatelessWidget {
             ),
             MyCard(text: "Create SubUser Account"),
             MyCard(text: "Change Password"),
-            MyCard(
-              text: "aaa",
+            SizedBox(
+              height: 20,
+            ),
+            Card(
+              child: ListTile(
+                leading: Text("Products"),
+                trailing: Icon(Icons.arrow_forward_ios),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return ProductsPage();
+                  }));
+                },
+              ),
             ),
             TextButton(
                 onPressed: () {

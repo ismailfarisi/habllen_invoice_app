@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'package:habllen/ui/view_pdf_page/cubit/viewpdfpath_cubit.dart';
+import 'package:printing/printing.dart';
 import 'package:sales_api/model/invoice_details.dart';
+
+import 'cubit/viewpdfpath_cubit.dart';
 
 class ViewPdfPage extends StatelessWidget {
   const ViewPdfPage(
@@ -42,9 +43,15 @@ class MyPDFView extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         } else {
-          return PDFView(
-            pdfData: state.pdfData,
-            swipeHorizontal: true,
+          // return PDFView(
+          //   pdfData: state.pdfData,
+          //   swipeHorizontal: true,
+          // );
+          return PdfPreview(
+            build: (format) => state.pdfData!,
+            canChangeOrientation: false,
+            canChangePageFormat: false,
+            canDebug: false,
           );
         }
       },
