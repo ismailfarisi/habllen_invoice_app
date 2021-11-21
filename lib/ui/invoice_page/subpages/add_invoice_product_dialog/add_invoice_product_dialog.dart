@@ -54,7 +54,6 @@ class _AddProductDialogState extends State<AddProductDialog> {
       bloc: bloc,
       builder: (context, state) {
         List<Product> _productList = state.productList;
-        Product? producte;
         return AlertDialog(
             title: Text("Add Product"),
             actions: [

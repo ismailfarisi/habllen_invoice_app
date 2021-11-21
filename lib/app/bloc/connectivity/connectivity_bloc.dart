@@ -13,12 +13,10 @@ class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
   ConnectivityBloc() : super(ConnectivityInitial()) {
-    _init();
-    on<ConnectivityEvent>((event, emit) {});
-  }
-  _init() {
-    _connectivitySubscription =
-        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+    on<StartListening>((event, emit) {
+      _connectivitySubscription =
+          _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+    });
   }
 
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {

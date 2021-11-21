@@ -6,3 +6,7 @@ abstract class ConnectivityEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class StartListening extends ConnectivityEvent {}
+
+class OnConnectionChanged extends ConnectivityEvent {}
