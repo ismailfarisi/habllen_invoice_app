@@ -1,10 +1,15 @@
 part of 'connectivity_bloc.dart';
 
-abstract class ConnectivityState extends Equatable {
-  const ConnectivityState();
-  
-  @override
-  List<Object> get props => [];
-}
+class ConnectivityState extends Equatable {
+  const ConnectivityState({this.hasConnection = false});
 
-class ConnectivityInitial extends ConnectivityState {}
+  final bool hasConnection;
+
+  @override
+  List<Object> get props => [hasConnection];
+
+  ConnectivityState copyWith({bool? hasConnection}) {
+    return ConnectivityState(
+        hasConnection: hasConnection ?? this.hasConnection);
+  }
+}

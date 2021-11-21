@@ -10,13 +10,10 @@ import 'package:habllen/ui/invoice_page/sales_page.dart';
 import 'package:habllen/ui/settings_page/settings_page.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key, required this.repository}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
-  static Page page() => MaterialPage<void>(
-          child: HomePage(
-        repository: RepositoryImpl(),
-      ));
-  final Repository repository;
+  static Page page() => MaterialPage<void>(child: HomePage());
+
   @override
   _HomePageState createState() => _HomePageState();
 }

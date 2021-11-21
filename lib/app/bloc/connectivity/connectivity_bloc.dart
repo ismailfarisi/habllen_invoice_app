@@ -12,11 +12,22 @@ class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
-  ConnectivityBloc() : super(ConnectivityInitial()) {
+  ConnectivityBloc() : super(ConnectivityState()) {
     on<StartListening>((event, emit) {
-      _connectivitySubscription =
-          _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+      _init();
+      add(OnConnectionChanged());
     });
+    on<OnConnectionChanged>((event, emit) {
+      if (_connectionStatus != ConnectivityResult.none) {
+        emit(state.copyWith(hasConnection: false));
+      } else {
+        emit(state.copyWith(hasConnection: true));
+      }
+    });
+  }
+  void _init() {
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
   }
 
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {

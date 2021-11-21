@@ -57,6 +57,7 @@ class _AppViewState extends State<AppView> {
         },
         child: MaterialApp(
           theme: theme,
+          routes: routes,
           home: FlowBuilder<AuthenticationStatus>(
             state:
                 context.select((AuthenticationBloc bloc) => bloc.state.status),
