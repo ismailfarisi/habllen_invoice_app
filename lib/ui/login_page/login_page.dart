@@ -6,6 +6,8 @@ import 'package:formz/formz.dart';
 import 'login/login_cubit.dart';
 
 class LoginPage extends StatelessWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
   static Page page() => MaterialPage<void>(child: LoginPage());
 
   @override

@@ -15,7 +15,7 @@ class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
   ConnectivityBloc() : super(ConnectivityState()) {
     on<StartListening>((event, emit) {
       _init();
-      this.add(OnConnectionChanged());
+      add(OnConnectionChanged());
     });
     on<OnConnectionChanged>((event, emit) {
       if (_connectionStatus != ConnectivityResult.none) {
