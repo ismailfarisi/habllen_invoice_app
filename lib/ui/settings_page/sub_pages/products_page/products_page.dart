@@ -12,6 +12,9 @@ class ProductsPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => ProductspageCubit(),
       child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+        ),
         body: ProductsListView(),
         floatingActionButton: FloatingActionButton(onPressed: () {
           showDialog(

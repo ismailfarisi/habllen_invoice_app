@@ -2,7 +2,11 @@ import 'package:authentication_repository/authentication_repository.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sales_api/model/invoice_details.dart';
+import 'package:go_router/go_router.dart';
+import 'package:habllen/model/invoice.dart';
+import 'package:habllen/repository/remote/firestore.dart';
+import 'package:habllen/repository/repository.dart';
+import 'package:habllen/ui/invoice_page/subpages/invoice_detail_page/invoice_detail_page.dart';
 
 import 'invoice_bloc/drive_bloc.dart';
 import 'subpages/new_invoice_page/new_invoice_page.dart';
@@ -15,28 +19,24 @@ class InvoiceBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthenticationRepository authenticationRepository =
-        context.read<AuthenticationRepository>();
-    return BlocProvider<DriveBloc>(
-        create: (blocContext) =>
-            DriveBloc(authenticationRepository)..add(FilesFetched()),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                TopActionBar(),
-                Expanded(
-                    child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: ListDetails(),
-                )),
-                CreateInvoiceBtn()
-              ],
-            ),
-          ),
-        ));
+    context.read<InvoiceBloc>()..add(FilesFetched());
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            TopActionBar(),
+            Expanded(
+                child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: ListDetails(),
+            )),
+            CreateInvoiceBtn()
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -72,8 +72,7 @@ class CreateInvoiceBtn extends StatelessWidget {
     return ElevatedButton(
       child: Text("create new invoice"),
       onPressed: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (_) => NewInvoicePage()));
+        context.goNamed("create_invoice_page");
       },
     );
   }
@@ -91,13 +90,13 @@ class SearchTextField extends StatefulWidget {
 
 class _SearchTextFieldState extends State<SearchTextField> {
   late TextEditingController _controller;
-  late DriveBloc driveBloc;
+  late InvoiceBloc driveBloc;
   late FocusNode _focusNode;
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController();
-    driveBloc = context.read<DriveBloc>();
+    driveBloc = context.read<InvoiceBloc>();
     _focusNode = FocusNode();
     _focusNode.addListener(() {
       setState(() {
@@ -144,7 +143,7 @@ class ListDetails extends StatefulWidget {
 }
 
 class _ListDetailsState extends State<ListDetails> {
-  late DriveBloc listData;
+  late InvoiceBloc listData;
   final _scrollController = ScrollController();
   @override
   void initState() {
@@ -154,12 +153,12 @@ class _ListDetailsState extends State<ListDetails> {
 
   @override
   Widget build(BuildContext context) {
-    listData = context.watch<DriveBloc>();
+    listData = context.watch<InvoiceBloc>();
     return ListView.builder(
       itemBuilder: (context, index) {
         return index >= listData.state.listdata.length
             ? BottomLoader()
-            : InvoiceListItem(invoiceDetails: listData.state.listdata[index]);
+            : InvoiceListItem(invoice: listData.state.listdata[index]);
       },
       itemCount: listData.state.hasReachedMax
           ? listData.state.listdata.length
@@ -199,21 +198,20 @@ class BottomLoader extends StatelessWidget {
 
 // card item decoration for the invoice details
 class InvoiceListItem extends StatelessWidget {
-  final InvoiceDetails invoiceDetails;
+  final Invoice invoice;
 
-  const InvoiceListItem({Key? key, required this.invoiceDetails})
-      : super(key: key);
+  const InvoiceListItem({Key? key, required this.invoice}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final Color color;
-    switch (invoiceDetails.paymentStatus) {
-      case "open":
+    switch (invoice.paymentStatus) {
+      case PaymentStatus.open:
         color = Colors.red[700] as Color;
         break;
-      case "partial":
+      case PaymentStatus.partial:
         color = Colors.orange[400] as Color;
         break;
-      case "closed":
+      case PaymentStatus.closed:
         color = Colors.green;
         break;
       default:
@@ -228,25 +226,24 @@ class InvoiceListItem extends StatelessWidget {
         childrenPadding: EdgeInsets.all(15),
         expandedAlignment: Alignment.topLeft,
         expandedCrossAxisAlignment: CrossAxisAlignment.start,
-        title: Text("${invoiceDetails.invoiceNo}"),
-        subtitle: Text("${invoiceDetails.company!.companyName}"),
+        title: Text("${invoice.invoiceNo}"),
+        subtitle: Text("${invoice.company.name}"),
         children: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Container(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Amt :${invoiceDetails.amount}"),
-                  Text("Invoice Date:${invoiceDetails.date}"),
+                  Text("Amt :${invoice.totalPrice}"),
+                  Text("Invoice Date:${invoice.date}"),
                 ],
               ),
             ),
             TextButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => ViewPdfPage(invoiceDetails)));
+                  context.goNamed("invoice_detail_page",
+                      params: {"invoice_no": invoice.invoiceNo.toString()},
+                      extra: invoice);
                 },
                 child: Text('VIEW PDF'))
           ])

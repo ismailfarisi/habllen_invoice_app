@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habllen/model/product.dart';
-import 'package:habllen/repository/remote/firestore.dart';
-import 'package:habllen/repository/repositoryimpl.dart';
+import 'package:habllen/repository/repository.dart';
 import 'package:habllen/ui/settings_page/sub_pages/add_product_dialog/cubit/addproducct_cubit.dart';
-import 'package:habllen/widgets/text_field_widget.dart';
+import 'package:habllen/shared/widgets/text_field_widget.dart';
 
 class AddProductDialog extends StatelessWidget {
   const AddProductDialog({Key? key}) : super(key: key);
@@ -12,9 +11,8 @@ class AddProductDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => AddproducctCubit(
-            repository:
-                RepositoryImpl(firebaseRepository: FirebaseRepository())),
+        create: (context) =>
+            AddproducctCubit(repository: context.read<Repository>()),
         child: AddProductForm());
   }
 }
@@ -41,6 +39,15 @@ class _AddProductFormState extends State<AddProductForm> {
     _hsnCodeController = TextEditingController();
     _currentStockController = TextEditingController();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _namecontroller.dispose();
+    _priceController.dispose();
+    _hsnCodeController.dispose();
+    _currentStockController.dispose();
+    super.dispose();
   }
 
   @override

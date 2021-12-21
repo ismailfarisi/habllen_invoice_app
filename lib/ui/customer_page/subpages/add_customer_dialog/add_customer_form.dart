@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habllen/model/company.dart';
 import 'package:habllen/ui/customer_page/subpages/add_customer_dialog/validator/customer_validator.dart';
-import 'package:habllen/widgets/text_field_widget.dart';
+import 'package:habllen/shared/widgets/text_field_widget.dart';
 
 import 'cubit/customer_cubit.dart';
 

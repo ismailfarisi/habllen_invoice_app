@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habllen/app/bloc/auth/authentication_bloc.dart';
 import 'package:habllen/theme.dart';
 import 'package:habllen/ui/settings_page/sub_pages/products_page/products_page.dart';
-import 'package:habllen/widgets/my_card.dart';
+import 'package:habllen/shared/widgets/my_card.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);

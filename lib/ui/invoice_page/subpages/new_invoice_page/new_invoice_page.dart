@@ -2,13 +2,14 @@ import 'package:date_field/date_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:habllen/model/company.dart';
 import 'package:habllen/model/invoice_product.dart';
 import 'package:habllen/repository/repository.dart';
 
 import 'package:habllen/ui/invoice_page/subpages/draft_invoice_page/draft_invoice_page.dart';
-import 'package:habllen/widgets/custom_autocomplete.dart';
-import 'package:habllen/widgets/date_util.dart' show DateString;
+import 'package:habllen/shared/widgets/custom_autocomplete.dart';
+import 'package:habllen/shared/widgets/date_util.dart' show DateString;
 import 'package:habllen/ui/invoice_page/subpages/add_invoice_product_dialog/add_invoice_product_dialog.dart';
 
 import 'cubit/new_invoice_Bloc.dart';
@@ -21,25 +22,22 @@ class NewInvoicePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (blocContext) => NewInvoiceBloc(blocContext.read<Repository>()),
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(Icons.arrow_back, color: Colors.black54),
-          ),
-          title: Text(
-            "CREATE INVOICE",
-            style: TextStyle(color: Colors.black54),
-          ),
-          centerTitle: true,
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back, color: Colors.black54),
         ),
-        body: StepperWidget(),
+        title: Text(
+          "CREATE INVOICE",
+          style: TextStyle(color: Colors.black54),
+        ),
+        centerTitle: true,
       ),
+      body: StepperWidget(),
     );
   }
 }
@@ -62,12 +60,9 @@ class StepperWidget extends StatelessWidget {
         },
         listener: (context, state) {
           if (state.invoice != null) {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => DraftInvoicePage(
-                          invoice: state.invoice!,
-                        )));
+            context.goNamed("draft_invoice_page",
+                extra: state.invoice,
+                params: {"invoice_no": state.invoice!.invoiceNo.toString()});
           }
         },
         bloc: bloc,

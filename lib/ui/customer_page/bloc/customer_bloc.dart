@@ -9,9 +9,7 @@ part 'customer_event.dart';
 part 'customer_state.dart';
 
 class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
-  CustomerBloc() : super(CustomerInitial()) {
-    late final Repository repository =
-        RepositoryImpl(firebaseRepository: FirebaseRepository());
+  CustomerBloc(this.repository) : super(CustomerInitial()) {
     on<WidgetInitiated>((event, emit) async {
       if (state.hasReachedMax) return;
       print(state.hasReachedMax);
@@ -27,4 +25,5 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
       }
     });
   }
+  final Repository repository;
 }

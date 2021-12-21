@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habllen/model/invoice.dart';
 import 'package:printing/printing.dart';
-import 'package:sales_api/model/invoice_details.dart';
 
 import 'cubit/viewpdfpath_cubit.dart';
 
@@ -11,7 +11,7 @@ class ViewPdfPage extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final InvoiceDetails invoiceDetails;
+  final Invoice invoiceDetails;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class MyPDFView extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final InvoiceDetails invoiceDetails;
+  final Invoice invoiceDetails;
 
   @override
   Widget build(BuildContext context) {

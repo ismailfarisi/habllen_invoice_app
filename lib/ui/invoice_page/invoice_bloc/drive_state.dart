@@ -2,25 +2,25 @@ part of 'drive_bloc.dart';
 
 enum FileFetchStatus { initial, success, failure }
 
-class DriveState extends Equatable {
-  const DriveState(
+class InvoiceState extends Equatable {
+  const InvoiceState(
       {this.nextPageToken = 'initial',
       this.hasReachedMax = false,
-      this.listdata = const <InvoiceDetails>[],
+      this.listdata = const <Invoice>[],
       this.status = FileFetchStatus.initial});
   final FileFetchStatus status;
-  final List<InvoiceDetails> listdata;
+  final List<Invoice> listdata;
   final String? nextPageToken;
   final bool hasReachedMax;
   @override
   List<Object?> get props => [status, listdata, nextPageToken, hasReachedMax];
 
-  DriveState copywith(
-      {List<InvoiceDetails>? listdata,
+  InvoiceState copywith(
+      {List<Invoice>? listdata,
       bool? hasReachedMax,
       FileFetchStatus? status,
       String? nextPageToken}) {
-    return DriveState(
+    return InvoiceState(
         listdata: listdata ?? this.listdata,
         hasReachedMax: hasReachedMax ?? this.hasReachedMax,
         status: status ?? this.status,

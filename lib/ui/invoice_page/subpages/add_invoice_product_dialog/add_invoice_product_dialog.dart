@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:habllen/model/invoice_product.dart';
 import 'package:habllen/model/product.dart';
 import 'package:habllen/ui/invoice_page/subpages/new_invoice_page/cubit/new_invoice_Bloc.dart';
-import 'package:habllen/widgets/custom_autocomplete.dart';
-import 'package:habllen/widgets/text_field_widget.dart';
+import 'package:habllen/shared/widgets/custom_autocomplete.dart';
+import 'package:habllen/shared/widgets/text_field_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddProductDialog extends StatefulWidget {
@@ -42,6 +42,15 @@ class _AddProductDialogState extends State<AddProductDialog> {
   }
 
   @override
+  void dispose() {
+    _priceFocusNode.dispose();
+    _priceFocusNode.dispose();
+    _priceController.dispose();
+    _quantityController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<NewInvoiceBloc, ScreenStage>(
       listener: (context, state) {
@@ -68,7 +77,7 @@ class _AddProductDialogState extends State<AddProductDialog> {
                     if (widget.product != null) {
                       final InvoiceProduct invoiceProduct = InvoiceProduct(
                           product: widget.product!,
-                          price: double.parse(_priceController.text),
+                          price: double?.parse(_priceController.text),
                           quantity: double.parse(_quantityController.text));
                       print(invoiceProduct);
                       bloc.add(ProductAddedToInvoice(
@@ -90,6 +99,7 @@ class _AddProductDialogState extends State<AddProductDialog> {
                     displayStringForOption: (option) => option.name,
                     onSelected: (product) {
                       widget.product = product;
+                      _priceController.text = product.price.toString();
                       _priceFocusNode.nextFocus();
                     },
                   ),
@@ -105,7 +115,17 @@ class _AddProductDialogState extends State<AddProductDialog> {
                     },
                   ),
                   CustomTextField(
-                    validator: (value) {},
+                    validator: (value) {
+                      if (value != null) {
+                        final doubleValue = double.parse(value);
+                        if (doubleValue != 0 &&
+                            doubleValue <= widget.product!.currentStock) {
+                          return null;
+                        }
+                        return "Available stock is only ${widget.product}";
+                      }
+                      return "Enter a valid value";
+                    },
                     controller: _quantityController,
                     helperText: "Quantity",
                     keyboardType: TextInputType.numberWithOptions(),

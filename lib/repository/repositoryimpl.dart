@@ -29,4 +29,7 @@ class RepositoryImpl extends Repository {
 
   @override
   Future<int> getLastInvoiceNo() => _firebaseRepository.getLastInvoiceNo();
+
+  @override
+  Future<List<Invoice>> getInvoices() => _firebaseRepository.getInvoices();
 }

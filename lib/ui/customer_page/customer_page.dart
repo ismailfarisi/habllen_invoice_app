@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habllen/repository/repository.dart';
 import 'package:habllen/ui/customer_page/subpages/add_customer_dialog/add_customer_form.dart';
 
 import 'bloc/customer_bloc.dart';
@@ -8,7 +9,7 @@ class CustomerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CustomerBloc(),
+      create: (context) => CustomerBloc(context.read<Repository>()),
       child: Scaffold(
         floatingActionButton: MyFloatingButton(),
         body: ScaffoldBody(),

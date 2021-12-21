@@ -3,8 +3,10 @@ import 'package:habllen/model/invoice.dart';
 import 'package:habllen/model/product.dart';
 
 abstract class Repository {
+  Future<List<Invoice>> getInvoices();
   Future<List<Product>> getProducts();
   Future<List<Company>> getCustomers();
+
   Future<void> addProduct(Product product);
   Future<void> addCustomer(Company customer);
 

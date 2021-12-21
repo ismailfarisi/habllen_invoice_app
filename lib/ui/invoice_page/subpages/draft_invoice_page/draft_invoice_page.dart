@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:habllen/model/invoice.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habllen/repository/repository.dart';
-import 'package:habllen/ui/home/home.dart';
 import 'package:habllen/ui/invoice_page/subpages/draft_invoice_page/cubit/draftinvoice_cubit.dart';
 
-import 'package:habllen/widgets/invoice_view.dart';
+import 'package:habllen/shared/widgets/invoice_view.dart';
 
 class DraftInvoicePage extends StatelessWidget {
   final Invoice invoice;
@@ -56,8 +56,9 @@ class DraftInvoiceScaffold extends StatelessWidget {
       body: BlocListener<DraftinvoiceCubit, DraftinvoiceState>(
         listener: (context, state) {
           if (state.status == Status.success) {
-            Navigator.pushNamedAndRemoveUntil(
-                context, '/invoice_details', ModalRoute.withName("/"));
+            context.goNamed("invoice_detail_page",
+                extra: invoice,
+                params: {"invoice_no": invoice.invoiceNo.toString()});
           }
         },
         child: Padding(

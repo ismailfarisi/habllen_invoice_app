@@ -1,17 +1,17 @@
 part of 'drive_bloc.dart';
 
-class DriveEvent extends Equatable {
-  const DriveEvent();
+class InvoiceEvent extends Equatable {
+  const InvoiceEvent();
 
   @override
   List<Object?> get props => [];
 }
 
-class FilesFetched extends DriveEvent {}
+class FilesFetched extends InvoiceEvent {}
 
-class CreateNewInvoicwBtnPressed extends DriveEvent {}
+class CreateNewInvoicwBtnPressed extends InvoiceEvent {}
 
-class KeywordChanged extends DriveEvent {
+class KeywordChanged extends InvoiceEvent {
   final String keyword;
 
   const KeywordChanged(this.keyword);

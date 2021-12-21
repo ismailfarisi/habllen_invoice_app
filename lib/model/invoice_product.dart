@@ -7,21 +7,38 @@ class InvoiceProduct extends Equatable {
   final Product product;
   final double? price;
   final double quantity;
+  final double? totalPrice;
 
-  InvoiceProduct(
-      {this.id, this.price, required this.quantity, required this.product});
+  InvoiceProduct({
+    this.id,
+    this.price,
+    required this.quantity,
+    required this.product,
+    this.totalPrice,
+  });
 
   @override
-  List<Object?> get props => [id, product, price, quantity];
+  List<Object?> get props => [id, product, price, quantity, totalPrice];
 
-  Map<String, dynamic> toJson() => _InvoiceProduct(this);
+  factory InvoiceProduct.fromJson(Map<String, dynamic> json) => _fromJson(json);
+
+  Map<String, dynamic> toJson() => _toJson(this);
 }
 
-Map<String, dynamic> _InvoiceProduct(InvoiceProduct invoiceProduct) {
+_fromJson(Map<String, dynamic> json) {
+  return InvoiceProduct(
+      product: Product.fromJson(json['product']),
+      quantity: json["quantity"],
+      price: json["price"],
+      totalPrice: json["totalPrice"]);
+}
+
+Map<String, dynamic> _toJson(InvoiceProduct invoiceProduct) {
   return <String, dynamic>{
     "id": "",
-    "product": invoiceProduct.product,
+    "product": invoiceProduct.product.toJson(),
     "price": invoiceProduct.price,
-    "quantity": invoiceProduct.quantity
+    "quantity": invoiceProduct.quantity,
+    "totalPrice": invoiceProduct.totalPrice
   };
 }

@@ -6,6 +6,7 @@ import 'package:habllen/repository/repositoryimpl.dart';
 import 'package:habllen/theme.dart';
 import 'package:habllen/ui/customer_page/customer_page.dart';
 import 'package:habllen/ui/expense_page/expense_page.dart';
+import 'package:habllen/ui/home/bloc/hometab_bloc.dart';
 import 'package:habllen/ui/invoice_page/sales_page.dart';
 import 'package:habllen/ui/settings_page/settings_page.dart';
 
@@ -15,26 +16,19 @@ class HomePage extends StatefulWidget {
   static Page page() => MaterialPage<void>(child: HomePage());
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final bloc = context.watch<HometabBloc>();
     return
         //  RepositoryProvider<Repository>.value(
         //   value: widget.repository,
         //   child:
         Scaffold(
-      body: SwitchBody(_selectedIndex),
+      body: SwitchBody(bloc.state.currentIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -54,10 +48,10 @@ class _HomePageState extends State<HomePage> {
             label: "Settings",
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: bloc.state.currentIndex,
         selectedItemColor: theme.primaryColor,
         unselectedItemColor: Colors.grey,
-        onTap: _onItemTapped,
+        onTap: (index) => bloc.add(TabChanged(index)),
       ),
       // ),
     );

@@ -43,18 +43,20 @@ class FirebaseRepository {
     }
   }
 
-  Future<Result<List<Invoice>>> getInvoices() async {
+  Future<List<Invoice>> getInvoices() async {
     final List<Invoice> list = [];
     try {
       final invoices = await firestore.collection("invoices").get();
       invoices.docs.forEach((element) {
-        list.add(Invoice.fromjson(element.data()));
+        final Invoice invoice = Invoice.fromjson(element.data());
+        list.add(invoice);
       });
-      return Result.success(list);
-    } catch (exception) {
-      Exception e = exception as Exception;
-
-      return Result.error(e);
+      print(list);
+      return list;
+    } on Exception {
+      return list;
+    } catch (e) {
+      throw e;
     }
   }
 
@@ -85,13 +87,13 @@ class FirebaseRepository {
 
   Future<int> getLastInvoiceNo() async {
     try {
-      // final instance = await firestore
-      //     .collection("invoices")
-      //     .orderBy("id", descending: true)
-      //     .limit(1)
-      //     .get();
-      // final invoiceNo = instance.docs.first.get("invoiceNo") as int;
-      return 10000;
+      final instance = await firestore
+          .collection("invoices")
+          .orderBy("invoiceNo", descending: true)
+          .limit(1)
+          .get();
+      final lastinvoiceNo = instance.docs.first.get("invoiceNo") as int;
+      return lastinvoiceNo;
     } catch (e) {
       throw e;
     }

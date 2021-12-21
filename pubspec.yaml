@@ -13,9 +13,8 @@ dependencies:
     sdk: flutter
   authentication_repository:
     path: packages/authentication_repository
-  sales_api:
-    path: packages/sales_api
   cupertino_icons: ^1.0.2
+  go_router: ^2.5.5
   equatable: ^2.0.3
   firebase_auth: ^3.1.2
   firebase_core: ^1.0.2
@@ -44,4 +43,5 @@ flutter:
     - assets/1.jpg
     - assets/Roboto-Regular.ttf
     - assets/blank-profile-picture.png
+    - assets/pdf_icon.png
   uses-material-design: true
