@@ -30,38 +30,45 @@ class DraftInvoiceScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: ElevatedButton(
-        onPressed: () {
-          showDialog(
-              context: context,
-              builder: (dialogContext) => ConfirmCallBackDialog(
-                    onDialogConfirm: () {
-                      context.read<DraftinvoiceCubit>().postInvoice(invoice);
-                    },
-                  ),
-              barrierDismissible: false);
-        },
-        child: Text("POST"),
-      ),
-      appBar: AppBar(
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black54),
+    return BlocListener<DraftinvoiceCubit, DraftinvoiceState>(
+      listener: (context, state) {
+        if (state.status == Status.success) {
+          context.goNamed(
+            "invoice_detail_page",
+            params: {"invoice_no": invoice.invoiceNo.toString()},
+            extra: invoice,
+          );
+        }
+        if (state.status == Status.failure) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(content: Text("invoice posting failed")));
+        }
+      },
+      child: Scaffold(
+        floatingActionButton: ElevatedButton(
           onPressed: () {
-            Navigator.pop(context);
+            showDialog(
+                context: context,
+                builder: (dialogContext) => ConfirmCallBackDialog(
+                      onDialogConfirm: () {
+                        context.read<DraftinvoiceCubit>().postInvoice(invoice);
+                      },
+                    ),
+                barrierDismissible: false);
           },
+          child: Text("POST"),
         ),
-      ),
-      body: BlocListener<DraftinvoiceCubit, DraftinvoiceState>(
-        listener: (context, state) {
-          if (state.status == Status.success) {
-            context.goNamed("invoice_detail_page",
-                extra: invoice,
-                params: {"invoice_no": invoice.invoiceNo.toString()});
-          }
-        },
-        child: Padding(
+        appBar: AppBar(
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.black54),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+        body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,6 +105,6 @@ class ConfirmCallBackDialog extends StatelessWidget {
           },
           child: Text("cancel")),
       ElevatedButton(onPressed: onDialogConfirm, child: Text("Add")),
-    ], content: Text("Press comfirm to comfirm this"));
+    ], content: Text("Press comfirm to post invoice"));
   }
 }

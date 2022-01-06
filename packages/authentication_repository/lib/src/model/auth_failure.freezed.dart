@@ -1,5 +1,7 @@
+// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'auth_failure.dart';
 
@@ -42,6 +44,13 @@ mixin _$AuthFailure {
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? cancelByUser,
+    TResult Function()? serverError,
+    TResult Function()? invalidCredentialError,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? cancelByUser,
     TResult Function()? serverError,
@@ -55,6 +64,13 @@ mixin _$AuthFailure {
     required TResult Function(ServerError value) serverError,
     required TResult Function(InvalidCredentialError value)
         invalidCredentialError,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(CancelByUser value)? cancelByUser,
+    TResult Function(ServerError value)? serverError,
+    TResult Function(InvalidCredentialError value)? invalidCredentialError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -102,6 +118,7 @@ class _$CancelByUserCopyWithImpl<$Res> extends _$AuthFailureCopyWithImpl<$Res>
 }
 
 /// @nodoc
+
 class _$CancelByUser implements CancelByUser {
   const _$CancelByUser();
 
@@ -112,7 +129,8 @@ class _$CancelByUser implements CancelByUser {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is CancelByUser);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is CancelByUser);
   }
 
   @override
@@ -126,6 +144,16 @@ class _$CancelByUser implements CancelByUser {
     required TResult Function() invalidCredentialError,
   }) {
     return cancelByUser();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? cancelByUser,
+    TResult Function()? serverError,
+    TResult Function()? invalidCredentialError,
+  }) {
+    return cancelByUser?.call();
   }
 
   @override
@@ -151,6 +179,16 @@ class _$CancelByUser implements CancelByUser {
         invalidCredentialError,
   }) {
     return cancelByUser(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(CancelByUser value)? cancelByUser,
+    TResult Function(ServerError value)? serverError,
+    TResult Function(InvalidCredentialError value)? invalidCredentialError,
+  }) {
+    return cancelByUser?.call(this);
   }
 
   @override
@@ -191,6 +229,7 @@ class _$ServerErrorCopyWithImpl<$Res> extends _$AuthFailureCopyWithImpl<$Res>
 }
 
 /// @nodoc
+
 class _$ServerError implements ServerError {
   const _$ServerError();
 
@@ -201,7 +240,8 @@ class _$ServerError implements ServerError {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is ServerError);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is ServerError);
   }
 
   @override
@@ -215,6 +255,16 @@ class _$ServerError implements ServerError {
     required TResult Function() invalidCredentialError,
   }) {
     return serverError();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? cancelByUser,
+    TResult Function()? serverError,
+    TResult Function()? invalidCredentialError,
+  }) {
+    return serverError?.call();
   }
 
   @override
@@ -240,6 +290,16 @@ class _$ServerError implements ServerError {
         invalidCredentialError,
   }) {
     return serverError(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(CancelByUser value)? cancelByUser,
+    TResult Function(ServerError value)? serverError,
+    TResult Function(InvalidCredentialError value)? invalidCredentialError,
+  }) {
+    return serverError?.call(this);
   }
 
   @override
@@ -281,6 +341,7 @@ class _$InvalidCredentialErrorCopyWithImpl<$Res>
 }
 
 /// @nodoc
+
 class _$InvalidCredentialError implements InvalidCredentialError {
   const _$InvalidCredentialError();
 
@@ -291,7 +352,8 @@ class _$InvalidCredentialError implements InvalidCredentialError {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is InvalidCredentialError);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is InvalidCredentialError);
   }
 
   @override
@@ -305,6 +367,16 @@ class _$InvalidCredentialError implements InvalidCredentialError {
     required TResult Function() invalidCredentialError,
   }) {
     return invalidCredentialError();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? cancelByUser,
+    TResult Function()? serverError,
+    TResult Function()? invalidCredentialError,
+  }) {
+    return invalidCredentialError?.call();
   }
 
   @override
@@ -330,6 +402,16 @@ class _$InvalidCredentialError implements InvalidCredentialError {
         invalidCredentialError,
   }) {
     return invalidCredentialError(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(CancelByUser value)? cancelByUser,
+    TResult Function(ServerError value)? serverError,
+    TResult Function(InvalidCredentialError value)? invalidCredentialError,
+  }) {
+    return invalidCredentialError?.call(this);
   }
 
   @override

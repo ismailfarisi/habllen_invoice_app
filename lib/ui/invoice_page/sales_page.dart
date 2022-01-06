@@ -1,16 +1,9 @@
-import 'package:authentication_repository/authentication_repository.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:habllen/model/invoice.dart';
-import 'package:habllen/repository/remote/firestore.dart';
-import 'package:habllen/repository/repository.dart';
-import 'package:habllen/ui/invoice_page/subpages/invoice_detail_page/invoice_detail_page.dart';
 
-import 'invoice_bloc/drive_bloc.dart';
-import 'subpages/new_invoice_page/new_invoice_page.dart';
-import 'subpages/view_pdf_page/view_pdf_page.dart';
+import 'invoice_bloc/invoicepage_bloc.dart';
 
 class InvoiceBody extends StatelessWidget {
   const InvoiceBody({
@@ -19,61 +12,54 @@ class InvoiceBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<InvoiceBloc>()..add(FilesFetched());
+    context.read<InvoiceBloc>().add(FilesFetched());
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TopActionBar(),
-            Expanded(
-                child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: ListDetails(),
-            )),
-            CreateInvoiceBtn()
-          ],
+      child: Scaffold(
+        appBar: TopActionBar(),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => context.pushNamed("create_invoice_page"),
+          child: Icon(Icons.add),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                  child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: ListDetails(),
+              )),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-class TopActionBar extends StatelessWidget {
+class TopActionBar extends StatelessWidget implements PreferredSizeWidget {
   const TopActionBar({
     Key? key,
-  }) : super(key: key);
+  })  : preferredSize = const Size.fromHeight(56.0),
+        super(key: key);
+
+  @override
+  final Size preferredSize;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          shape: BoxShape.rectangle,
-          color: Colors.white),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+        shape: BoxShape.rectangle,
+      ),
       height: 60,
       child: Row(
         children: [
           SearchTextField(),
         ],
       ),
-    );
-  }
-}
-
-class CreateInvoiceBtn extends StatelessWidget {
-  const CreateInvoiceBtn({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      child: Text("create new invoice"),
-      onPressed: () {
-        context.goNamed("create_invoice_page");
-      },
     );
   }
 }
@@ -106,6 +92,13 @@ class _SearchTextFieldState extends State<SearchTextField> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Row(children: [
@@ -124,13 +117,13 @@ class _SearchTextFieldState extends State<SearchTextField> {
             keyboardType: TextInputType.text,
           ),
         ),
-        if (_focusNode.hasFocus)
+        if (_focusNode.hasFocus || _controller.text != "")
           IconButton(
               onPressed: () {
                 _controller.clear();
                 _focusNode.unfocus();
               },
-              icon: Icon(Icons.cancel))
+              icon: Icon(Icons.cancel)),
       ]),
     );
   }
@@ -245,7 +238,7 @@ class InvoiceListItem extends StatelessWidget {
                       params: {"invoice_no": invoice.invoiceNo.toString()},
                       extra: invoice);
                 },
-                child: Text('VIEW PDF'))
+                child: Text('View Details'))
           ])
         ],
       ),

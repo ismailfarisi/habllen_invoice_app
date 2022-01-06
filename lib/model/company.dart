@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class Company extends Equatable {
-  final int? id;
+  final String? id;
   final String name;
   final String addressOne;
   final String? addressTwo;
@@ -20,18 +20,27 @@ class Company extends Equatable {
   factory Company.fromjson(Map<String, dynamic> json) {
     return Company(
         id: json["id"],
-        name: json["name"],
+        name: json["name"].toString().toUpperCase(),
         addressOne: json['addressOne'],
         addressTwo: json['addressTwo'],
         gst: json['gst']);
   }
-  Map<String, dynamic> toJson() => _companyToJson(this);
+  Map<String, dynamic> toJson({String? id}) => _companyToJson(this, id);
+
+  Company update(
+      {String? name, String? addressOne, String? addressTwo, String? gst}) {
+    return Company(
+        name: name ?? this.name,
+        addressOne: addressOne ?? this.addressOne,
+        addressTwo: addressTwo ?? this.addressTwo,
+        gst: gst ?? this.gst);
+  }
 }
 
-Map<String, dynamic> _companyToJson(Company company) {
+Map<String, dynamic> _companyToJson(Company company, String? id) {
   return <String, dynamic>{
-    "id": company.id,
-    "name": company.name,
+    "id": id,
+    "name": company.name.toLowerCase(),
     "addressOne": company.addressOne,
     "addressTwo": company.addressTwo,
     "gst": company.gst

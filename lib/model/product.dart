@@ -22,19 +22,33 @@ class Product extends Equatable {
     return Product(
         id: json["id"],
         price: json["price"],
-        hsnCode: json["hsnCode"],
+        hsnCode: json["hsnCode"].toString().toUpperCase(),
         currentStock: json["currentStock"],
-        name: json["name"]);
+        name: json["name"].toString().toUpperCase());
   }
   Map<String, dynamic> toJson() => _productToJson(this);
+
+  Product update(
+      {String? name,
+      double? price,
+      String? hsnCode,
+      double? currentStock,
+      int? id}) {
+    return Product(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        price: price ?? this.price,
+        hsnCode: hsnCode ?? this.hsnCode,
+        currentStock: currentStock ?? this.currentStock);
+  }
 }
 
 Map<String, dynamic> _productToJson(Product product) {
   return <String, dynamic>{
     "id": product.id,
-    "name": product.name,
+    "name": product.name.toLowerCase(),
     "price": product.price,
-    "hsnCode": product.hsnCode,
+    "hsnCode": product.hsnCode.toLowerCase(),
     "currentStock": product.currentStock
   };
 }

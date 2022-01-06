@@ -7,6 +7,16 @@ abstract class CustomerEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class WidgetInitiated extends CustomerEvent {}
+class Started extends CustomerEvent {}
 
 class Refreshed extends CustomerEvent {}
+
+class DeleteCustomer extends CustomerEvent {
+  final Company customer;
+  final int customerIndex;
+
+  DeleteCustomer({
+    required this.customer,
+    required this.customerIndex,
+  });
+}

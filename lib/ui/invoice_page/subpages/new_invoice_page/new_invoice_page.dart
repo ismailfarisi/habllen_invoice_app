@@ -6,13 +6,11 @@ import 'package:go_router/go_router.dart';
 import 'package:habllen/model/company.dart';
 import 'package:habllen/model/invoice_product.dart';
 import 'package:habllen/repository/repository.dart';
-
-import 'package:habllen/ui/invoice_page/subpages/draft_invoice_page/draft_invoice_page.dart';
 import 'package:habllen/shared/widgets/custom_autocomplete.dart';
 import 'package:habllen/shared/widgets/date_util.dart' show DateString;
 import 'package:habllen/ui/invoice_page/subpages/add_invoice_product_dialog/add_invoice_product_dialog.dart';
 
-import 'cubit/new_invoice_Bloc.dart';
+import 'bloc/new_invoice_Bloc.dart';
 
 const int BASIC_INFO_STEP = 0;
 const int PRODUCT_ENTRY_STEP = 1;
@@ -22,22 +20,24 @@ class NewInvoicePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(Icons.arrow_back, color: Colors.black54),
+    return BlocProvider(
+      create: (context) => NewInvoiceBloc(context.read<Repository>()),
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          leading: IconButton(
+            onPressed: () {
+              context.pop();
+            },
+            icon: Icon(Icons.arrow_back),
+          ),
+          title: Text(
+            "CREATE INVOICE",
+          ),
+          centerTitle: true,
         ),
-        title: Text(
-          "CREATE INVOICE",
-          style: TextStyle(color: Colors.black54),
-        ),
-        centerTitle: true,
+        body: StepperWidget(),
       ),
-      body: StepperWidget(),
     );
   }
 }
@@ -51,10 +51,8 @@ class StepperWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<NewInvoiceBloc>();
-    bloc.add(FirstStarted());
-    final DateTime today = DateTime.now();
 
-    return BlocConsumer<NewInvoiceBloc, ScreenStage>(
+    return BlocConsumer<NewInvoiceBloc, NewInvoiceState>(
         listenWhen: (previousState, currentState) {
           return (previousState.invoice != currentState.invoice);
         },
@@ -66,7 +64,7 @@ class StepperWidget extends StatelessWidget {
           }
         },
         bloc: bloc,
-        builder: (BuildContext context, ScreenStage state) {
+        builder: (BuildContext context, NewInvoiceState state) {
           if (state.invoice != null) {}
           return Stepper(
             controlsBuilder: (BuildContext context,
@@ -102,12 +100,8 @@ class StepperWidget extends StatelessWidget {
                 if (state.invoiceProductList.isNotEmpty) {
                   bloc.add(CreateDraftInvoice());
                   if (state.invoice != null) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => DraftInvoicePage(
-                                  invoice: state.invoice!,
-                                )));
+                    context.pushNamed("draft_invoice_page",
+                        extra: state.invoice);
                   }
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -121,8 +115,6 @@ class StepperWidget extends StatelessWidget {
                   title: Text("Basic"),
                   content: AddInvoiceBasicInfo(
                     formKey: _formKeyBasicDetails,
-                    today: today,
-                    customerList: bloc.state.companylist,
                   )),
               Step(
                   isActive: (state.currentIndex == PRODUCT_ENTRY_STEP),
@@ -138,15 +130,9 @@ class StepperWidget extends StatelessWidget {
 
 class AddInvoiceBasicInfo extends StatefulWidget {
   const AddInvoiceBasicInfo({
-    Key? key,
-    required this.today,
-    required this.customerList,
     required this.formKey,
+    Key? key,
   }) : super(key: key);
-
-  final List<Company> customerList;
-
-  final DateTime today;
 
   final GlobalKey<FormState> formKey;
 
@@ -157,94 +143,84 @@ class AddInvoiceBasicInfo extends StatefulWidget {
 class _AddInvoiceBasicInfoState extends State<AddInvoiceBasicInfo> {
   late final TextEditingController _dateController;
   late final TextEditingController _companyController;
-  late final FocusNode _dateFocusNode;
-  late final FocusNode _companyFocusNode;
+  final FocusNode _companyFocusNode = FocusNode();
+  final DateTime today = DateTime.now();
 
   @override
   void initState() {
     _companyController = TextEditingController();
     _dateController = TextEditingController();
-    _dateFocusNode = FocusNode();
-    _companyFocusNode = FocusNode();
+    _companyFocusNode.addListener(() {
+      if (_companyFocusNode.hasFocus) {
+        context.read<NewInvoiceBloc>().add(FetchCompanies());
+      }
+      if (!_companyFocusNode.hasFocus) {
+        context.read<NewInvoiceBloc>().add(CompanyEditorUnFocused());
+      }
+    });
     super.initState();
   }
 
   @override
+  void dispose() {
+    _companyController.dispose();
+    _dateController.dispose();
+    _companyFocusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    DateTime date = widget.today;
+    DateTime date = today;
     _dateController.text = date.toDateString();
-    return Form(
-      key: widget.formKey,
-      child: Column(
-        children: [
-          CustomAutoComplete<Company>(
-            validator: (value) {
-              if (context.read<NewInvoiceBloc>().state.company == null ||
-                  context.read<NewInvoiceBloc>().state.company!.name != value) {
-                return "please select an option";
-              }
-            },
-            textInputAction: TextInputAction.next,
-            controller: _companyController,
-            focusNode: _companyFocusNode,
-            onSelected: (option) {
-              context
-                  .read<NewInvoiceBloc>()
-                  .add(CompanySelected(company: option));
-              _companyFocusNode.nextFocus();
-            },
-            options: widget.customerList,
-            labelText: "Customer",
-            displayStringForOption: (company) => company.name,
+    return BlocBuilder<NewInvoiceBloc, NewInvoiceState>(
+      builder: (context, state) {
+        return Form(
+          key: widget.formKey,
+          child: Column(
+            children: [
+              CustomAutoComplete(
+                validator: (value) {
+                  if (state.company == null || state.company!.name != value) {
+                    return "please select an option";
+                  }
+                },
+                textInputAction: TextInputAction.next,
+                controller: _companyController,
+                focusNode: _companyFocusNode,
+                onSelected: (Company option) {
+                  context
+                      .read<NewInvoiceBloc>()
+                      .add(CompanySelected(company: option));
+                  _companyFocusNode.nextFocus();
+                },
+                options: state.companylist,
+                labelText: "Customer",
+                displayStringForOption: (Company company) => company.name,
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              DateTimeFormField(
+                mode: DateTimeFieldPickerMode.date,
+                firstDate: today.subtract(Duration(days: 31)),
+                initialDate: today,
+                lastDate: today.add(Duration(days: 31)),
+                onDateSelected: (date) {
+                  context.read<NewInvoiceBloc>().add(DateSelected(date: date));
+                },
+                decoration: InputDecoration(labelText: "Date"),
+                validator: (date) {
+                  if (context.read<NewInvoiceBloc>().state.date == null ||
+                      context.read<NewInvoiceBloc>().state.date != date) {
+                    return "please select a date";
+                  }
+                },
+              )
+            ],
           ),
-          SizedBox(
-            height: 15,
-          ),
-          DateTimeFormField(
-            mode: DateTimeFieldPickerMode.date,
-            firstDate: widget.today.subtract(Duration(days: 31)),
-            initialDate: widget.today,
-            lastDate: widget.today.add(Duration(days: 31)),
-            onDateSelected: (date) {
-              context.read<NewInvoiceBloc>().add(DateSelected(date: date));
-            },
-            decoration: InputDecoration(labelText: "Date"),
-            validator: (date) {
-              if (context.read<NewInvoiceBloc>().state.date == null ||
-                  context.read<NewInvoiceBloc>().state.date != date) {
-                return "please select a date";
-              }
-            },
-          )
-          // TextFormField(
-          //   focusNode: _dateFocusNode,
-          //   textInputAction: TextInputAction.done,
-          //   controller: _dateController,
-          //   keyboardType: TextInputType.datetime,
-          //   decoration: InputDecoration(
-          //       constraints: BoxConstraints(maxHeight: 60),
-          //       prefixText: "Date : ",
-          //       suffix: IconButton(
-          //         padding: EdgeInsets.all(2),
-          //         icon: Icon(Icons.calendar_today_outlined),
-          //         onPressed: () async {
-          //           final dated = await showDatePicker(
-          //             context: context,
-          //             firstDate: widget.today.subtract(Duration(days: 31)),
-          //             initialDate: widget.today,
-          //             lastDate: widget.today.add(Duration(days: 31)),
-          //           );
-          //           if (dated != null) {
-          //             context
-          //                 .read<NewInvoiceBloc>()
-          //                 .add(DateSelected(date: dated));
-          //             date = dated;
-          //           }
-          //         },
-          //       )),
-          // )
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -292,12 +268,14 @@ class AddProductContent extends StatelessWidget {
     BuildContext pContext,
   ) {
     showDialog(
+        barrierDismissible: false,
         context: pContext,
         builder: (context) {
           return BlocProvider<NewInvoiceBloc>.value(
               value: bloc,
               child: AddProductDialog(
-                  dialogContext: context, parentContext: pContext));
+                newInvoiceBloc: pContext.read<NewInvoiceBloc>(),
+              ));
         });
   }
 }

@@ -1,32 +1,29 @@
 import 'package:flutter/material.dart';
 
 final theme = ThemeData(
-    primaryColorDark: const Color(0xFF446418),
-    primaryColorLight: const Color(0xFFc6e686),
-    primaryColor: const Color(0xFF96b753),
-    scaffoldBackgroundColor: const Color(0xFFE0F2F1),
-    appBarTheme: AppBarTheme(
-        backgroundColor: const Color(0xFFE0F2F1),
-        titleTextStyle: TextStyle(
-            fontSize: 24,
-            color: const Color(0xFFc6e686),
-            fontWeight: FontWeight.bold)),
-    inputDecorationTheme: InputDecorationTheme(
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
+  primaryColor: const Color(0xFF96b753),
+  colorScheme: ColorScheme(
+    primary: const Color(0xFF96b753),
+    primaryVariant: const Color(0xFF446418),
+    secondary: const Color(0xFF558B6E),
+    secondaryVariant: const Color(0xFF9AC1AC),
+    surface: const Color(0xFF9AC1AC),
+    background: Colors.white,
+    error: Colors.red,
+    onPrimary: Colors.white,
+    onSecondary: Colors.white,
+    onSurface: Colors.black,
+    onBackground: Colors.black,
+    onError: Colors.black,
+    brightness: Brightness.light,
+  ),
+  inputDecorationTheme: InputDecorationTheme(
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(8),
     ),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ButtonStyle(
-      backgroundColor: MaterialStateProperty.all(Color(0xFF446418)),
-    )),
-    outlinedButtonTheme: OutlinedButtonThemeData(
-        style: ButtonStyle(
-            foregroundColor: MaterialStateProperty.all(Color(0xFF446418)))),
-    textTheme: TextTheme(
-        headline1: TextStyle(
-            fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
-        headline2: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: const Color(0xFF446418))));
+  ),
+  appBarTheme: AppBarTheme(
+    backgroundColor: Colors.white,
+    foregroundColor: const Color(0xFF446418),
+  ),
+);

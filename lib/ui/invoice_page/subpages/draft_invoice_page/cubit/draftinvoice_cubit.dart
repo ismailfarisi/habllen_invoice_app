@@ -12,10 +12,12 @@ class DraftinvoiceCubit extends Cubit<DraftinvoiceState> {
 
   void postInvoice(Invoice invoice) async {
     emit(state.copyWith(status: Status.loading));
-    final String id = await repository.createInvoice(invoice);
-    if (id != null) {
+    try {
+      await repository.createInvoice(invoice);
+
       emit(state.copyWith(status: Status.success));
-    } else
+    } on Exception {
       emit(state.copyWith(status: Status.failure));
+    }
   }
 }

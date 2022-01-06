@@ -9,8 +9,6 @@ class ExpensePage extends StatelessWidget {
         onPressed: () {
           addExpenseDialog(context);
         },
-        backgroundColor: Theme.of(context).primaryColor,
-        foregroundColor: Colors.white,
         child: Icon(Icons.add),
       ),
       body: Padding(
@@ -37,10 +35,8 @@ class ExpensePage extends StatelessWidget {
                     ),
                     Text(
                       "\$6576",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline5
-                          ?.copyWith(color: Colors.blue),
+                      style: Theme.of(context).textTheme.headline5?.copyWith(
+                          color: Theme.of(context).colorScheme.secondary),
                     ),
                   ],
                 ),
@@ -49,7 +45,6 @@ class ExpensePage extends StatelessWidget {
                 ),
                 Card(
                   elevation: 0,
-                  color: Theme.of(context).primaryColor,
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Row(children: [

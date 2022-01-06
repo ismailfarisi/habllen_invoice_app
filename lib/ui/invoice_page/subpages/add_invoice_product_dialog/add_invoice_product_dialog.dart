@@ -1,133 +1,134 @@
 import 'package:flutter/material.dart';
-import 'package:habllen/model/invoice_product.dart';
+import 'package:formz/formz.dart';
+import 'package:go_router/go_router.dart';
 import 'package:habllen/model/product.dart';
-import 'package:habllen/ui/invoice_page/subpages/new_invoice_page/cubit/new_invoice_Bloc.dart';
+import 'package:habllen/repository/repository.dart';
+import 'package:habllen/ui/invoice_page/subpages/add_invoice_product_dialog/bloc/addinvoiceproductform_bloc.dart';
+import 'package:habllen/ui/invoice_page/subpages/new_invoice_page/bloc/new_invoice_Bloc.dart';
 import 'package:habllen/shared/widgets/custom_autocomplete.dart';
 import 'package:habllen/shared/widgets/text_field_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habllen/shared/utils/formz_extension.dart';
 
-class AddProductDialog extends StatefulWidget {
-  AddProductDialog({
-    Key? key,
-    required this.dialogContext,
-    required this.parentContext,
-  }) : super(key: key);
+class AddProductDialog extends StatelessWidget {
+  AddProductDialog({Key? key, required this.newInvoiceBloc}) : super(key: key);
 
-  final BuildContext dialogContext;
-  final BuildContext parentContext;
-  late final Product? product;
+  final NewInvoiceBloc newInvoiceBloc;
 
   @override
-  State<AddProductDialog> createState() => _AddProductDialogState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => AddinvoiceproductformBloc(
+          repository: context.read<Repository>(),
+          newInvoiceBloc: newInvoiceBloc),
+      child: AddProductForm(),
+    );
+  }
+}
+
+class AddProductForm extends StatefulWidget {
+  @override
+  State<AddProductForm> createState() => _AddProductFormState();
 }
 
 typedef SelectedProduct = Product Function(Product);
 
-class _AddProductDialogState extends State<AddProductDialog> {
-  final GlobalKey _formKey = GlobalKey<FormState>();
+class _AddProductFormState extends State<AddProductForm> {
+  late final TextEditingController _productController;
   late final TextEditingController _priceController;
-  late final TextEditingController _quantityController;
-  late final NewInvoiceBloc bloc;
-  late final FocusNode _productFocusNode;
-  late final FocusNode _priceFocusNode;
+  final FocusNode _productFocusNode = FocusNode();
+  final FocusNode _priceFocusNode = FocusNode();
+  final FocusNode _quantityFocusNode = FocusNode();
 
   @override
   void initState() {
-    _productFocusNode = FocusNode();
-    _priceFocusNode = FocusNode();
+    _productFocusNode.addListener(_productFocusListener);
+    _quantityFocusNode.onUnFocused(context, QuantityUnFocused());
+    _priceFocusNode.onUnFocused(context, PriceUnFocused());
+    _productController = TextEditingController();
     _priceController = TextEditingController();
-    _quantityController = TextEditingController();
+
     super.initState();
-    bloc = context.read()..add(FetchProducts());
   }
 
   @override
   void dispose() {
     _priceFocusNode.dispose();
-    _priceFocusNode.dispose();
+    _productFocusNode.dispose();
+    _quantityFocusNode.dispose();
+    _productController.dispose();
     _priceController.dispose();
-    _quantityController.dispose();
+
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<NewInvoiceBloc, ScreenStage>(
+    return BlocConsumer<AddinvoiceproductformBloc, AddinvoiceproductformState>(
       listener: (context, state) {
-        Navigator.pop(context);
+        context.pop();
       },
-      listenWhen: (previousState, currentState) {
-        return (currentState.invoiceProductList.length ==
-            previousState.invoiceProductList.length + 1);
-      },
-      bloc: bloc,
+      listenWhen: (previousState, currentState) =>
+          currentState.status == FormzStatus.submissionSuccess,
       builder: (context, state) {
-        List<Product> _productList = state.productList;
+        _priceController.text = state.price.value.toString();
         return AlertDialog(
             title: Text("Add Product"),
             actions: [
               TextButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    context.pop();
                   },
                   child: Text("Cancel")),
               ElevatedButton(
                   onPressed: () {
-                    assert(widget.product != null, "product null");
-                    if (widget.product != null) {
-                      final InvoiceProduct invoiceProduct = InvoiceProduct(
-                          product: widget.product!,
-                          price: double?.parse(_priceController.text),
-                          quantity: double.parse(_quantityController.text));
-                      print(invoiceProduct);
-                      bloc.add(ProductAddedToInvoice(
-                          invoiceProduct: invoiceProduct));
-                    }
+                    context.read<AddinvoiceproductformBloc>().add(Submitted());
                   },
                   child: Text("Add"))
             ],
             content: Form(
-              key: _formKey,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   CustomAutoComplete<Product>(
+                    controller: _productController,
                     focusNode: _productFocusNode,
                     textInputAction: TextInputAction.next,
-                    options: _productList,
+                    options: state.productList,
                     labelText: "Product",
+                    errorText: state.product.validation(),
+                    optionState:
+                        (state.fetchStatus == ProductFetchStatus.loading)
+                            ? OptionState.loading
+                            : OptionState.loaded,
                     displayStringForOption: (option) => option.name,
                     onSelected: (product) {
-                      widget.product = product;
-                      _priceController.text = product.price.toString();
-                      _priceFocusNode.nextFocus();
+                      context
+                          .read<AddinvoiceproductformBloc>()
+                          .add(ProductSelected(product));
                     },
                   ),
                   CustomTextField(
-                    validator: (value) {},
                     focusNode: _priceFocusNode,
-                    controller: _priceController,
                     helperText: "Price",
+                    controller: _priceController,
+                    errorText: state.price.validation(),
                     keyboardType: TextInputType.numberWithOptions(),
                     textInputAction: TextInputAction.next,
+                    onChanged: (price) => context
+                        .read<AddinvoiceproductformBloc>()
+                        .add(PriceChanged(price)),
                     onSubmitted: () {
                       _productFocusNode.nextFocus();
                     },
                   ),
                   CustomTextField(
-                    validator: (value) {
-                      if (value != null) {
-                        final doubleValue = double.parse(value);
-                        if (doubleValue != 0 &&
-                            doubleValue <= widget.product!.currentStock) {
-                          return null;
-                        }
-                        return "Available stock is only ${widget.product}";
-                      }
-                      return "Enter a valid value";
-                    },
-                    controller: _quantityController,
+                    focusNode: _quantityFocusNode,
+                    errorText: state.quantity.validation(),
                     helperText: "Quantity",
+                    onChanged: (quantity) => context
+                        .read<AddinvoiceproductformBloc>()
+                        .add(QuantityChanged(quantity)),
                     keyboardType: TextInputType.numberWithOptions(),
                   ),
                 ],
@@ -135,5 +136,24 @@ class _AddProductDialogState extends State<AddProductDialog> {
             ));
       },
     );
+  }
+
+  void _productFocusListener() {
+    if (_productFocusNode.hasFocus) {
+      context.read<AddinvoiceproductformBloc>().add(ProductFocused());
+    }
+    if (!_productFocusNode.hasFocus) {
+      context.read<AddinvoiceproductformBloc>().add(ProductUnFocused());
+    }
+  }
+}
+
+extension on FocusNode {
+  void onUnFocused(BuildContext context, AddinvoiceproductformEvent event) {
+    addListener(() {
+      if (!hasFocus) {
+        context.read<AddinvoiceproductformBloc>().add(event);
+      }
+    });
   }
 }

@@ -33,4 +33,10 @@ class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
     _connectionStatus = result;
   }
+
+  @override
+  Future<void> close() {
+    _connectivitySubscription.cancel();
+    return super.close();
+  }
 }

@@ -1,11 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:habllen/repository/repository.dart';
-import 'package:habllen/repository/repositoryimpl.dart';
-import 'package:habllen/theme.dart';
 import 'package:habllen/ui/customer_page/customer_page.dart';
-import 'package:habllen/ui/expense_page/expense_page.dart';
 import 'package:habllen/ui/home/bloc/hometab_bloc.dart';
 import 'package:habllen/ui/invoice_page/sales_page.dart';
 import 'package:habllen/ui/settings_page/settings_page.dart';
@@ -23,25 +19,18 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final bloc = context.watch<HometabBloc>();
-    return
-        //  RepositoryProvider<Repository>.value(
-        //   value: widget.repository,
-        //   child:
-        Scaffold(
+    return Scaffold(
       body: SwitchBody(bloc.state.currentIndex),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.business),
             label: "Invoice",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.note),
-            label: "Expense",
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.account_balance),
-            label: "Finance",
+            label: "Companies",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
@@ -49,8 +38,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
         currentIndex: bloc.state.currentIndex,
-        selectedItemColor: theme.primaryColor,
-        unselectedItemColor: Colors.grey,
         onTap: (index) => bloc.add(TabChanged(index)),
       ),
       // ),
@@ -66,11 +53,10 @@ class SwitchBody extends StatelessWidget {
     switch (selectedIndex) {
       case 0:
         return InvoiceBody();
+
       case 1:
-        return ExpensePage();
-      case 2:
         return CustomerPage();
-      case 3:
+      case 2:
         return SettingsPage();
       default:
         return InvoiceBody();

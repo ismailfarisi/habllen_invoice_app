@@ -6,6 +6,7 @@ import 'package:habllen/ui/invoice_page/subpages/invoice_detail_page/invoice_det
 import 'package:habllen/ui/invoice_page/subpages/new_invoice_page/new_invoice_page.dart';
 import 'package:habllen/ui/invoice_page/subpages/view_pdf_page/view_pdf_page.dart';
 import 'package:habllen/ui/login_page/login_page.dart';
+import 'package:habllen/ui/settings_page/sub_pages/products_page/products_page.dart';
 
 import 'bloc/auth/authentication_bloc.dart';
 
@@ -60,17 +61,22 @@ class Routes {
         path: "create_new_invoice_page",
         name: "create_invoice_page",
         builder: (context, state) {
-          return NewInvoicePage();
+          return NewInvoicePage(
+            key: state.pageKey,
+          );
         },
         routes: [
           GoRoute(
               path: "draft_invoice_page/:invoice_no",
               name: "draft_invoice_page",
               builder: (context, state) {
-                // final invoice = context.read<NewInvoiceBloc>().state.invoice;
                 final Invoice invoice = state.extra as Invoice;
                 return DraftInvoicePage(invoice: invoice);
               })
-        ])
+        ]),
+    GoRoute(
+        path: "product_list_page",
+        name: "product_list_page",
+        builder: (context, state) => ProductsPage())
   ];
 }

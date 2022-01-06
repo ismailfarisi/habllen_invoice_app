@@ -1,5 +1,7 @@
+// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'result.dart';
 
@@ -46,6 +48,13 @@ mixin _$Result<L, E> {
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(L value)? value,
+    TResult Function(E value)? error,
+    TResult Function()? none,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(L value)? value,
     TResult Function(E value)? error,
@@ -58,6 +67,13 @@ mixin _$Result<L, E> {
     required TResult Function(_Data<L, E> value) value,
     required TResult Function(_Error<L, E> value) error,
     required TResult Function(_None<L, E> value) none,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Data<L, E> value)? value,
+    TResult Function(_Error<L, E> value)? error,
+    TResult Function(_None<L, E> value)? none,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -116,6 +132,7 @@ class __$DataCopyWithImpl<L, E, $Res> extends _$ResultCopyWithImpl<L, E, $Res>
 }
 
 /// @nodoc
+
 class _$_Data<L, E> implements _Data<L, E> {
   const _$_Data(this.value);
 
@@ -130,14 +147,14 @@ class _$_Data<L, E> implements _Data<L, E> {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Data<L, E> &&
-            (identical(other.value, value) ||
-                const DeepCollectionEquality().equals(other.value, value)));
+        (other.runtimeType == runtimeType &&
+            other is _Data<L, E> &&
+            const DeepCollectionEquality().equals(other.value, value));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(value);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(value));
 
   @JsonKey(ignore: true)
   @override
@@ -152,6 +169,16 @@ class _$_Data<L, E> implements _Data<L, E> {
     required TResult Function() none,
   }) {
     return value(this.value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(L value)? value,
+    TResult Function(E value)? error,
+    TResult Function()? none,
+  }) {
+    return value?.call(this.value);
   }
 
   @override
@@ -180,6 +207,16 @@ class _$_Data<L, E> implements _Data<L, E> {
 
   @override
   @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Data<L, E> value)? value,
+    TResult Function(_Error<L, E> value)? error,
+    TResult Function(_None<L, E> value)? none,
+  }) {
+    return value?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Data<L, E> value)? value,
     TResult Function(_Error<L, E> value)? error,
@@ -196,7 +233,7 @@ class _$_Data<L, E> implements _Data<L, E> {
 abstract class _Data<L, E> implements Result<L, E> {
   const factory _Data(L value) = _$_Data<L, E>;
 
-  L get value => throw _privateConstructorUsedError;
+  L get value;
   @JsonKey(ignore: true)
   _$DataCopyWith<L, E, _Data<L, E>> get copyWith =>
       throw _privateConstructorUsedError;
@@ -233,6 +270,7 @@ class __$ErrorCopyWithImpl<L, E, $Res> extends _$ResultCopyWithImpl<L, E, $Res>
 }
 
 /// @nodoc
+
 class _$_Error<L, E> implements _Error<L, E> {
   const _$_Error(this.value);
 
@@ -247,14 +285,14 @@ class _$_Error<L, E> implements _Error<L, E> {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Error<L, E> &&
-            (identical(other.value, value) ||
-                const DeepCollectionEquality().equals(other.value, value)));
+        (other.runtimeType == runtimeType &&
+            other is _Error<L, E> &&
+            const DeepCollectionEquality().equals(other.value, value));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(value);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(value));
 
   @JsonKey(ignore: true)
   @override
@@ -269,6 +307,16 @@ class _$_Error<L, E> implements _Error<L, E> {
     required TResult Function() none,
   }) {
     return error(this.value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(L value)? value,
+    TResult Function(E value)? error,
+    TResult Function()? none,
+  }) {
+    return error?.call(this.value);
   }
 
   @override
@@ -297,6 +345,16 @@ class _$_Error<L, E> implements _Error<L, E> {
 
   @override
   @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Data<L, E> value)? value,
+    TResult Function(_Error<L, E> value)? error,
+    TResult Function(_None<L, E> value)? none,
+  }) {
+    return error?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Data<L, E> value)? value,
     TResult Function(_Error<L, E> value)? error,
@@ -313,7 +371,7 @@ class _$_Error<L, E> implements _Error<L, E> {
 abstract class _Error<L, E> implements Result<L, E> {
   const factory _Error(E value) = _$_Error<L, E>;
 
-  E get value => throw _privateConstructorUsedError;
+  E get value;
   @JsonKey(ignore: true)
   _$ErrorCopyWith<L, E, _Error<L, E>> get copyWith =>
       throw _privateConstructorUsedError;
@@ -336,6 +394,7 @@ class __$NoneCopyWithImpl<L, E, $Res> extends _$ResultCopyWithImpl<L, E, $Res>
 }
 
 /// @nodoc
+
 class _$_None<L, E> implements _None<L, E> {
   const _$_None();
 
@@ -346,7 +405,8 @@ class _$_None<L, E> implements _None<L, E> {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is _None<L, E>);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _None<L, E>);
   }
 
   @override
@@ -360,6 +420,16 @@ class _$_None<L, E> implements _None<L, E> {
     required TResult Function() none,
   }) {
     return none();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(L value)? value,
+    TResult Function(E value)? error,
+    TResult Function()? none,
+  }) {
+    return none?.call();
   }
 
   @override
@@ -384,6 +454,16 @@ class _$_None<L, E> implements _None<L, E> {
     required TResult Function(_None<L, E> value) none,
   }) {
     return none(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Data<L, E> value)? value,
+    TResult Function(_Error<L, E> value)? error,
+    TResult Function(_None<L, E> value)? none,
+  }) {
+    return none?.call(this);
   }
 
   @override

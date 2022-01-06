@@ -43,10 +43,6 @@ class MyPDFView extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         } else {
-          // return PDFView(
-          //   pdfData: state.pdfData,
-          //   swipeHorizontal: true,
-          // );
           return PdfPreview(
             build: (format) => state.pdfData!,
             canChangeOrientation: false,

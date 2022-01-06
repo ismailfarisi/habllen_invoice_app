@@ -1,8 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
-import 'package:googleapis/drive/v3.dart' as drive;
-import 'package:googleapis/sheets/v4.dart' as sheets;
 
 import 'model/auth_failure.dart';
 import 'model/models.dart';
@@ -15,9 +13,6 @@ class AuthenticationRepository {
   })  : _googleSignIn = googleSignIn ??
             GoogleSignIn.standard(scopes: [
               'email',
-              'https://www.googleapis.com/auth/contacts.readonly',
-              drive.DriveApi.driveScope,
-              sheets.SheetsApi.spreadsheetsScope
             ]),
         _auth = firebaseAuth ?? firebase_auth.FirebaseAuth.instance;
 
@@ -69,16 +64,6 @@ class AuthenticationRepository {
     } on Exception {
       print("logout error");
     }
-  }
-
-  Future<Map<String, String>> get authHeaders async {
-    assert(_auth.currentUser != null, "auth user value null ..");
-    bool isGoogleSignedIN = await _googleSignIn.isSignedIn();
-
-    await _googleSignIn.signInSilently();
-    print("$isGoogleSignedIN, ");
-    assert(_googleSignIn.currentUser != null, "google user value null ..");
-    return await _googleSignIn.currentUser!.authHeaders;
   }
 
   Stream<User> get user {
