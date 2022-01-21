@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:habllen/model/invoice.dart';
+import 'package:habllen/ui/customer_page/subpages/customer_detail_page/customer_detail_page.dart';
 import 'package:habllen/ui/home/home.dart';
 import 'package:habllen/ui/invoice_page/subpages/draft_invoice_page/draft_invoice_page.dart';
 import 'package:habllen/ui/invoice_page/subpages/invoice_detail_page/invoice_detail_page.dart';
@@ -77,6 +78,10 @@ class Routes {
     GoRoute(
         path: "product_list_page",
         name: "product_list_page",
-        builder: (context, state) => ProductsPage())
+        builder: (context, state) => ProductsPage()),
+    GoRoute(
+        path: "customer_detail_page",
+        name: "customer_detail_page",
+        builder: (context, state) => CustomerDetailPage()),
   ];
 }

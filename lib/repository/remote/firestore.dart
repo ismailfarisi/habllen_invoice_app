@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habllen/model/company.dart';
 import 'package:habllen/model/invoice.dart';
 import 'package:habllen/model/product.dart';
@@ -26,7 +25,7 @@ class FirebaseRepository {
     try {
       final ref = firestore.collection("customers").doc();
       final id = ref.id;
-      final result = await ref.set(customer.toJson(id: id));
+      final result = await ref.set(customer.copyWith(id: id).toJson());
       return Result.success(result);
     } on PlatformException catch (e) {
       return Result.error(e);
@@ -57,8 +56,9 @@ class FirebaseRepository {
 
   Future<Result<void>> addProduct(Product product) async {
     try {
-      final result =
-          await firestore.collection("products").add(product.toJson());
+      final ref = firestore.collection("products").doc();
+      final id = ref.id;
+      final result = ref.set(product.copyWith(id: id).toJson());
       return Result.success(result);
     } on PlatformException catch (e) {
       return Result.error(e);
@@ -67,8 +67,20 @@ class FirebaseRepository {
 
   Future<Result<void>> updateProduct(Product product) async {
     try {
+      final result = await firestore
+          .collection("products")
+          .doc(product.id)
+          .set(product.toJson());
+      return Result.success(result);
+    } on PlatformException catch (e) {
+      return Result.error(e);
+    }
+  }
+
+  Future<Result<void>> deleteProduct(Product product) async {
+    try {
       final result =
-          await firestore.collection("products").add(product.toJson());
+          await firestore.collection("product").doc(product.id).delete();
       return Result.success(result);
     } on PlatformException catch (e) {
       return Result.error(e);

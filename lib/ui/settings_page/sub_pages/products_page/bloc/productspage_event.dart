@@ -6,3 +6,10 @@ class ProductsPageEvent extends Equatable {
 }
 
 class FetchProducts extends ProductsPageEvent {}
+
+class DeleteProduct extends ProductsPageEvent {
+  final Product product;
+  final int index;
+
+  DeleteProduct({required this.product, required this.index});
+}

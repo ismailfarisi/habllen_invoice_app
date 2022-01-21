@@ -11,11 +11,10 @@ part 'productspage_event.dart';
 class ProductspageBloc extends Bloc<ProductsPageEvent, ProductspageState> {
   ProductspageBloc({required this.repository}) : super(ProductspageState()) {
     on<FetchProducts>(_onFetchProducts);
+    on<DeleteProduct>(_onDeleteProduct);
   }
 
   final Repository repository;
-
-  getProducts() async {}
 
   FutureOr<void> _onFetchProducts(
       FetchProducts event, Emitter<ProductspageState> emit) async {
@@ -27,5 +26,10 @@ class ProductspageBloc extends Bloc<ProductsPageEvent, ProductspageState> {
         error: (e) => emit(state.copyWith(fetchProductStatus: Status.failed)),
       );
     } on Exception {}
+  }
+
+  FutureOr<void> _onDeleteProduct(
+      DeleteProduct event, Emitter<ProductspageState> emit) async {
+    final result = await repository.deleteProduct(event.product);
   }
 }

@@ -76,13 +76,13 @@ class SearchTextField extends StatefulWidget {
 
 class _SearchTextFieldState extends State<SearchTextField> {
   late TextEditingController _controller;
-  late InvoiceBloc driveBloc;
+  late InvoiceBloc invoiceBloc;
   late FocusNode _focusNode;
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController();
-    driveBloc = context.read<InvoiceBloc>();
+    invoiceBloc = context.read<InvoiceBloc>();
     _focusNode = FocusNode();
     _focusNode.addListener(() {
       setState(() {
@@ -109,7 +109,7 @@ class _SearchTextFieldState extends State<SearchTextField> {
           child: TextField(
             focusNode: _focusNode,
             onChanged: (string) {
-              driveBloc.add(KeywordChanged(string));
+              invoiceBloc.add(KeywordChanged(string));
             },
             controller: _controller,
             decoration:
@@ -122,6 +122,7 @@ class _SearchTextFieldState extends State<SearchTextField> {
               onPressed: () {
                 _controller.clear();
                 _focusNode.unfocus();
+                invoiceBloc.add(KeywordChanged(_controller.text));
               },
               icon: Icon(Icons.cancel)),
       ]),
@@ -136,7 +137,7 @@ class ListDetails extends StatefulWidget {
 }
 
 class _ListDetailsState extends State<ListDetails> {
-  late InvoiceBloc listData;
+  late InvoiceBloc invoiceBloc;
   final _scrollController = ScrollController();
   @override
   void initState() {
@@ -146,24 +147,29 @@ class _ListDetailsState extends State<ListDetails> {
 
   @override
   Widget build(BuildContext context) {
-    listData = context.watch<InvoiceBloc>();
-    return ListView.builder(
-      itemBuilder: (context, index) {
-        return index >= listData.state.listdata.length
-            ? BottomLoader()
-            : InvoiceListItem(invoice: listData.state.listdata[index]);
+    invoiceBloc = context.watch<InvoiceBloc>();
+    return RefreshIndicator(
+      onRefresh: () async {
+        context.read<InvoiceBloc>().add(FilesFetched());
       },
-      itemCount: listData.state.hasReachedMax
-          ? listData.state.listdata.length
-          : listData.state.listdata.length + 1,
-      controller: _scrollController,
+      child: ListView.builder(
+        itemBuilder: (context, index) {
+          return index >= invoiceBloc.state.listdata.length
+              ? BottomLoader()
+              : InvoiceListItem(invoice: invoiceBloc.state.listdata[index]);
+        },
+        itemCount: invoiceBloc.state.hasReachedMax
+            ? invoiceBloc.state.listdata.length
+            : invoiceBloc.state.listdata.length + 1,
+        controller: _scrollController,
+      ),
     );
   }
 
   void _onScroll() {
     print("is bottom : $_isBottom");
     if (_isBottom) {
-      listData.add(FilesFetched());
+      invoiceBloc.add(FilesFetched());
     }
   }
 

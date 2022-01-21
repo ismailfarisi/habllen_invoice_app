@@ -14,55 +14,67 @@ class InvoiceDetailPage extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
       ),
-      persistentFooterButtons: [
-        SizedBox(
-          height: 60,
-          child: Row(children: [
-            Expanded(
-              child: TextButton(
-                  onPressed: () {
-                    context.goNamed("pdf_page",
-                        extra: invoice,
-                        params: {"invoice_no": invoice.invoiceNo.toString()});
-                  },
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(
-                        "assets/pdf_icon.png",
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      Text("Create PDF")
-                    ],
-                  )),
-            ),
-            Expanded(
-              child: TextButton(
-                  onPressed: () {},
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [Icon(Icons.edit), Text("Edit Invoice")],
-                  )),
-            )
-          ]),
-        )
-      ],
       body: LayoutBuilder(
-        builder: (context, constraints) => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 10,
-              ),
-              Text(
+        builder: (context, constraints) => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
                 "Invoice",
                 style: Theme.of(context).textTheme.headline4,
               ),
-              Expanded(child: InvoiceViewWidget(invoice: invoice))
-            ],
-          ),
+            ),
+            Expanded(
+                child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: InvoiceViewWidget(invoice: invoice),
+            )),
+            Container(
+              color: Theme.of(context)
+                  .colorScheme
+                  .copyWith(surface: Colors.white)
+                  .surface,
+              height: 55,
+              child:
+                  Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Expanded(
+                  child: TextButton(
+                      onPressed: () {
+                        context.goNamed("pdf_page", extra: invoice, params: {
+                          "invoice_no": invoice.invoiceNo.toString()
+                        });
+                      },
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Expanded(
+                            child: Image.asset(
+                              "assets/pdf_icon.png",
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
+                          Expanded(child: Text("Create PDF"))
+                        ],
+                      )),
+                ),
+                Expanded(
+                  child: TextButton(
+                      onPressed: () {},
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Expanded(child: Icon(Icons.edit)),
+                          Expanded(child: Text("Edit Invoice"))
+                        ],
+                      )),
+                )
+              ]),
+            )
+          ],
         ),
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habllen/app/bloc/theme/theme_bloc.dart';
 import 'package:habllen/repository/repository.dart';
 import 'package:habllen/theme.dart';
 import 'package:habllen/ui/home/bloc/hometab_bloc.dart';
@@ -30,6 +31,7 @@ class App extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
+          BlocProvider(create: (_) => ThemeBloc()),
           BlocProvider(
             create: (_) => AuthenticationBloc(
                 authenticationRepository: authenticationRepository),
@@ -52,6 +54,12 @@ class AppView extends StatefulWidget {
 
 class _AppViewState extends State<AppView> {
   @override
+  void initState() {
+    context.read<ThemeBloc>().add(ThemeEvent.started());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final route = routes(context.watch<AuthenticationBloc>());
     return Listener(
@@ -64,12 +72,13 @@ class _AppViewState extends State<AppView> {
             }
           }
         },
-        child: BlocProvider.value(
-          value: BlocProvider.of<AuthenticationBloc>(context),
-          child: MaterialApp.router(
+        child: BlocBuilder<ThemeBloc, ThemeState>(
+          builder: (context, state) => MaterialApp.router(
             routeInformationParser: route.routeInformationParser,
             routerDelegate: route.routerDelegate,
-            theme: theme,
+            theme: lightTheme,
+            darkTheme: darkTheme,
+            themeMode: state.themeMode,
           ),
         ));
   }

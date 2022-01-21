@@ -15,4 +15,5 @@ abstract class Repository {
   Future<Result<int>> getLastInvoiceNo();
   Future<Result<void>> createInvoice(Invoice invoice);
   Future<Result<void>> deleteCustomer(Company customer);
+  Future<Result<void>> deleteProduct(Product product);
 }

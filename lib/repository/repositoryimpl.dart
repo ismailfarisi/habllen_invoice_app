@@ -45,4 +45,8 @@ class RepositoryImpl extends Repository {
   @override
   Future<Result<void>> deleteCustomer(Company customer) =>
       _firebaseRepository.deleteCustomer(customer);
+
+  @override
+  Future<Result<void>> deleteProduct(Product product) =>
+      _firebaseRepository.deleteProduct(product);
 }

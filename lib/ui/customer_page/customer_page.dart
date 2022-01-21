@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:go_router/go_router.dart';
 import 'package:habllen/repository/repository.dart';
 import 'package:habllen/ui/customer_page/subpages/add_customer_dialog/add_customer_form.dart';
 
@@ -54,12 +55,17 @@ class ScaffoldBody extends StatelessWidget {
                   label: 'Edit',
                 ),
               ]),
-              child: Card(
-                  elevation: 0,
-                  child: ListTile(
-                    title: Text(customer.name),
-                    subtitle: Text(customer.addressOne),
-                  )),
+              child: InkWell(
+                onTap: () {
+                  context.pushNamed("customer_detail_page");
+                },
+                child: Card(
+                    elevation: 0,
+                    child: ListTile(
+                      title: Text(customer.name),
+                      subtitle: Text(customer.addressOne),
+                    )),
+              ),
             );
           },
           itemCount: state.customerList.length,

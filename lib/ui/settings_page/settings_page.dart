@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:habllen/app/bloc/auth/authentication_bloc.dart';
+import 'package:habllen/app/bloc/theme/theme_bloc.dart';
 import 'package:habllen/shared/widgets/my_card.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -18,6 +19,9 @@ class SettingsPage extends StatelessWidget {
           ),
           SliverList(
               delegate: SliverChildListDelegate.fixed([
+            SizedBox(
+              height: 10,
+            ),
             // Center(
             //   child: Column(
             //     children: [
@@ -47,6 +51,11 @@ class SettingsPage extends StatelessWidget {
             // SizedBox(
             //   height: 10,
             // ),
+            Card(
+                margin: EdgeInsets.symmetric(vertical: 1.0),
+                child: ListTile(
+                    title: Text("DarkMode"), trailing: StatefulSwitch())),
+
             MyCard(text: "Profile"),
             MyCard(text: "Create SubUser Account"),
             MyCard(text: "Change Password"),
@@ -72,6 +81,26 @@ class SettingsPage extends StatelessWidget {
           ]))
         ],
       ),
+    );
+  }
+}
+
+class StatefulSwitch extends StatefulWidget {
+  const StatefulSwitch({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<StatefulSwitch> createState() => _StatefulSwitchState();
+}
+
+class _StatefulSwitchState extends State<StatefulSwitch> {
+  @override
+  Widget build(BuildContext context) {
+    return Switch(
+      onChanged: (value) => context.read<ThemeBloc>().add(ThemeEvent.changed()),
+      value: context.select((ThemeBloc value) => value.state.themeMode) ==
+          ThemeMode.dark,
     );
   }
 }

@@ -25,11 +25,16 @@ class Company extends Equatable {
         addressTwo: json['addressTwo'],
         gst: json['gst']);
   }
-  Map<String, dynamic> toJson({String? id}) => _companyToJson(this, id);
+  Map<String, dynamic> toJson() => _companyToJson(this);
 
-  Company update(
-      {String? name, String? addressOne, String? addressTwo, String? gst}) {
+  Company copyWith(
+      {String? name,
+      String? addressOne,
+      String? addressTwo,
+      String? gst,
+      String? id}) {
     return Company(
+        id: id ?? this.id,
         name: name ?? this.name,
         addressOne: addressOne ?? this.addressOne,
         addressTwo: addressTwo ?? this.addressTwo,
@@ -37,9 +42,9 @@ class Company extends Equatable {
   }
 }
 
-Map<String, dynamic> _companyToJson(Company company, String? id) {
+Map<String, dynamic> _companyToJson(Company company) {
   return <String, dynamic>{
-    "id": id,
+    "id": company.id,
     "name": company.name.toLowerCase(),
     "addressOne": company.addressOne,
     "addressTwo": company.addressTwo,

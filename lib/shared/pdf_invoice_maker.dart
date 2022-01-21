@@ -31,11 +31,9 @@ class PdfInvoiceMaker {
           ])
       .toList();
   final pdf = w.Document();
-  bool get isIGST => checkIsIGST(company.gst);
   dynamic _header;
 
   Future<void> pdfPageBuilder() async {
-    calculateTax(invoiceDetails.price!, isIGST);
     _header = w.MemoryImage(
         (await rootBundle.load('assets/1.jpg')).buffer.asUint8List());
     final font = w.Font.ttf(await rootBundle.load("assets/Roboto-Regular.ttf"));
@@ -107,13 +105,10 @@ class PdfInvoiceMaker {
               child: w.Column(
                   crossAxisAlignment: w.CrossAxisAlignment.start,
                   children: [
-                    w.Text('Invoice#',
-                        style: w.TextStyle(
-                            fontSize: 12, fontWeight: w.FontWeight.bold)),
-                    w.Text('${invoiceDetails.invoiceNo}',
+                    w.Text('Invoice#: ${invoiceDetails.invoiceNo}',
                         style: w.TextStyle(fontSize: 10)),
                     w.SizedBox(height: 10),
-                    w.Text('${invoiceDetails.date.toDateString()}',
+                    w.Text('Date: ${invoiceDetails.date.toDateString()}',
                         style: w.TextStyle(
                             fontSize: 12, fontWeight: w.FontWeight.bold)),
                   ]))
@@ -238,17 +233,5 @@ class PdfInvoiceMaker {
                 ])),
       ])
     ]);
-  }
-
-  double calculateTax(double amount, bool isIGST) {
-    if (isIGST) {
-      return amount * 0.12;
-    } else {
-      return amount * 0.06;
-    }
-  }
-
-  bool checkIsIGST(String? companyGst) {
-    return (companyGst!.substring(1, 2) != "32") ? true : false;
   }
 }

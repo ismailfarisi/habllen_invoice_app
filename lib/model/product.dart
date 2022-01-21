@@ -1,7 +1,8 @@
 import 'package:equatable/equatable.dart';
 
 class Product extends Equatable {
-  final int? id;
+  final String? id;
+  final int? code;
   final String name;
   final double price;
   final String hsnCode;
@@ -9,6 +10,7 @@ class Product extends Equatable {
 
   Product({
     this.id,
+    this.code,
     required this.name,
     required this.price,
     required this.hsnCode,
@@ -16,11 +18,12 @@ class Product extends Equatable {
   });
 
   @override
-  List<Object?> get props => [id, name, price, hsnCode, currentStock];
+  List<Object?> get props => [id, name, price, hsnCode, currentStock, code];
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
         id: json["id"],
+        code: json["code"],
         price: json["price"],
         hsnCode: json["hsnCode"].toString().toUpperCase(),
         currentStock: json["currentStock"],
@@ -28,14 +31,16 @@ class Product extends Equatable {
   }
   Map<String, dynamic> toJson() => _productToJson(this);
 
-  Product update(
+  Product copyWith(
       {String? name,
       double? price,
       String? hsnCode,
       double? currentStock,
-      int? id}) {
+      int? code,
+      String? id}) {
     return Product(
         id: id ?? this.id,
+        code: code ?? this.code,
         name: name ?? this.name,
         price: price ?? this.price,
         hsnCode: hsnCode ?? this.hsnCode,
