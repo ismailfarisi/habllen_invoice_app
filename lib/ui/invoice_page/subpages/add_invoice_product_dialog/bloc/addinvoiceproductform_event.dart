@@ -7,7 +7,11 @@ class AddinvoiceproductformEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class FetchProducts extends AddinvoiceproductformEvent {}
+
 class Submitted extends AddinvoiceproductformEvent {}
+
+class InvoiceProductCreated extends AddinvoiceproductformEvent {}
 
 class ProductFocused extends AddinvoiceproductformEvent {}
 

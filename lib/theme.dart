@@ -8,7 +8,7 @@ final lightTheme = ThemeData(
       primaryVariant: const Color(0xFF446418),
       secondary: const Color(0xFF558B6E),
       secondaryVariant: const Color(0xFF9AC1AC),
-      surface: const Color(0xFF9AC1AC),
+      surface: Colors.white,
       background: Colors.white,
       error: Colors.red,
       onPrimary: Colors.white,
@@ -31,20 +31,7 @@ final lightTheme = ThemeData(
 final darkTheme = ThemeData(
     brightness: Brightness.dark,
     primaryColor: const Color(0xFF96b753),
-    colorScheme: ColorScheme(
-        primary: const Color(0xFF96b753),
-        primaryVariant: const Color(0xFF446418),
-        secondary: const Color(0xFF558B6E),
-        secondaryVariant: const Color(0xFF9AC1AC),
-        surface: const Color(0xFF9AC1AC),
-        background: Colors.white,
-        error: Colors.red,
-        onPrimary: Colors.white,
-        onSecondary: Colors.white,
-        onSurface: Colors.black,
-        onBackground: Colors.black,
-        onError: Colors.black,
-        brightness: Brightness.dark),
+    primarySwatch: Colors.teal,
     inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),

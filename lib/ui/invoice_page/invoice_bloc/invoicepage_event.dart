@@ -9,13 +9,4 @@ class InvoiceEvent extends Equatable {
 
 class FilesFetched extends InvoiceEvent {}
 
-class CreateNewInvoicwBtnPressed extends InvoiceEvent {}
-
-class KeywordChanged extends InvoiceEvent {
-  final String keyword;
-
-  const KeywordChanged(this.keyword);
-
-  @override
-  List<Object?> get props => [keyword];
-}
+class LoadMore extends InvoiceEvent {}

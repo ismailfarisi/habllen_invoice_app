@@ -1,4 +1,4 @@
-import 'package:authentication_repository/authentication_repository.dart';
+import 'package:habllen/repository/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habllen/app/bloc/theme/theme_bloc.dart';
@@ -6,6 +6,7 @@ import 'package:habllen/repository/repository.dart';
 import 'package:habllen/theme.dart';
 import 'package:habllen/ui/home/bloc/hometab_bloc.dart';
 import 'package:habllen/ui/invoice_page/invoice_bloc/invoicepage_bloc.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 import 'bloc/auth/authentication_bloc.dart';
 import 'route.dart';
@@ -22,6 +23,8 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authBloc =
+        AuthenticationBloc(authenticationRepository: authenticationRepository);
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider.value(
@@ -32,16 +35,17 @@ class App extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (_) => ThemeBloc()),
-          BlocProvider(
-            create: (_) => AuthenticationBloc(
-                authenticationRepository: authenticationRepository),
+          BlocProvider.value(
+            value: authBloc,
           ),
           BlocProvider(
             create: (context) => HometabBloc(),
           ),
-          BlocProvider(create: (_) => InvoiceBloc(repository: repository)),
         ],
-        child: AppView(),
+        child: RepositoryProvider(
+          create: (context) => Routes(authBloc, repository),
+          child: AppView(),
+        ),
       ),
     );
   }
@@ -61,7 +65,7 @@ class _AppViewState extends State<AppView> {
 
   @override
   Widget build(BuildContext context) {
-    final route = routes(context.watch<AuthenticationBloc>());
+    final route = context.read<Routes>().mainRoutes();
     return Listener(
         onPointerUp: (_) {
           {
@@ -73,12 +77,15 @@ class _AppViewState extends State<AppView> {
           }
         },
         child: BlocBuilder<ThemeBloc, ThemeState>(
-          builder: (context, state) => MaterialApp.router(
-            routeInformationParser: route.routeInformationParser,
-            routerDelegate: route.routerDelegate,
-            theme: lightTheme,
-            darkTheme: darkTheme,
-            themeMode: state.themeMode,
+          builder: (context, state) => GlobalLoaderOverlay(
+            child: MaterialApp.router(
+              routeInformationParser: route.routeInformationParser,
+              routerDelegate: route.routerDelegate,
+              theme: lightTheme,
+              darkTheme: darkTheme,
+              themeMode: state.themeMode,
+              debugShowCheckedModeBanner: false,
+            ),
           ),
         ));
   }

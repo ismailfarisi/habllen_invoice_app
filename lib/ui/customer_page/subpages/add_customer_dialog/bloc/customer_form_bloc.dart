@@ -12,8 +12,12 @@ part 'customer_form_state.dart';
 part 'customer_form_event.dart';
 
 class CustomerFormBloc extends Bloc<CustomerFormEvent, CustomerFormState> {
-  CustomerFormBloc({required this.repository, required this.customerBloc})
-      : super(CustomerFormState()) {
+  CustomerFormBloc(
+      {required this.repository,
+      required this.customerBloc,
+      Customer? customer})
+      : super(CustomerFormState(company: customer)) {
+    on<CustomerFormEventInitialize>(_onCustomerFormEventInitialize);
     on<NameChanged>(_onNameChanged);
     on<AddressOneChanged>(_onAddressOneChanged);
     on<AddressTwoChanged>(_onAddressTwoChanged);
@@ -26,9 +30,12 @@ class CustomerFormBloc extends Bloc<CustomerFormEvent, CustomerFormState> {
     on<GstUnFocused>(_onGstUnfocused);
 
     on<Submitted>(_onSubmitted);
+    if (customer != null) {
+      add(CustomerFormEventInitialize(customer: customer));
+    }
   }
   final Repository repository;
-  final CustomerBloc customerBloc;
+  final CustomerBloc? customerBloc;
 
   FutureOr<void> _onSubmitted(
       Submitted event, Emitter<CustomerFormState> emit) async {
@@ -45,14 +52,15 @@ class CustomerFormBloc extends Bloc<CustomerFormEvent, CustomerFormState> {
           addressTwo: addressTwo,
           gst: gst));
       try {
-        final Company company = Company(
+        final Customer company = Customer(
             name: name.value,
             addressOne: addressOne.value,
             gst: gst.value,
             addressTwo: addressTwo.value);
         await repository.addCustomer(company);
-        emit(state.copyWith(status: FormzStatus.submissionSuccess));
-        customerBloc.add(Started());
+        emit(state.copyWith(
+            status: FormzStatus.submissionSuccess, company: company));
+        if (customerBloc != null) customerBloc!.add(Started());
       } on Exception catch (e) {
         print(e);
         emit(state.copyWith(status: FormzStatus.submissionFailure));
@@ -133,5 +141,15 @@ class CustomerFormBloc extends Bloc<CustomerFormEvent, CustomerFormState> {
         name: name.valid ? name : CompanyName.pure(event.name),
         status: Formz.validate(
             [name, state.addressOne, state.addressTwo, state.gst])));
+  }
+
+  FutureOr<void> _onCustomerFormEventInitialize(
+      CustomerFormEventInitialize event, Emitter<CustomerFormState> emit) {
+    emit(state.copyWith(
+        name: CompanyName.pure(event.customer.name),
+        addressOne: Address.pure(event.customer.addressOne),
+        addressTwo: Address.pure(event.customer.addressTwo ?? ''),
+        gst: Gst.pure(event.customer.gst),
+        status: FormzStatus.pure));
   }
 }

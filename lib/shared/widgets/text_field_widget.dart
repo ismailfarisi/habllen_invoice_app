@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habllen/shared/widgets/custom_paddings.dart';
 
 typedef _Validator = String? Function(String?);
 typedef _OnSubmitted = void Function();
@@ -16,7 +17,8 @@ class CustomTextField extends StatelessWidget {
       this.textInputAction,
       this.onChanged,
       this.errorText,
-      this.initialValue})
+      this.initialValue,
+      this.obscureText})
       : super(key: key);
   final TextEditingController? controller;
   final FocusNode? focusNode;
@@ -28,21 +30,31 @@ class CustomTextField extends StatelessWidget {
   final _OnChanged? onChanged;
   final TextInputAction? textInputAction;
   final String? errorText;
+  final bool? obscureText;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(4),
-      child: TextFormField(
-        textInputAction: textInputAction ?? TextInputAction.next,
-        onEditingComplete: onSubmitted,
-        onChanged: onChanged,
-        focusNode: focusNode,
-        keyboardType: keyboardType,
-        validator: validator,
-        controller: controller,
-        initialValue: initialValue,
-        decoration:
-            InputDecoration(labelText: helperText, errorText: errorText),
+    return HorizonalPadding(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(helperText),
+          TextFormField(
+            textInputAction: textInputAction ?? TextInputAction.next,
+            onEditingComplete: onSubmitted,
+            onChanged: onChanged,
+            focusNode: focusNode,
+            keyboardType: keyboardType,
+            validator: validator,
+            controller: controller,
+            initialValue: initialValue,
+            obscureText: obscureText ?? false,
+            decoration: InputDecoration(
+                constraints: BoxConstraints(maxHeight: 48),
+                errorText: errorText,
+                border: UnderlineInputBorder()),
+          ),
+        ],
       ),
     );
   }

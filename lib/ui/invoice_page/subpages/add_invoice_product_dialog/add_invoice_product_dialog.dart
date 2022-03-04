@@ -1,159 +1,152 @@
 import 'package:flutter/material.dart';
-import 'package:formz/formz.dart';
 import 'package:go_router/go_router.dart';
 import 'package:habllen/model/product.dart';
-import 'package:habllen/repository/repository.dart';
+import 'package:habllen/shared/widgets/custom_paddings.dart';
+import 'package:habllen/shared/widgets/product_card.dart';
 import 'package:habllen/ui/invoice_page/subpages/add_invoice_product_dialog/bloc/addinvoiceproductform_bloc.dart';
-import 'package:habllen/ui/invoice_page/subpages/new_invoice_page/bloc/new_invoice_Bloc.dart';
 import 'package:habllen/shared/widgets/custom_autocomplete.dart';
-import 'package:habllen/shared/widgets/text_field_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:habllen/shared/utils/formz_extension.dart';
+import 'package:habllen/ui/invoice_page/subpages/add_invoiceproduct_details_page/add_invoice_product_details_page.dart';
+import 'package:habllen/ui/products_page/sub_pages/add_product_dialog/add_product_dialog.dart';
 
-class AddProductDialog extends StatelessWidget {
-  AddProductDialog({Key? key, required this.newInvoiceBloc}) : super(key: key);
+class AddInvoiceProductPage extends StatefulWidget {
+  AddInvoiceProductPage({
+    Key? key,
+  }) : super(key: key);
 
-  final NewInvoiceBloc newInvoiceBloc;
+  static const String routeName = "add_invoice_product_full_dialog";
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AddinvoiceproductformBloc(
-          repository: context.read<Repository>(),
-          newInvoiceBloc: newInvoiceBloc),
-      child: AddProductForm(),
-    );
-  }
+  State<AddInvoiceProductPage> createState() => _AddInvoiceProductPageState();
 }
 
-class AddProductForm extends StatefulWidget {
-  @override
-  State<AddProductForm> createState() => _AddProductFormState();
-}
-
-typedef SelectedProduct = Product Function(Product);
-
-class _AddProductFormState extends State<AddProductForm> {
-  late final TextEditingController _productController;
-  late final TextEditingController _priceController;
-  final FocusNode _productFocusNode = FocusNode();
-  final FocusNode _priceFocusNode = FocusNode();
-  final FocusNode _quantityFocusNode = FocusNode();
-
-  @override
-  void initState() {
-    _productFocusNode.addListener(_productFocusListener);
-    _quantityFocusNode.onUnFocused(context, QuantityUnFocused());
-    _priceFocusNode.onUnFocused(context, PriceUnFocused());
-    _productController = TextEditingController();
-    _priceController = TextEditingController();
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _priceFocusNode.dispose();
-    _productFocusNode.dispose();
-    _quantityFocusNode.dispose();
-    _productController.dispose();
-    _priceController.dispose();
-
-    super.dispose();
-  }
-
+class _AddInvoiceProductPageState extends State<AddInvoiceProductPage> {
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AddinvoiceproductformBloc, AddinvoiceproductformState>(
+    print("add invoice product page");
+
+    context.read<AddinvoiceproductformBloc>().add(FetchProducts());
+
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    return BlocListener<AddinvoiceproductformBloc, AddinvoiceproductformState>(
       listener: (context, state) {
-        context.pop();
+        if (state.invoiceProduct != null) {
+          context.pop();
+        } else if (state.product.value != null &&
+            state.invoiceProduct == null) {
+          context.pushNamed(AddInvoiceProductDetailsPage.routeName,
+              extra: context.read<AddinvoiceproductformBloc>());
+        }
       },
-      listenWhen: (previousState, currentState) =>
-          currentState.status == FormzStatus.submissionSuccess,
-      builder: (context, state) {
-        _priceController.text = state.price.value.toString();
-        return AlertDialog(
-            title: Text("Add Product"),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    context.pop();
-                  },
-                  child: Text("Cancel")),
-              ElevatedButton(
-                  onPressed: () {
-                    context.read<AddinvoiceproductformBloc>().add(Submitted());
-                  },
-                  child: Text("Add"))
-            ],
-            content: Form(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CustomAutoComplete<Product>(
-                    controller: _productController,
-                    focusNode: _productFocusNode,
-                    textInputAction: TextInputAction.next,
-                    options: state.productList,
-                    labelText: "Product",
-                    errorText: state.product.validation(),
-                    optionState:
-                        (state.fetchStatus == ProductFetchStatus.loading)
-                            ? OptionState.loading
-                            : OptionState.loaded,
-                    displayStringForOption: (option) => option.name,
-                    onSelected: (product) {
-                      context
-                          .read<AddinvoiceproductformBloc>()
-                          .add(ProductSelected(product));
-                    },
-                  ),
-                  CustomTextField(
-                    focusNode: _priceFocusNode,
-                    helperText: "Price",
-                    controller: _priceController,
-                    errorText: state.price.validation(),
-                    keyboardType: TextInputType.numberWithOptions(),
-                    textInputAction: TextInputAction.next,
-                    onChanged: (price) => context
-                        .read<AddinvoiceproductformBloc>()
-                        .add(PriceChanged(price)),
-                    onSubmitted: () {
-                      _productFocusNode.nextFocus();
-                    },
-                  ),
-                  CustomTextField(
-                    focusNode: _quantityFocusNode,
-                    errorText: state.quantity.validation(),
-                    helperText: "Quantity",
-                    onChanged: (quantity) => context
-                        .read<AddinvoiceproductformBloc>()
-                        .add(QuantityChanged(quantity)),
-                    keyboardType: TextInputType.numberWithOptions(),
-                  ),
-                ],
+      listenWhen: (previous, current) {
+        return (current.product != previous.product ||
+            current.invoiceProduct != previous.invoiceProduct);
+      },
+      child: Scaffold(
+          appBar: AppBar(
+            title: Text('Add Invoice Customer'),
+          ),
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              VerticalBigSpace(),
+              AddNewProductButton(),
+              VerticalSmallSpace(),
+              Divider(
+                thickness: 2,
               ),
-            ));
-      },
+              VerticalSmallSpace(),
+              ProductSearchField(),
+              VerticalSmallSpace(),
+              HorizonalPadding(
+                child: Text(
+                  "Recents",
+                  style: textTheme.headline5?.copyWith(
+                      fontWeight: FontWeight.bold, color: Colors.grey),
+                ),
+              ),
+              VerticalBigSpace(),
+              RescentProductsListView()
+            ],
+          )),
     );
-  }
-
-  void _productFocusListener() {
-    if (_productFocusNode.hasFocus) {
-      context.read<AddinvoiceproductformBloc>().add(ProductFocused());
-    }
-    if (!_productFocusNode.hasFocus) {
-      context.read<AddinvoiceproductformBloc>().add(ProductUnFocused());
-    }
   }
 }
 
-extension on FocusNode {
-  void onUnFocused(BuildContext context, AddinvoiceproductformEvent event) {
-    addListener(() {
-      if (!hasFocus) {
-        context.read<AddinvoiceproductformBloc>().add(event);
-      }
-    });
+class RescentProductsListView extends StatelessWidget {
+  const RescentProductsListView({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final products =
+        context.watch<AddinvoiceproductformBloc>().state.productList;
+    return Expanded(
+      child: ListView.builder(
+          itemCount: products.length,
+          itemBuilder: (context, index) {
+            final item = products[index];
+            return InkWell(
+              onTap: () => context
+                  .read<AddinvoiceproductformBloc>()
+                  .add(ProductSelected(item)),
+              child: ProductCard(
+                  title: item.name,
+                  hsnCode: item.hsnCode,
+                  price: item.price,
+                  stock: item.currentStock),
+            );
+          }),
+    );
+  }
+}
+
+class ProductSearchField extends StatelessWidget {
+  const ProductSearchField({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomAutoComplete<Product>(
+      options: context.watch<AddinvoiceproductformBloc>().state.productList,
+      labelText: "product",
+      displayStringForOption: (option) => option.name,
+      onSelected: (option) => context
+          .read<AddinvoiceproductformBloc>()
+          .add(ProductSelected(option)),
+    );
+  }
+}
+
+class AddNewProductButton extends StatelessWidget {
+  const AddNewProductButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        context.pushNamed(AddProductPage.routeName);
+      },
+      child: HorizonalPadding(
+        child: Row(children: [
+          Icon(
+            Icons.add_circle_outline_outlined,
+            color: Theme.of(context).primaryColor,
+          ),
+          SizedBox(
+            width: 8,
+          ),
+          Text(
+            "create new product",
+            style: TextStyle(color: Theme.of(context).primaryColor),
+          ),
+        ]),
+      ),
+    );
   }
 }

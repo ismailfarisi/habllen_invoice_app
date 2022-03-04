@@ -7,8 +7,10 @@ class Product extends Equatable {
   final double price;
   final String hsnCode;
   final double currentStock;
+  final double gstPercentage;
 
   Product({
+    required this.gstPercentage,
     this.id,
     this.code,
     required this.name,
@@ -18,15 +20,17 @@ class Product extends Equatable {
   });
 
   @override
-  List<Object?> get props => [id, name, price, hsnCode, currentStock, code];
+  List<Object?> get props =>
+      [id, name, price, hsnCode, currentStock, code, gstPercentage];
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
+        gstPercentage: (json["gstPercentage"] as num?)?.toDouble() ?? 0.0,
         id: json["id"],
         code: json["code"],
-        price: json["price"],
+        price: (json["price"] as num?)?.toDouble() ?? 0.0,
         hsnCode: json["hsnCode"].toString().toUpperCase(),
-        currentStock: json["currentStock"],
+        currentStock: (json["currentStock"] as num?)?.toDouble() ?? 0.0,
         name: json["name"].toString().toUpperCase());
   }
   Map<String, dynamic> toJson() => _productToJson(this);
@@ -37,8 +41,10 @@ class Product extends Equatable {
       String? hsnCode,
       double? currentStock,
       int? code,
-      String? id}) {
+      String? id,
+      double? gstPercentage}) {
     return Product(
+        gstPercentage: gstPercentage ?? this.gstPercentage,
         id: id ?? this.id,
         code: code ?? this.code,
         name: name ?? this.name,
@@ -54,6 +60,8 @@ Map<String, dynamic> _productToJson(Product product) {
     "name": product.name.toLowerCase(),
     "price": product.price,
     "hsnCode": product.hsnCode.toLowerCase(),
-    "currentStock": product.currentStock
+    "currentStock": product.currentStock,
+    "code": product.code,
+    "gstPercentage": product.gstPercentage
   };
 }

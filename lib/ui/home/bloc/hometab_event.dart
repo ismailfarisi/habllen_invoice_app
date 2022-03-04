@@ -8,9 +8,9 @@ abstract class HometabEvent extends Equatable {
 }
 
 class TabChanged extends HometabEvent {
-  TabChanged(this.index);
-  final int index;
+  TabChanged(this.tab);
+  final HomeTab tab;
 
   @override
-  List<Object> get props => [index];
+  List<Object> get props => [tab];
 }

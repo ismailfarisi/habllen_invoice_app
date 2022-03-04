@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 typedef OnTap = void Function();
 
 class MyCard extends StatelessWidget {
-  const MyCard({Key? key, required this.text, this.ontap}) : super(key: key);
+  const MyCard({Key? key, required this.text, this.ontap, this.trailing = true})
+      : super(key: key);
 
   final String text;
   final OnTap? ontap;
+  final bool trailing;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,7 @@ class MyCard extends StatelessWidget {
       child: ListTile(
         onTap: ontap,
         title: Text(text),
-        trailing: Icon(Icons.arrow_forward_ios),
+        trailing: trailing ? Icon(Icons.arrow_forward_ios) : null,
       ),
     );
   }

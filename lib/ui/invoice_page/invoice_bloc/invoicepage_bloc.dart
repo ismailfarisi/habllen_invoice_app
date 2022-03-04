@@ -1,7 +1,12 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:habllen/model/firestore_failure.dart';
 import 'package:habllen/model/invoice.dart';
 import 'package:habllen/model/result.dart';
+import 'package:habllen/repository/remote/firestore.dart';
 import 'package:habllen/repository/repository.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/transformers.dart';
@@ -12,20 +17,11 @@ part 'invoicepage_event.dart';
 class InvoiceBloc extends Bloc<InvoiceEvent, InvoiceState> {
   InvoiceBloc({required this.repository})
       : super(const InvoiceState(listdata: [])) {
-    on<KeywordChanged>(_onKeywordChanged);
+    on<LoadMore>(_loadMore);
     on<FilesFetched>(_onFilesFetched,
         transformer: _debounce(Duration(milliseconds: 400)));
   }
   final Repository repository;
-
-  void _onKeywordChanged(
-      KeywordChanged event, Emitter<InvoiceState> emit) async {
-    final result =
-        await _getSearchInvoiceDetailsList(repository, event.keyword);
-    result.when(
-        success: (data) => emit(state.copywith(listdata: data)),
-        error: (e) => emit(state.copywith(status: FileFetchStatus.failure)));
-  }
 
   void _onFilesFetched(FilesFetched event, Emitter<InvoiceState> emit) async {
     if (state.hasReachedMax) emit(state.copywith(hasReachedMax: true));
@@ -34,17 +30,51 @@ class InvoiceBloc extends Bloc<InvoiceEvent, InvoiceState> {
       result.when(
           success: (data) => emit(state.copywith(
                 status: FileFetchStatus.success,
-                listdata: data,
-                hasReachedMax: true,
+                listdata: data.data,
+                hasReachedMax: data.hasReachedMax,
+                lastDocument: data.lastDocument,
               )),
           error: (e) => emit(state.copywith(status: FileFetchStatus.failure)));
     } on Exception {
       emit(state.copywith(status: FileFetchStatus.failure));
     }
   }
+
+  FutureOr<void> _loadMore(LoadMore event, Emitter<InvoiceState> emit) async {
+    if (state.hasReachedMax || state.status == FileFetchStatus.loading)
+      return null;
+    emit(state.copywith(status: FileFetchStatus.loading));
+    await _getInvoiceDetailsList(repository, state.lastDocument).then((result) {
+      result.when(
+          success: (data) {
+            final List<Invoice> listdata = List.from(state.listdata)
+              ..addAll(data.data);
+            emit(state.copywith(
+              status: FileFetchStatus.success,
+              listdata: listdata,
+              hasReachedMax: data.hasReachedMax,
+              lastDocument: data.lastDocument,
+            ));
+          },
+          error: (e) => emit(state.copywith(status: FileFetchStatus.failure)));
+    });
+    return null;
+  }
+
+  Future<Result<FireStoreGetResult<Invoice>, FirestoreFailure>>
+      _getInvoiceDetailsList(Repository repository,
+          [QueryDocumentSnapshot? lastDocument]) async {
+    try {
+      final result = await repository.getInvoices(lastDocument);
+
+      return result;
+    } on Exception catch (e) {
+      throw e;
+    }
+  }
 }
 
-Future<Result<List<Invoice>>> _getSearchInvoiceDetailsList(
+Future<Result<List<Invoice>, FirestoreFailure>> _getSearchInvoiceDetailsList(
     Repository repository, String keyword) async {
   try {
     final result = await repository.getSearchInvoice(keyword);
@@ -56,15 +86,4 @@ Future<Result<List<Invoice>>> _getSearchInvoiceDetailsList(
 
 EventTransformer<MyEvent> _debounce<MyEvent>(Duration duration) {
   return (events, mapper) => events.debounceTime(duration).flatMap(mapper);
-}
-
-Future<Result<List<Invoice>>> _getInvoiceDetailsList(
-    Repository repository) async {
-  try {
-    final result = await repository.getInvoices();
-
-    return result;
-  } on Exception catch (e) {
-    throw e;
-  }
 }

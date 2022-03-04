@@ -1,14 +1,16 @@
 part of 'hometab_bloc.dart';
 
-class HometabState extends Equatable {
-  const HometabState({this.currentIndex = 0});
+enum HomeTab { Invoice, Customer, Product }
 
-  final currentIndex;
+class HometabState extends Equatable {
+  const HometabState({this.currentTab = HomeTab.Invoice});
+
+  final HomeTab currentTab;
 
   @override
-  List<Object> get props => [currentIndex];
+  List<Object> get props => [currentTab];
 
-  HometabState copyWith({currentIndex}) {
-    return HometabState(currentIndex: currentIndex);
+  HometabState copyWith({currentTab}) {
+    return HometabState(currentTab: currentTab ?? this.currentTab);
   }
 }

@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:habllen/model/product.dart';
 
 class InvoiceProduct extends Equatable {
-  final int? id;
+  final String? id;
   final Product product;
   final double? price;
   final double quantity;
@@ -27,9 +27,9 @@ class InvoiceProduct extends Equatable {
 _fromJson(Map<String, dynamic> json) {
   return InvoiceProduct(
       product: Product.fromJson(json['product']),
-      quantity: json["quantity"],
-      price: json["price"],
-      totalPrice: json["totalPrice"]);
+      quantity: double.tryParse(json['quantity'].toString()) ?? 0.0,
+      price: double.tryParse(json["price"].toString()),
+      totalPrice: double.tryParse(json["totalPrice"].toString()) ?? 0.0);
 }
 
 Map<String, dynamic> _toJson(InvoiceProduct invoiceProduct) {

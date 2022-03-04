@@ -5,6 +5,13 @@ class CustomerFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class CustomerFormEventInitialize extends CustomerFormEvent {
+  final Customer customer;
+  CustomerFormEventInitialize({required this.customer});
+  @override
+  List<Object?> get props => [customer];
+}
+
 class NameChanged extends CustomerFormEvent {
   final String name;
 

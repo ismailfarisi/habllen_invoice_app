@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:habllen/model/company.dart';
+import 'package:habllen/model/firestore_failure.dart';
 import 'package:habllen/model/result.dart';
 import 'package:habllen/repository/repository.dart';
 
@@ -22,13 +23,14 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
     print(state.hasReachedMax);
     try {
       emit(state.copywith(status: Status.loading));
-      Result<List<Company>> list = await repository.getCustomers();
+      Result<List<Customer>, FirestoreFailure> list =
+          await repository.getCustomers();
       list.when(
         error: (e) => emit(state.copywith(status: Status.filesFetchingFailed)),
         success: (list) => emit(state.copywith(
             customerList: list,
             status: Status.filesFetched,
-            hasReachedMax: false)),
+            hasReachedMax: true)),
       );
     } on Exception {
       emit(state.copywith(status: Status.filesFetchingFailed));

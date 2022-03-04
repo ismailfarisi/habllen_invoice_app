@@ -4,9 +4,14 @@ import 'package:go_router/go_router.dart';
 import 'package:habllen/app/bloc/auth/authentication_bloc.dart';
 import 'package:habllen/app/bloc/theme/theme_bloc.dart';
 import 'package:habllen/shared/widgets/my_card.dart';
+import 'package:habllen/ui/settings_page/subpages/change_password_page/change_password_page.dart';
+import 'package:habllen/ui/settings_page/subpages/company_profile_page/company_profile_page.dart';
+import 'package:habllen/ui/settings_page/subpages/manage_subuser_page/manage_subuser_page.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
+
+  static const String routeName = 'settings_page';
 
   @override
   Widget build(BuildContext context) {
@@ -22,62 +27,42 @@ class SettingsPage extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            // Center(
-            //   child: Column(
-            //     children: [
-            //       SizedBox(
-            //         height: 70,
-            //       ),
-            //       Container(
-            //         height: 150,
-            //         width: 150,
-            //         decoration: ShapeDecoration(
-            //             shape: CircleBorder(side: BorderSide.none),
-            //             image: DecorationImage(
-            //                 image: AssetImage(
-            //                     "assets/blank-profile-picture.png"))),
-            //       ),
-            //       Text(
-            //         "Ismail Farisi",
-            //         style: theme.textTheme.headline2,
-            //       ),
-            //       SizedBox(
-            //         height: 10,
-            //       ),
-            //       Text("Position")
-            //     ],
-            //   ),
-            // ),
-            // SizedBox(
-            //   height: 10,
-            // ),
             Card(
                 margin: EdgeInsets.symmetric(vertical: 1.0),
                 child: ListTile(
                     title: Text("DarkMode"), trailing: StatefulSwitch())),
-
-            MyCard(text: "Profile"),
-            MyCard(text: "Create SubUser Account"),
-            MyCard(text: "Change Password"),
             SizedBox(
               height: 20,
             ),
-            Card(
-              child: ListTile(
-                leading: Text("Products"),
-                trailing: Icon(Icons.arrow_forward_ios),
-                onTap: () {
-                  context.goNamed("product_list_page");
-                },
-              ),
+            MyCard(
+              text: "Company Profile",
+              ontap: () {
+                context.goNamed(CompanyProfilePage.routeName);
+              },
             ),
-            TextButton(
-                onPressed: () {
+            MyCard(
+              text: "Manage SubUsers",
+              ontap: () {
+                context.goNamed(ManageSubuserPage.routeName);
+              },
+            ),
+            MyCard(
+              text: "Change Password",
+              ontap: () {
+                context.goNamed(ChangePasswordPage.routeName);
+              },
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            MyCard(
+                trailing: false,
+                ontap: () {
                   context
                       .read<AuthenticationBloc>()
                       .add(AuthenticationLogoutRequested());
                 },
-                child: Text("Sign Out"))
+                text: "Sign Out")
           ]))
         ],
       ),

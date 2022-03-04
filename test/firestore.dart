@@ -8,7 +8,7 @@ void main() async {
 
   final firebase = FirebaseRepository();
 
-  final customer = Company(
+  final customer = Customer(
       name: "name", addressOne: "addressOne", gst: 'gst', addressTwo: "aaaaa");
 
   group('customer_remote', () {

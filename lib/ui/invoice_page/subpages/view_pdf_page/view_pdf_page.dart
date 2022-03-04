@@ -6,6 +6,7 @@ import 'package:printing/printing.dart';
 import 'cubit/viewpdfpath_cubit.dart';
 
 class ViewPdfPage extends StatelessWidget {
+  static const routeName = 'view_pdf_page';
   const ViewPdfPage(
     this.invoiceDetails, {
     Key? key,
@@ -35,7 +36,7 @@ class MyPDFView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<ViewpdfpathCubit>()..getPDFData(invoiceDetails);
+    context.read<ViewpdfpathCubit>().getPDFData(invoiceDetails);
     return BlocBuilder<ViewpdfpathCubit, ViewpdfpathState>(
       builder: (context, state) {
         if (state.loading) {
@@ -47,7 +48,6 @@ class MyPDFView extends StatelessWidget {
             build: (format) => state.pdfData!,
             canChangeOrientation: false,
             canChangePageFormat: false,
-            canDebug: false,
           );
         }
       },

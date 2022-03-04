@@ -1,67 +1,73 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:habllen/repository/repository.dart';
-import 'package:habllen/shared/widgets/text_field_widget.dart';
-import 'package:habllen/shared/utils/formz_extension.dart' show Validator;
+import 'package:habllen/model/company.dart';
+import 'package:habllen/shared/widgets/custom_add_field.dart';
 import 'package:habllen/ui/customer_page/bloc/customer_bloc.dart';
 
 import 'bloc/customer_form_bloc.dart';
 
-class AddCustomerDialog extends StatelessWidget {
-  const AddCustomerDialog({Key? key, required this.customerBloc})
-      : super(key: key);
-  final CustomerBloc customerBloc;
+class AddCustomerPage extends StatelessWidget {
+  const AddCustomerPage({
+    Key? key,
+  }) : super(key: key);
+  static const String routeName = 'add_customer_full_dialog';
+
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => CustomerFormBloc(
-          repository: context.read<Repository>(), customerBloc: customerBloc),
-      child: AddCustomerForm(),
-    );
+    return _AddCustomerForm();
   }
 }
 
-class AddCustomerForm extends StatelessWidget {
-  AddCustomerForm({
+class _AddCustomerForm extends StatelessWidget {
+  _AddCustomerForm({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "Add New Customer",
-                  style: Theme.of(context).textTheme.headline5,
-                ),
-              ),
-              AddCustomerDialogContent(),
-              ActionButtons()
-            ],
+    return BlocListener<CustomerFormBloc, CustomerFormState>(
+      listener: (context, state) {
+        Navigator.pop(context);
+      },
+      listenWhen: (previous, current) =>
+          (current.status == FormzStatus.submissionSuccess),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Customer'),
+          centerTitle: true,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  onCheckTapped(context);
+                },
+                icon: Icon(Icons.check))
+          ],
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SingleChildScrollView(
+            child: _AddCustomerDialogContent(),
           ),
         ),
       ),
     );
   }
+
+  void onCheckTapped(BuildContext context) {
+    context.read<CustomerFormBloc>().add(Submitted());
+  }
 }
 
-class AddCustomerDialogContent extends StatefulWidget {
-  const AddCustomerDialogContent({Key? key}) : super(key: key);
+class _AddCustomerDialogContent extends StatefulWidget {
+  const _AddCustomerDialogContent({Key? key}) : super(key: key);
 
   @override
-  State<AddCustomerDialogContent> createState() =>
+  State<_AddCustomerDialogContent> createState() =>
       _AddCustomerDialogContentState();
 }
 
-class _AddCustomerDialogContentState extends State<AddCustomerDialogContent> {
+class _AddCustomerDialogContentState extends State<_AddCustomerDialogContent> {
   late final FocusNode _nameFocusNode = FocusNode();
   late final FocusNode _addressOneFocusNode = FocusNode();
   late final FocusNode _addressTwoFocusNode = FocusNode();
@@ -104,52 +110,48 @@ class _AddCustomerDialogContentState extends State<AddCustomerDialogContent> {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.select((CustomerFormBloc element) => element.state);
-    return Form(
-        child: SingleChildScrollView(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          CustomTextField(
-            validator: (value) => state.name.validation(),
-            errorText: state.name.validation(),
-            helperText: "Customer Name",
-            focusNode: _nameFocusNode,
-            textInputAction: TextInputAction.next,
-            onChanged: (name) =>
-                context.read<CustomerFormBloc>().add(NameChanged(name)),
-          ),
-          CustomTextField(
-            validator: (value) => state.addressOne.validation(),
-            errorText: state.addressOne.validation(),
-            helperText: "Address line 1",
-            focusNode: _addressOneFocusNode,
-            textInputAction: TextInputAction.next,
-            onChanged: (addressOne) => context
-                .read<CustomerFormBloc>()
-                .add(AddressOneChanged(addressOne)),
-          ),
-          CustomTextField(
-            validator: (value) => state.addressTwo.validation(),
-            errorText: state.addressTwo.validation(),
-            helperText: "Address line 2",
-            focusNode: _addressTwoFocusNode,
-            textInputAction: TextInputAction.next,
-            onChanged: (addressTwo) => context
-                .read<CustomerFormBloc>()
-                .add(AddressTwoChanged(addressTwo)),
-          ),
-          CustomTextField(
-            validator: (value) => state.gst.validation(),
-            errorText: state.gst.validation(),
-            helperText: "GST",
-            focusNode: _gstFocusNode,
-            onChanged: (gst) =>
-                context.read<CustomerFormBloc>().add(GstChanged(gst)),
-          ),
-        ],
-      ),
-    ));
+    final company = context.read<CustomerFormBloc>().state.company;
+    return BlocBuilder<CustomerFormBloc, CustomerFormState>(
+      builder: (context, state) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CustomAddField(
+                value: company?.name,
+                fieldName: "Customer Name",
+                onChanged: (name) {
+                  context.read<CustomerFormBloc>().add(NameChanged(name));
+                },
+                validator: state.name.error),
+            CustomAddField(
+                value: company?.addressOne,
+                fieldName: "Address 1",
+                onChanged: (addressOne) {
+                  context
+                      .read<CustomerFormBloc>()
+                      .add(AddressOneChanged(addressOne));
+                },
+                validator: state.addressOne.error),
+            CustomAddField(
+                value: company?.addressTwo,
+                fieldName: "Address 2",
+                onChanged: (addressTwo) {
+                  context
+                      .read<CustomerFormBloc>()
+                      .add(AddressTwoChanged(addressTwo));
+                },
+                validator: state.addressTwo.error),
+            CustomAddField(
+                value: company?.gst,
+                fieldName: "Gst",
+                onChanged: (gst) {
+                  context.read<CustomerFormBloc>().add(GstChanged(gst));
+                },
+                validator: state.gst.error),
+          ],
+        );
+      },
+    );
   }
 }
 
@@ -185,4 +187,11 @@ class ActionButtons extends StatelessWidget {
               );
             }));
   }
+}
+
+class AddCustomerPageArguments {
+  final Customer? customer;
+  final CustomerBloc? customerBloc;
+
+  AddCustomerPageArguments({this.customer, this.customerBloc});
 }

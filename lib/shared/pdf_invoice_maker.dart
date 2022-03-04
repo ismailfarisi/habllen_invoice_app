@@ -5,21 +5,21 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:habllen/model/company.dart';
 import 'package:habllen/model/invoice.dart';
 import 'package:habllen/model/invoice_product.dart';
-import 'package:habllen/shared/widgets/date_util.dart';
+import 'package:habllen/shared/utils/date_util.dart';
 import 'package:pdf/pdf.dart' as pdfs;
 import "package:pdf/widgets.dart" as w;
 
 class PdfInvoiceMaker {
   PdfInvoiceMaker({required this.invoiceDetails})
-      : company = invoiceDetails.company;
+      : company = invoiceDetails.company!;
 
   final Invoice invoiceDetails;
-  late final Company company;
+  late final Customer company;
   late final String companyName = company.name;
   late final String companyAdd1 = company.addressOne;
   late final String? companyAdd2 = company.addressTwo;
   late final String companyGst = company.gst;
-  late final List<InvoiceProduct> invoiceProducts = invoiceDetails.product;
+  late final List<InvoiceProduct> invoiceProducts = invoiceDetails.products;
   late final data = invoiceProducts
       .map((e) => [
             e.product.name,
@@ -105,10 +105,10 @@ class PdfInvoiceMaker {
               child: w.Column(
                   crossAxisAlignment: w.CrossAxisAlignment.start,
                   children: [
-                    w.Text('Invoice#: ${invoiceDetails.invoiceNo}',
+                    w.Text('Invoice#: ${invoiceDetails.invoiceNo.toString()}',
                         style: w.TextStyle(fontSize: 10)),
                     w.SizedBox(height: 10),
-                    w.Text('Date: ${invoiceDetails.date.toDateString()}',
+                    w.Text('Date: ${invoiceDetails.date!.toDateString()}',
                         style: w.TextStyle(
                             fontSize: 12, fontWeight: w.FontWeight.bold)),
                   ]))
@@ -124,7 +124,8 @@ class PdfInvoiceMaker {
   }
 
   Future<Uint8List> getPDFData() async {
-    return await pdf.save();
+    final data = await pdf.save();
+    return data;
   }
 
   _contentTable(w.Context context) {
@@ -150,6 +151,7 @@ class PdfInvoiceMaker {
   }
 
   _contentTotalPrice(w.Context context) {
+    final tax = invoiceDetails.tax ?? 0;
     return w.Row(crossAxisAlignment: w.CrossAxisAlignment.start, children: [
       w.Expanded(
           flex: 4,
@@ -183,9 +185,9 @@ class PdfInvoiceMaker {
                 crossAxisAlignment: w.CrossAxisAlignment.end,
                 children: [
                   w.Text("${invoiceDetails.price}"),
-                  w.Text("${invoiceDetails.iGST}"),
-                  w.Text("${invoiceDetails.cGST}"),
-                  w.Text("${invoiceDetails.sGST}"),
+                  w.Text("$tax"),
+                  w.Text("${tax / 2}"),
+                  w.Text("${tax / 2}"),
                   w.SizedBox(height: 10),
                   w.Text("${invoiceDetails.totalPrice}",
                       style: w.TextStyle(

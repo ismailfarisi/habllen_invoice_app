@@ -1,15 +1,15 @@
 import 'dart:async';
 
-import 'package:authentication_repository/authentication_repository.dart';
+import 'package:habllen/model/auth_model/auth_models.dart';
+import 'package:habllen/repository/auth_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:bloc/bloc.dart';
-import 'package:flutter/cupertino.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';
 
-class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState>
-    with ChangeNotifier {
+class AuthenticationBloc
+    extends Bloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBloc(
       {required AuthenticationRepository authenticationRepository})
       : _authenticationRepository = authenticationRepository,
@@ -45,7 +45,6 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState>
         ? AuthenticationState.authenticated(event.user)
         : const AuthenticationState.unauthenticated();
     emit(status);
-    notifyListeners();
   }
 
   FutureOr<void> _onAuthenticationLogoutRequested(

@@ -7,9 +7,10 @@ class AddinvoiceproductformState extends Equatable {
       {this.productList = const [],
       this.product = const InputProduct.pure(),
       this.price = const InputAccounts.pure(),
-      this.quantity = const InputAccounts.pure(),
+      this.quantity = const InputAccounts.pure(1),
       this.status = FormzStatus.pure,
-      this.fetchStatus = ProductFetchStatus.loading});
+      this.fetchStatus = ProductFetchStatus.loading,
+      this.invoiceProduct});
 
   final List<Product> productList;
   final InputProduct product;
@@ -17,10 +18,18 @@ class AddinvoiceproductformState extends Equatable {
   final InputAccounts quantity;
   final FormzStatus status;
   final ProductFetchStatus fetchStatus;
+  final InvoiceProduct? invoiceProduct;
 
   @override
-  List<Object> get props =>
-      [productList, product, price, quantity, status, fetchStatus];
+  List<Object?> get props => [
+        productList,
+        product,
+        price,
+        quantity,
+        status,
+        fetchStatus,
+        invoiceProduct
+      ];
 
   AddinvoiceproductformState copyWith(
       {List<Product>? productList,
@@ -28,7 +37,8 @@ class AddinvoiceproductformState extends Equatable {
       InputAccounts? price,
       InputAccounts? quantity,
       FormzStatus? status,
-      ProductFetchStatus? fetchStatus}) {
+      ProductFetchStatus? fetchStatus,
+      InvoiceProduct? invoiceProduct}) {
     return AddinvoiceproductformState(
       productList: productList ?? this.productList,
       product: product ?? this.product,
@@ -36,6 +46,7 @@ class AddinvoiceproductformState extends Equatable {
       quantity: quantity ?? this.quantity,
       status: status ?? this.status,
       fetchStatus: fetchStatus ?? this.fetchStatus,
+      invoiceProduct: invoiceProduct ?? this.invoiceProduct,
     );
   }
 }

@@ -12,7 +12,7 @@ class Started extends CustomerEvent {}
 class Refreshed extends CustomerEvent {}
 
 class DeleteCustomer extends CustomerEvent {
-  final Company customer;
+  final Customer customer;
   final int customerIndex;
 
   DeleteCustomer({
@@ -20,3 +20,5 @@ class DeleteCustomer extends CustomerEvent {
     required this.customerIndex,
   });
 }
+
+class LoadMore extends CustomerEvent {}

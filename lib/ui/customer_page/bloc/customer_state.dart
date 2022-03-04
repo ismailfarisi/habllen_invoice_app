@@ -8,14 +8,14 @@ class CustomerState extends Equatable {
       this.status = Status.loading,
       this.hasReachedMax = false});
 
-  final List<Company> customerList;
+  final List<Customer> customerList;
   final Status status;
   final bool hasReachedMax;
   @override
   List<Object> get props => [customerList, status, hasReachedMax];
 
   CustomerState copywith(
-      {List<Company>? customerList, Status? status, bool? hasReachedMax}) {
+      {List<Customer>? customerList, Status? status, bool? hasReachedMax}) {
     return CustomerState(
         customerList: customerList ?? this.customerList,
         status: status ?? this.status,

@@ -7,7 +7,7 @@ part 'hometab_state.dart';
 class HometabBloc extends Bloc<HometabEvent, HometabState> {
   HometabBloc() : super(HometabState()) {
     on<TabChanged>((event, emit) {
-      emit(state.copyWith(currentIndex: event.index));
+      emit(state.copyWith(currentTab: event.tab));
     });
   }
 }
