@@ -2,7 +2,7 @@ name: Demo App Android Release
 
 on:
   push:
-    branches: [ master ]
+    branches: [ Main ]
 
 jobs:
   version:
@@ -49,7 +49,7 @@ jobs:
       with:
         path: version.txt
     - run: flutter pub get
-    
+
     - run: flutter test
     - run: flutter build appbundle
     
