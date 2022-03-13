@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:habllen/model/company.dart';
+import 'package:habllen/model/customer.dart';
 import 'package:habllen/model/invoice.dart';
 import 'package:habllen/model/invoice_product.dart';
 import 'package:habllen/shared/forms_validator/validator.dart';

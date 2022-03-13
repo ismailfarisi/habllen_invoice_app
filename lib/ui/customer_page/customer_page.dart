@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:go_router/go_router.dart';
-import 'package:habllen/model/company.dart';
+import 'package:habllen/model/customer.dart';
 import 'package:habllen/repository/repository.dart';
 import 'package:habllen/ui/customer_page/subpages/add_customer_dialog/add_customer_form.dart';
+import 'package:habllen/ui/settings_page/settings_page.dart';
 
 import 'bloc/customer_bloc.dart';
 

@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/services.dart' show rootBundle;
 
-import 'package:habllen/model/company.dart';
+import 'package:habllen/model/customer.dart';
 import 'package:habllen/model/invoice.dart';
 import 'package:habllen/model/invoice_product.dart';
 import 'package:habllen/shared/utils/date_util.dart';

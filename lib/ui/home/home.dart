@@ -93,7 +93,7 @@ class _SharedAppBarState extends State<SharedAppBar> {
           IconButton(
             icon: Icon(Icons.settings),
             onPressed: () {
-              context.pushNamed(SettingsPage.routeName);
+              context.goNamed(SettingsPage.routeName);
             },
           ),
         ],
@@ -120,7 +120,7 @@ class AnimatedSearchBar extends StatefulWidget {
 }
 
 class _AnimatedSearchBarState extends State<AnimatedSearchBar>
-    with TickerProviderStateMixin {
+    with SingleTickerProviderStateMixin {
   late final AnimationController _searchAnimationController =
       AnimationController(
           vsync: this, duration: const Duration(milliseconds: 3000));

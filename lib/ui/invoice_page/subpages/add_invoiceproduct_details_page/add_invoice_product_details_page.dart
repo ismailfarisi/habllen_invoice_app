@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:formz/formz.dart';
 import 'package:go_router/go_router.dart';
+import 'package:habllen/model/invoice_product.dart';
 import 'package:habllen/shared/widgets/custom_add_field.dart';
 import 'package:habllen/shared/widgets/custom_paddings.dart';
 import 'package:habllen/ui/invoice_page/subpages/add_invoice_product_dialog/bloc/addinvoiceproductform_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habllen/ui/invoice_page/subpages/add_invoiceproduct_details_page/bloc/invoice_product_detail_bloc.dart';
 
 class AddInvoiceProductDetailsPage extends StatelessWidget {
   const AddInvoiceProductDetailsPage({Key? key}) : super(key: key);
@@ -12,14 +15,14 @@ class AddInvoiceProductDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.watch<AddinvoiceproductformBloc>();
-    final product = context.read<AddinvoiceproductformBloc>().state.product;
-    return BlocListener<AddinvoiceproductformBloc, AddinvoiceproductformState>(
+    final bloc = context.watch<InvoiceProductDetailBloc>();
+
+    return BlocListener<InvoiceProductDetailBloc, InvoiceProductDetailState>(
       listener: (context, state) {
         context.pop();
       },
       listenWhen: (previous, current) {
-        return (current.invoiceProduct != null);
+        return (current.status == FormzStatus.submissionSuccess);
       },
       child: Scaffold(
         appBar: AppBar(
@@ -28,9 +31,8 @@ class AddInvoiceProductDetailsPage extends StatelessWidget {
           actions: [
             TextButton(
                 onPressed: () {
-                  context
-                      .read<AddinvoiceproductformBloc>()
-                      .add(InvoiceProductCreated());
+                  context.read<InvoiceProductDetailBloc>().add(
+                      InvoiceProductDetailEvent.saveInvoiceProductDetail());
                 },
                 child: Text("Save"))
           ],
@@ -46,7 +48,7 @@ class AddInvoiceProductDetailsPage extends StatelessWidget {
                   children: [
                     Text("Name"),
                     VerticalSmallSpace(),
-                    Text(bloc.state.product.value!.name),
+                    Text(bloc.state.name),
                     VerticalSmallSpace(),
                     Divider(
                       thickness: 2,
@@ -57,15 +59,22 @@ class AddInvoiceProductDetailsPage extends StatelessWidget {
             ),
             CustomInvoiceProductField(
               fieldName: "Price",
-              initialValue: product.value!.price.toString(),
-              onChanged: (price) => bloc.add(PriceChanged(price)),
-              errorText: bloc.state.price.error,
+              initialValue: bloc.state.price.value != null
+                  ? bloc.state.price.value.toString()
+                  : null,
+              onChanged: (price) =>
+                  bloc.add(InvoiceProductDetailEvent.priceChanged(price)),
+              errorText: bloc.state.price.pure ? null : bloc.state.price.error,
             ),
             CustomInvoiceProductField(
               fieldName: "Quantity",
-              initialValue: 1.toString(),
-              onChanged: (data) => bloc.add(QuantityChanged(data)),
-              errorText: bloc.state.quantity.error,
+              initialValue: (bloc.state.quantity.value != null)
+                  ? bloc.state.quantity.value.toString()
+                  : null,
+              onChanged: (data) =>
+                  bloc.add(InvoiceProductDetailEvent.quantityChanged(data)),
+              errorText:
+                  bloc.state.quantity.pure ? null : bloc.state.quantity.error,
             )
           ],
         ),
@@ -115,4 +124,12 @@ class CustomInvoiceProductField extends StatelessWidget {
       ),
     );
   }
+}
+
+class AddInvoiceProductDetailsPageArguments {
+  final InvoiceProduct? product;
+  final AddinvoiceproductformBloc? addinvoiceproductformBloc;
+
+  AddInvoiceProductDetailsPageArguments(
+      {this.addinvoiceproductformBloc, this.product});
 }

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:habllen/model/auth_model/user.dart';
-import 'package:habllen/model/company.dart';
+import 'package:habllen/model/customer.dart';
 import 'package:habllen/model/firestore_failure.dart';
 import 'package:habllen/model/invoice.dart';
 import 'package:habllen/model/payment.dart';
@@ -13,12 +13,14 @@ import 'package:habllen/shared/constants/constants.dart';
 
 class FirebaseRepository {
   final Stream<User> userStream;
-  late final fireStore = FirebaseFirestore.instance;
+  final FirebaseFirestore _fireStore;
   late DocumentReference _userCollection;
 
-  FirebaseRepository(this.userStream) {
+  FirebaseRepository(this.userStream, [FirebaseFirestore? firestore])
+      : _fireStore = firestore ?? FirebaseFirestore.instance {
     userStream.listen((user) {
-      _userCollection = fireStore.collection("Users").doc(user.id);
+      if (user.id.isNotEmpty)
+        _userCollection = _fireStore.collection("Users").doc(user.id);
     });
   }
 
@@ -39,7 +41,7 @@ class FirebaseRepository {
   Future<Result<void, FirestoreFailure>> addCustomer(Customer customer) async {
     try {
       final ref = _userCollection.collection("customers").doc();
-      final result = await fireStore.runTransaction((transaction) async {
+      final result = await _fireStore.runTransaction((transaction) async {
         final id = ref.id;
         final data = customer.copyWith(id: id).toJson();
         transaction.set(ref, data);
@@ -116,7 +118,7 @@ class FirebaseRepository {
       [QueryDocumentSnapshot? lastDocument]) async {
     final List<Invoice> data = [];
     bool hasReachedMax = false;
-    late final invoices;
+    late final QuerySnapshot<Map<String, dynamic>> invoices;
     late final QueryDocumentSnapshot? lastDoc;
 
     try {
@@ -145,10 +147,8 @@ class FirebaseRepository {
         data.add(invoice);
       });
       return Result.success(FireStoreGetResult(
-          data: data,
-          hasReachedMax: hasReachedMax,
-          lastDocument: invoices.docs.last));
-    } on PlatformException catch (e) {
+          data: data, hasReachedMax: hasReachedMax, lastDocument: lastDoc));
+    } on Exception catch (e) {
       return Result.error(FirestoreFailure.unexpected());
     }
   }
@@ -223,7 +223,7 @@ class FirebaseRepository {
           _userCollection.collection(CUSTOMERS_COLLECTION);
       final _productCollectionRef =
           _userCollection.collection(PRODUCTS_COLLECTION);
-      final result = await fireStore.runTransaction((transaction) async {
+      final result = await _fireStore.runTransaction((transaction) async {
         final id = _invoiceCollectionRef.doc().id;
 
         await transaction.get(_userCollection).then((value) {
@@ -281,7 +281,7 @@ class FirebaseRepository {
     final customeryCollectionRef =
         _userCollection.collection(CUSTOMERS_COLLECTION);
     try {
-      final result = await fireStore.runTransaction((transaction) async {
+      final result = await _fireStore.runTransaction((transaction) async {
         final id = paymentCollectionRef.doc().id;
         final paymentL = payment.copyWith(id: id);
         transaction.set(paymentCollectionRef.doc(id), paymentL.toJson());

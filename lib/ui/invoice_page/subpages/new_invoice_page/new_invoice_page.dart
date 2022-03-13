@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:go_router/go_router.dart';
-import 'package:habllen/model/company.dart';
+import 'package:habllen/model/customer.dart';
 import 'package:habllen/model/invoice_product.dart';
 import 'package:habllen/ui/customer_page/subpages/add_customer_dialog/add_customer_form.dart';
 import 'package:habllen/ui/invoice_page/invoice_detail_bloc/invoice_detail_bloc.dart';
@@ -180,8 +180,7 @@ class NewInvoiceBody extends InvoiceDetails {
     if (company != null) {
       context.pushNamed(
         AddCustomerPage.routeName,
-        queryParams: {"company": "true"},
-        extra: company,
+        extra: AddCustomerPageArguments(customer: company),
       );
     }
   }

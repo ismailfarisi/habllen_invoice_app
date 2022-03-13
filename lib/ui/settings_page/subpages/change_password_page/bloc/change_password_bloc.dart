@@ -11,9 +11,8 @@ class ChangePasswordBloc
   ChangePasswordBloc({required AuthenticationRepository repository})
       : _authRepository = repository,
         super(ChangePasswordState()) {
-    on<ChangePasswordEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+    on<ChangePasswordEvent>((event, emit) {});
+    print("dsfaaaaaaaaaaaaaa");
   }
   final AuthenticationRepository _authRepository;
 }

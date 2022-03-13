@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:habllen/model/company.dart';
+import 'package:habllen/model/customer.dart';
 import 'package:habllen/shared/widgets/custom_add_field.dart';
 import 'package:habllen/ui/customer_page/bloc/customer_bloc.dart';
 

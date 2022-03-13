@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:habllen/model/company.dart';
+import 'package:habllen/model/customer.dart';
 import 'package:habllen/model/invoice.dart';
 import 'package:habllen/model/payment.dart';
 import 'package:habllen/repository/repository.dart';
@@ -23,6 +23,7 @@ class CustomerDetailBloc
     on<_FetchPaymentList>(_onFetchPaymentList);
     on<_TabChanged>(_onTabChanged);
     on<_FilterModeChanged>(_onFilterModeChanged);
+    on<_Started>(_onStarted);
   }
 
   final Repository repository;
@@ -125,5 +126,10 @@ class CustomerDetailBloc
         invoiceListFetchStatus: invoiceListFetchStatus,
         paymentList: paymentList ?? state.paymentList,
         paymentListFetchStatus: paymentListFetchStatus));
+  }
+
+  FutureOr<void> _onStarted(_Started event, Emitter<CustomerDetailState> emit) {
+    add(CustomerDetailEvent.fetchInvoiceList());
+    add(CustomerDetailEvent.fetchPaymentList());
   }
 }

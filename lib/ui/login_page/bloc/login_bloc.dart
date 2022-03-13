@@ -84,6 +84,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(state.copyWith(loginWGStatus: FormzStatus.submissionSuccess));
     } on Exception {
       emit(state.copyWith(loginWGStatus: FormzStatus.submissionFailure));
+      emit(state.copyWith(loginWGStatus: FormzStatus.pure));
     } on NoSuchMethodError {
       emit(state.copyWith(loginWGStatus: FormzStatus.pure));
     }

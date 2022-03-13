@@ -2,7 +2,7 @@ part of 'customerdetail_bloc.dart';
 
 @freezed
 class CustomerDetailEvent with _$CustomerDetailEvent {
-  const factory CustomerDetailEvent.started(String companyId) = _Started;
+  const factory CustomerDetailEvent.started() = _Started;
   const factory CustomerDetailEvent.fetchInvoiceList() = _FetchInvoiceList;
   const factory CustomerDetailEvent.fetchPaymentList() = _FetchPaymentList;
   const factory CustomerDetailEvent.tabChanged(int index) = _TabChanged;

@@ -1,12 +1,7 @@
-import 'dart:html';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:habllen/model/company.dart';
-import 'package:habllen/model/invoice.dart';
-import 'package:habllen/repository/repository.dart';
-import 'package:habllen/shared/constants/constants.dart';
+import 'package:habllen/model/customer.dart';
 import 'package:habllen/shared/widgets/custom_progress_indicator.dart';
 import 'package:habllen/shared/widgets/invoice_list_item_card.dart';
 import 'package:habllen/ui/customer_page/subpages/customer_detail_page/bloc/customerdetail_bloc.dart';
@@ -45,19 +40,7 @@ class _ScrollBodyState extends State<ScrollBody>
   @override
   void initState() {
     super.initState();
-    if (_tabController.index == 0) {
-      if (context.read<CustomerDetailBloc>().state.invoiceListFetchStatus ==
-          Status.initial) {
-        BlocProvider.of<CustomerDetailBloc>(context)
-            .add(CustomerDetailEvent.fetchInvoiceList());
-      }
-    }
-    _tabController.addListener(() {
-      if (_tabController.indexIsChanging) {
-        BlocProvider.of<CustomerDetailBloc>(context)
-            .add(CustomerDetailEvent.tabChanged(_tabController.index));
-      }
-    });
+    context.read<CustomerDetailBloc>().add(CustomerDetailEvent.started());
   }
 
   @override
@@ -89,40 +72,44 @@ class _ScrollBodyState extends State<ScrollBody>
           bottom: AppBarBottom(),
         ),
         SliverToBoxAdapter(
-          child: Card(
-            key: cardKey,
-            color: Theme.of(context).colorScheme.secondaryVariant,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Text(
-                      "${dateRange.start.toDateString()} - ${dateRange.end.toDateString()}"),
-                  SizedBox(height: 8),
-                  RichText(
-                    text: TextSpan(
-                        text: "Overdue ",
-                        style: headline6?.copyWith(color: Colors.red),
-                        children: [
-                          TextSpan(
-                              text:
-                                  "\u{20B9} ${context.select((CustomerDetailBloc value) => value.state.totalInvoiceAmount).toStringAsFixed(2)}",
-                              style: headline6)
-                        ]),
-                  ),
-                  SizedBox(height: 8),
-                  RichText(
-                    text: TextSpan(
-                        text: "Received ",
-                        style: headline6,
-                        children: [
-                          TextSpan(
-                              text:
-                                  "\u{20B9} ${context.select((CustomerDetailBloc value) => value.state.totalPaymentReceived).toStringAsFixed(2)}",
-                              style: headline5)
-                        ]),
-                  ),
-                ],
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxHeight: 200),
+            child: Card(
+              key: cardKey,
+              color: Theme.of(context).colorScheme.secondaryVariant,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                        "${dateRange.start.toDateString()} - ${dateRange.end.toDateString()}"),
+                    SizedBox(height: 8),
+                    RichText(
+                      text: TextSpan(
+                          text: "Overdue ",
+                          style: headline6?.copyWith(color: Colors.red),
+                          children: [
+                            TextSpan(
+                                text:
+                                    "\u{20B9} ${context.select((CustomerDetailBloc value) => value.state.totalInvoiceAmount).toStringAsFixed(2)}",
+                                style: headline6)
+                          ]),
+                    ),
+                    SizedBox(height: 8),
+                    RichText(
+                      text: TextSpan(
+                          text: "Received ",
+                          style: headline6,
+                          children: [
+                            TextSpan(
+                                text:
+                                    "\u{20B9} ${context.select((CustomerDetailBloc value) => value.state.totalPaymentReceived).toStringAsFixed(2)}",
+                                style: headline5)
+                          ]),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -184,27 +171,32 @@ class PaymentsListView extends StatelessWidget {
         (CustomerDetailBloc value) => value.state.paymentListFetchStatus);
     return RefreshIndicator(
       onRefresh: () async {},
-      child: ListView.builder(
-          itemBuilder: (context, index) {
-            if (paymenyStatus == Status.loading) {
-              return CustomProgressIndicator();
-            }
-            final payment = paymentsList[index];
+      child: ConstrainedBox(
+        constraints:
+            BoxConstraints(maxHeight: MediaQuery.of(context).size.height),
+        child: ListView.builder(
+            padding: EdgeInsets.zero,
+            itemBuilder: (context, index) {
+              if (paymenyStatus == Status.loading) {
+                return CustomProgressIndicator();
+              }
+              final payment = paymentsList[index];
 
-            return Card(
-              child: ListTile(
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(payment.date.toDateString()),
-                    Text(payment.amount.toString()),
-                  ],
+              return Card(
+                child: ListTile(
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(payment.date.toDateString()),
+                      Text(payment.amount.toString()),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          },
-          itemCount:
-              (paymenyStatus == Status.loading) ? 1 : paymentsList.length),
+              );
+            },
+            itemCount:
+                (paymenyStatus == Status.loading) ? 1 : paymentsList.length),
+      ),
     );
   }
 }
@@ -222,17 +214,22 @@ class InvoiceListView extends StatelessWidget {
         (CustomerDetailBloc value) => value.state.invoiceListFetchStatus);
     return RefreshIndicator(
       onRefresh: () async {},
-      child: ListView.builder(
-          itemBuilder: (context, index) {
-            if (invoiceStatus == Status.loading) {
-              return CustomProgressIndicator();
-            }
-            final invoice = invoiceList[index];
+      child: ConstrainedBox(
+        constraints:
+            BoxConstraints(maxHeight: MediaQuery.of(context).size.height),
+        child: ListView.builder(
+            padding: EdgeInsets.zero,
+            itemBuilder: (context, index) {
+              if (invoiceStatus == Status.loading) {
+                return CustomProgressIndicator();
+              }
+              final invoice = invoiceList[index];
 
-            return InvoiceListItem(invoice: invoice);
-          },
-          itemCount:
-              (invoiceStatus == Status.loading) ? 1 : invoiceList.length),
+              return InvoiceListItem(invoice: invoice);
+            },
+            itemCount:
+                (invoiceStatus == Status.loading) ? 1 : invoiceList.length),
+      ),
     );
   }
 }
@@ -264,82 +261,76 @@ class AppBarBottom extends StatelessWidget with PreferredSizeWidget {
             label: Text(context.select((CustomerDetailBloc value) =>
                 value.state.filterMode.toString().split(".")[1])),
             onPressed: () {
-              showModalBottomSheet(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20))),
-                  context: context,
-                  builder: (bcontext) {
-                    final bloc = context.read<CustomerDetailBloc>();
-                    return Container(
-                        child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SizedBox(height: 20),
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: OutlinedButton(
-                                onPressed: () {
-                                  bloc.add(
-                                      CustomerDetailEvent.filterModeChanged(
-                                          FilterMode.lastMonth));
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text("Last month")),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: OutlinedButton(
-                                onPressed: () {
-                                  bloc.add(
-                                      CustomerDetailEvent.filterModeChanged(
-                                          FilterMode.lastThreeMonths));
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text("Last 3 months")),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: OutlinedButton(
-                                onPressed: () {
-                                  bloc.add(
-                                      CustomerDetailEvent.filterModeChanged(
-                                          FilterMode.lastYear));
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text("Last year")),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: OutlinedButton(
-                                onPressed: () async {
-                                  final dateRange = await showDateRangePicker(
-                                      initialEntryMode:
-                                          DatePickerEntryMode.input,
-                                      context: context,
-                                      lastDate: DateTime.now(),
-                                      firstDate: DateTime(2018),
-                                      initialDateRange: bloc.state.dateRange);
-                                  bloc.add(
-                                      CustomerDetailEvent.filterModeChanged(
-                                          FilterMode.custom,
-                                          dateRange: dateRange));
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text("custom")),
-                          ),
-                          SizedBox(height: 10),
-                        ],
-                      ),
-                    ));
-                  });
+              _showBottomSheet(context);
             }),
       ),
     );
+  }
+
+  _showBottomSheet(BuildContext context) async {
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+        context: context,
+        builder: (bcontext) {
+          final bloc = context.read<CustomerDetailBloc>();
+          return Container(
+              child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: OutlinedButton(
+                      onPressed: () {
+                        bloc.add(CustomerDetailEvent.filterModeChanged(
+                            FilterMode.lastMonth));
+                        Navigator.of(context).pop();
+                      },
+                      child: Text("Last month")),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: OutlinedButton(
+                      onPressed: () {
+                        bloc.add(CustomerDetailEvent.filterModeChanged(
+                            FilterMode.lastThreeMonths));
+                        Navigator.of(context).pop();
+                      },
+                      child: Text("Last 3 months")),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: OutlinedButton(
+                      onPressed: () {
+                        bloc.add(CustomerDetailEvent.filterModeChanged(
+                            FilterMode.lastYear));
+                        Navigator.of(context).pop();
+                      },
+                      child: Text("Last year")),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: OutlinedButton(
+                      onPressed: () async {
+                        final dateRange = DateTimeRange(
+                            start: DateTime.utc(2018), end: DateTime.now());
+                        bloc.add(CustomerDetailEvent.filterModeChanged(
+                            FilterMode.custom,
+                            dateRange: dateRange));
+                        Navigator.of(context).pop();
+                      },
+                      child: Text("From Begining")),
+                ),
+                SizedBox(height: 10),
+              ],
+            ),
+          ));
+        });
   }
 
   @override

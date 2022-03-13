@@ -129,7 +129,7 @@ class _LoginFormState extends State<LoginForm> {
   Widget googleSignInButton(BuildContext context) {
     final status =
         context.select((LoginBloc value) => value.state.loginWGStatus);
-    return (status.isSubmissionInProgress)
+    return (status == FormzStatus.submissionInProgress)
         ? const CircularProgressIndicator()
         : ElevatedButton(
             onPressed: () {

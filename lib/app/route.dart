@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:habllen/model/company.dart';
+import 'package:habllen/model/customer.dart';
 import 'package:habllen/model/invoice.dart';
 import 'package:habllen/model/payment.dart';
-import 'package:habllen/model/statement.dart';
 import 'package:habllen/repository/auth_repository.dart';
 import 'package:habllen/repository/repository.dart';
-import 'package:habllen/shared/constants/constants.dart';
 import 'package:habllen/shared/widgets/transitions.dart';
-import 'package:habllen/ui/customer_page/bloc/customer_bloc.dart';
 import 'package:habllen/ui/customer_page/subpages/add_customer_dialog/add_customer_form.dart';
 import 'package:habllen/ui/customer_page/subpages/add_customer_dialog/bloc/customer_form_bloc.dart';
 import 'package:habllen/ui/customer_page/subpages/customer_detail_page/bloc/customerdetail_bloc.dart';
@@ -28,6 +25,8 @@ import 'package:habllen/ui/invoice_page/subpages/add_invoice_customer_page/cubit
 import 'package:habllen/ui/invoice_page/subpages/add_invoice_product_dialog/add_invoice_product_dialog.dart';
 import 'package:habllen/ui/invoice_page/subpages/add_invoice_product_dialog/bloc/addinvoiceproductform_bloc.dart';
 import 'package:habllen/ui/invoice_page/subpages/add_invoiceproduct_details_page/add_invoice_product_details_page.dart';
+import 'package:habllen/ui/invoice_page/subpages/add_invoiceproduct_details_page/bloc/invoice_product_detail_bloc.dart';
+
 import 'package:habllen/ui/invoice_page/subpages/invoice_detail_page/bloc/invoicedetailpage_bloc.dart';
 import 'package:habllen/ui/invoice_page/subpages/invoice_detail_page/invoice_detail_page.dart';
 import 'package:habllen/ui/invoice_page/subpages/new_invoice_page/bloc/new_invoice_Bloc.dart';
@@ -35,9 +34,9 @@ import 'package:habllen/ui/invoice_page/subpages/new_invoice_page/new_invoice_pa
 import 'package:habllen/ui/invoice_page/subpages/view_pdf_page/view_pdf_page.dart';
 import 'package:habllen/ui/login_page/login_page.dart';
 import 'package:habllen/ui/login_page/subpage/register_page/register_page.dart';
-import 'package:habllen/ui/products_page/bloc/productspage_bloc.dart';
 import 'package:habllen/ui/products_page/products_page.dart';
 import 'package:habllen/ui/products_page/sub_pages/add_product_dialog/bloc/addproductform_bloc.dart';
+import 'package:habllen/ui/settings_page/cubit/settings_page_cubit.dart';
 import 'package:habllen/ui/settings_page/settings_page.dart';
 import 'package:habllen/ui/settings_page/subpages/change_password_page/bloc/change_password_bloc.dart';
 import 'package:habllen/ui/settings_page/subpages/change_password_page/change_password_page.dart';
@@ -129,7 +128,7 @@ class Routes {
     routeToInvoiceDetailPage,
     routeToProductListPage,
     routeToRegisterPaymentDialog,
-    routeToAddCustomerPage
+    routeToAddCustomerPage,
   ];
 
   static final routeToRegisterPaymentDialog = GoRoute(
@@ -322,60 +321,66 @@ class Routes {
             })
       ]);
 
-  static final routeToSettingsPage = GoRoute(
+  late final routeToSettingsPage = GoRoute(
       path: "settings_page",
       name: SettingsPage.routeName,
-      builder: (context, state) => const SettingsPage(),
+      builder: (context, state) {
+        return BlocProvider(
+          create: (context) {
+            print(context.debugDoingBuild);
+            return SettingsPageCubit();
+          },
+          lazy: false,
+          child: SettingsPage(),
+        );
+      },
       routes: [
-        GoRoute(
-            path: ChangePasswordPage.routeName,
-            name: ChangePasswordPage.routeName,
-            builder: (context, state) {
-              return BlocProvider(
-                create: (context) => ChangePasswordBloc(
-                    repository: context.read<AuthenticationRepository>()),
-                child: ChangePasswordPage(),
-              );
-            }),
-        GoRoute(
-            path: CompanyProfilePage.routeName,
-            name: CompanyProfilePage.routeName,
-            builder: (context, state) {
-              return BlocProvider(
-                create: (context) =>
-                    CompanyProfileBloc(repository: context.read<Repository>()),
-                child: CompanyProfilePage(),
-              );
-            }),
-        GoRoute(
-            path: ManageSubuserPage.routeName,
-            name: ManageSubuserPage.routeName,
-            builder: (context, state) {
-              return BlocProvider(
-                create: (context) =>
-                    ManageSubusersBloc(repository: context.read<Repository>()),
-                child: ManageSubuserPage(),
-              );
-            }),
+        routeToCompanyProfilePage,
+        routeToChangePasswordPage,
+        routeToManageSubusersPage
       ]);
   static final routeToAddInvoiceProductDetailsPage = GoRoute(
       path: "add_invoiceproduct_details_page",
       name: AddInvoiceProductDetailsPage.routeName,
       pageBuilder: (context, state) {
-        final bloc = state.extra as AddinvoiceproductformBloc;
+        final arguments = state.extra as AddInvoiceProductDetailsPageArguments;
         return BottomToTopSlideTransition(
             fullscreenDialog: true,
-            child: BlocProvider.value(
-                value: bloc, child: AddInvoiceProductDetailsPage()));
+            child: BlocProvider(
+                create: (_) => InvoiceProductDetailBloc(
+                    invoiceProduct: arguments.product,
+                    addinvoiceproductformBloc:
+                        arguments.addinvoiceproductformBloc),
+                child: AddInvoiceProductDetailsPage()));
       });
-}
-
-extension ReadOrNull on BuildContext {
-  T? readOrNull<T>() {
-    try {
-      return read<T>();
-    } on ProviderNotFoundException catch (_) {
-      return null;
-    }
-  }
+  static final routeToCompanyProfilePage = GoRoute(
+      path: CompanyProfilePage.routeName,
+      name: CompanyProfilePage.routeName,
+      builder: (context, state) {
+        return BlocProvider(
+          create: (context) =>
+              CompanyProfileBloc(repository: context.read<Repository>()),
+          child: CompanyProfilePage(),
+        );
+      });
+  static final routeToChangePasswordPage = GoRoute(
+      path: ChangePasswordPage.routeName,
+      name: ChangePasswordPage.routeName,
+      builder: (context, state) {
+        return BlocProvider(
+          create: (context) => ChangePasswordBloc(
+              repository: context.read<AuthenticationRepository>()),
+          child: ChangePasswordPage(),
+        );
+      });
+  static final routeToManageSubusersPage = GoRoute(
+      path: ManageSubuserPage.routeName,
+      name: ManageSubuserPage.routeName,
+      builder: (context, state) {
+        return BlocProvider(
+          create: (context) =>
+              ManageSubusersBloc(repository: context.read<Repository>()),
+          child: ManageSubuserPage(),
+        );
+      });
 }

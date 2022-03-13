@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:habllen/model/company.dart';
+import 'package:habllen/model/customer.dart';
 import 'package:habllen/repository/repository.dart';
 import 'package:habllen/ui/invoice_page/invoice_detail_bloc/invoice_detail_bloc.dart';
 

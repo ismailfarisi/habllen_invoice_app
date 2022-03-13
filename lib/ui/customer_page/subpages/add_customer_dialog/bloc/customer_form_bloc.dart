@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
-import 'package:habllen/model/company.dart';
+import 'package:habllen/model/customer.dart';
 import 'package:habllen/repository/repository.dart';
 import 'package:habllen/ui/customer_page/bloc/customer_bloc.dart';
 import 'package:habllen/ui/customer_page/subpages/add_customer_dialog/validator/customer_validator.dart';
@@ -22,13 +22,6 @@ class CustomerFormBloc extends Bloc<CustomerFormEvent, CustomerFormState> {
     on<AddressOneChanged>(_onAddressOneChanged);
     on<AddressTwoChanged>(_onAddressTwoChanged);
     on<GstChanged>(_onGstChanged);
-    on<NameUnFocused>(_onNameUnFocused);
-    on<AddressOneUnFocused>(_onAddressOneUnFocused);
-
-    on<AddressTwoUnFocused>(_onAddressTwoUnFocused);
-
-    on<GstUnFocused>(_onGstUnfocused);
-
     on<Submitted>(_onSubmitted);
     if (customer != null) {
       add(CustomerFormEventInitialize(customer: customer));
@@ -67,42 +60,6 @@ class CustomerFormBloc extends Bloc<CustomerFormEvent, CustomerFormState> {
       }
     }
     emit(state.copyWith(status: FormzStatus.invalid));
-  }
-
-  FutureOr<void> _onGstUnfocused(
-      GstUnFocused event, Emitter<CustomerFormState> emit) {
-    final gst = Gst.dirty(state.gst.value);
-    emit(state.copyWith(
-        gst: gst,
-        status: Formz.validate(
-            [state.name, state.addressOne, state.addressTwo, gst])));
-  }
-
-  FutureOr<void> _onAddressTwoUnFocused(
-      AddressTwoUnFocused event, Emitter<CustomerFormState> emit) {
-    final addressTwo = Address.dirty(state.addressTwo.value);
-    emit(state.copyWith(
-        addressTwo: addressTwo,
-        status: Formz.validate(
-            [state.name, state.addressOne, addressTwo, state.gst])));
-  }
-
-  FutureOr<void> _onAddressOneUnFocused(
-      AddressOneUnFocused event, Emitter<CustomerFormState> emit) {
-    final addressOne = Address.dirty(state.addressOne.value);
-    emit(state.copyWith(
-        addressOne: addressOne,
-        status: Formz.validate(
-            [state.name, addressOne, state.addressTwo, state.gst])));
-  }
-
-  FutureOr<void> _onNameUnFocused(
-      NameUnFocused event, Emitter<CustomerFormState> emit) {
-    final name = CompanyName.dirty(state.name.value);
-    emit(state.copyWith(
-        name: name,
-        status: Formz.validate(
-            [name, state.addressOne, state.addressTwo, state.gst])));
   }
 
   FutureOr<void> _onGstChanged(

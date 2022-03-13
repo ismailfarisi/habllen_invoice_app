@@ -18,10 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$CustomerDetailEventTearOff {
   const _$CustomerDetailEventTearOff();
 
-  _Started started(String companyId) {
-    return _Started(
-      companyId,
-    );
+  _Started started() {
+    return const _Started();
   }
 
   _FetchInvoiceList fetchInvoiceList() {
@@ -60,7 +58,7 @@ const $CustomerDetailEvent = _$CustomerDetailEventTearOff();
 mixin _$CustomerDetailEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String companyId) started,
+    required TResult Function() started,
     required TResult Function() fetchInvoiceList,
     required TResult Function() fetchPaymentList,
     required TResult Function(int index) tabChanged,
@@ -71,7 +69,7 @@ mixin _$CustomerDetailEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String companyId)? started,
+    TResult Function()? started,
     TResult Function()? fetchInvoiceList,
     TResult Function()? fetchPaymentList,
     TResult Function(int index)? tabChanged,
@@ -82,7 +80,7 @@ mixin _$CustomerDetailEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String companyId)? started,
+    TResult Function()? started,
     TResult Function()? fetchInvoiceList,
     TResult Function()? fetchPaymentList,
     TResult Function(int index)? tabChanged,
@@ -146,7 +144,6 @@ class _$CustomerDetailEventCopyWithImpl<$Res>
 abstract class _$StartedCopyWith<$Res> {
   factory _$StartedCopyWith(_Started value, $Res Function(_Started) then) =
       __$StartedCopyWithImpl<$Res>;
-  $Res call({String companyId});
 }
 
 /// @nodoc
@@ -158,54 +155,31 @@ class __$StartedCopyWithImpl<$Res>
 
   @override
   _Started get _value => super._value as _Started;
-
-  @override
-  $Res call({
-    Object? companyId = freezed,
-  }) {
-    return _then(_Started(
-      companyId == freezed
-          ? _value.companyId
-          : companyId // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
 }
 
 /// @nodoc
 
 class _$_Started implements _Started {
-  const _$_Started(this.companyId);
-
-  @override
-  final String companyId;
+  const _$_Started();
 
   @override
   String toString() {
-    return 'CustomerDetailEvent.started(companyId: $companyId)';
+    return 'CustomerDetailEvent.started()';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _Started &&
-            const DeepCollectionEquality().equals(other.companyId, companyId));
+        (other.runtimeType == runtimeType && other is _Started);
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(companyId));
-
-  @JsonKey(ignore: true)
-  @override
-  _$StartedCopyWith<_Started> get copyWith =>
-      __$StartedCopyWithImpl<_Started>(this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String companyId) started,
+    required TResult Function() started,
     required TResult Function() fetchInvoiceList,
     required TResult Function() fetchPaymentList,
     required TResult Function(int index) tabChanged,
@@ -213,13 +187,13 @@ class _$_Started implements _Started {
         filterModeChanged,
     required TResult Function(DateTimeRange dateTimeRange) dateRangeChanged,
   }) {
-    return started(companyId);
+    return started();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String companyId)? started,
+    TResult Function()? started,
     TResult Function()? fetchInvoiceList,
     TResult Function()? fetchPaymentList,
     TResult Function(int index)? tabChanged,
@@ -227,13 +201,13 @@ class _$_Started implements _Started {
         filterModeChanged,
     TResult Function(DateTimeRange dateTimeRange)? dateRangeChanged,
   }) {
-    return started?.call(companyId);
+    return started?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String companyId)? started,
+    TResult Function()? started,
     TResult Function()? fetchInvoiceList,
     TResult Function()? fetchPaymentList,
     TResult Function(int index)? tabChanged,
@@ -243,7 +217,7 @@ class _$_Started implements _Started {
     required TResult orElse(),
   }) {
     if (started != null) {
-      return started(companyId);
+      return started();
     }
     return orElse();
   }
@@ -293,12 +267,7 @@ class _$_Started implements _Started {
 }
 
 abstract class _Started implements CustomerDetailEvent {
-  const factory _Started(String companyId) = _$_Started;
-
-  String get companyId;
-  @JsonKey(ignore: true)
-  _$StartedCopyWith<_Started> get copyWith =>
-      throw _privateConstructorUsedError;
+  const factory _Started() = _$_Started;
 }
 
 /// @nodoc
@@ -342,7 +311,7 @@ class _$_FetchInvoiceList implements _FetchInvoiceList {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String companyId) started,
+    required TResult Function() started,
     required TResult Function() fetchInvoiceList,
     required TResult Function() fetchPaymentList,
     required TResult Function(int index) tabChanged,
@@ -356,7 +325,7 @@ class _$_FetchInvoiceList implements _FetchInvoiceList {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String companyId)? started,
+    TResult Function()? started,
     TResult Function()? fetchInvoiceList,
     TResult Function()? fetchPaymentList,
     TResult Function(int index)? tabChanged,
@@ -370,7 +339,7 @@ class _$_FetchInvoiceList implements _FetchInvoiceList {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String companyId)? started,
+    TResult Function()? started,
     TResult Function()? fetchInvoiceList,
     TResult Function()? fetchPaymentList,
     TResult Function(int index)? tabChanged,
@@ -474,7 +443,7 @@ class _$_FetchPaymentList implements _FetchPaymentList {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String companyId) started,
+    required TResult Function() started,
     required TResult Function() fetchInvoiceList,
     required TResult Function() fetchPaymentList,
     required TResult Function(int index) tabChanged,
@@ -488,7 +457,7 @@ class _$_FetchPaymentList implements _FetchPaymentList {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String companyId)? started,
+    TResult Function()? started,
     TResult Function()? fetchInvoiceList,
     TResult Function()? fetchPaymentList,
     TResult Function(int index)? tabChanged,
@@ -502,7 +471,7 @@ class _$_FetchPaymentList implements _FetchPaymentList {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String companyId)? started,
+    TResult Function()? started,
     TResult Function()? fetchInvoiceList,
     TResult Function()? fetchPaymentList,
     TResult Function(int index)? tabChanged,
@@ -630,7 +599,7 @@ class _$_TabChanged implements _TabChanged {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String companyId) started,
+    required TResult Function() started,
     required TResult Function() fetchInvoiceList,
     required TResult Function() fetchPaymentList,
     required TResult Function(int index) tabChanged,
@@ -644,7 +613,7 @@ class _$_TabChanged implements _TabChanged {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String companyId)? started,
+    TResult Function()? started,
     TResult Function()? fetchInvoiceList,
     TResult Function()? fetchPaymentList,
     TResult Function(int index)? tabChanged,
@@ -658,7 +627,7 @@ class _$_TabChanged implements _TabChanged {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String companyId)? started,
+    TResult Function()? started,
     TResult Function()? fetchInvoiceList,
     TResult Function()? fetchPaymentList,
     TResult Function(int index)? tabChanged,
@@ -801,7 +770,7 @@ class _$_FilterModeChanged implements _FilterModeChanged {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String companyId) started,
+    required TResult Function() started,
     required TResult Function() fetchInvoiceList,
     required TResult Function() fetchPaymentList,
     required TResult Function(int index) tabChanged,
@@ -815,7 +784,7 @@ class _$_FilterModeChanged implements _FilterModeChanged {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String companyId)? started,
+    TResult Function()? started,
     TResult Function()? fetchInvoiceList,
     TResult Function()? fetchPaymentList,
     TResult Function(int index)? tabChanged,
@@ -829,7 +798,7 @@ class _$_FilterModeChanged implements _FilterModeChanged {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String companyId)? started,
+    TResult Function()? started,
     TResult Function()? fetchInvoiceList,
     TResult Function()? fetchPaymentList,
     TResult Function(int index)? tabChanged,
@@ -965,7 +934,7 @@ class _$_DateRangeChanged implements _DateRangeChanged {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String companyId) started,
+    required TResult Function() started,
     required TResult Function() fetchInvoiceList,
     required TResult Function() fetchPaymentList,
     required TResult Function(int index) tabChanged,
@@ -979,7 +948,7 @@ class _$_DateRangeChanged implements _DateRangeChanged {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String companyId)? started,
+    TResult Function()? started,
     TResult Function()? fetchInvoiceList,
     TResult Function()? fetchPaymentList,
     TResult Function(int index)? tabChanged,
@@ -993,7 +962,7 @@ class _$_DateRangeChanged implements _DateRangeChanged {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String companyId)? started,
+    TResult Function()? started,
     TResult Function()? fetchInvoiceList,
     TResult Function()? fetchPaymentList,
     TResult Function(int index)? tabChanged,

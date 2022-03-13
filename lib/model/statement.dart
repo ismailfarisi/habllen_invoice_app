@@ -1,38 +1,14 @@
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class Statement extends Equatable {
-  final int? siNo;
-  final DateTime date;
-  final String description;
-  final double credit;
-  final double debit;
-  final double? balance;
+part 'statement.freezed.dart';
 
-  Statement(
-      {this.siNo,
-      required this.date,
-      required this.description,
-      required this.credit,
-      required this.debit,
-      this.balance});
-
-  @override
-  List<Object?> get props => [siNo, date, description, credit, debit, balance];
-
-  Statement copyWith(
-      {int? siNo,
-      DateTime? date,
-      String? description,
-      double? credit,
-      double? debit,
-      double? balance}) {
-    return Statement(
-      siNo: siNo ?? this.siNo,
-      date: date ?? this.date,
-      description: description ?? this.description,
-      credit: credit ?? this.credit,
-      debit: debit ?? this.debit,
-      balance: balance ?? this.balance,
-    );
-  }
+@freezed
+class Statement with _$Statement {
+  const factory Statement(
+      {final String? id,
+      required final DateTime date,
+      required final String description,
+      required final double credit,
+      required final double debit,
+      final double? balance}) = _Statement;
 }

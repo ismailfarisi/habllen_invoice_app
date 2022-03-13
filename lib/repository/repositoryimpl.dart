@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:habllen/model/company.dart';
+import 'package:habllen/model/customer.dart';
 import 'package:habllen/model/firestore_failure.dart';
 import 'package:habllen/model/invoice.dart';
 import 'package:habllen/model/payment.dart';
