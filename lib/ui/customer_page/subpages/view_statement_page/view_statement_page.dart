@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:habllen/model/company.dart';
+import 'package:habllen/model/customer.dart';
 import 'package:habllen/model/invoice.dart';
 import 'package:habllen/model/payment.dart';
 import 'package:habllen/ui/customer_page/subpages/view_statement_page/cubit/view_statement_page_cubit.dart';
@@ -15,12 +15,16 @@ class ViewStatementPage extends StatelessWidget {
     context.read<ViewStatementPageCubit>().initiated();
     return Scaffold(
       appBar: AppBar(
-        title: Text('View Statement'),
+        title: Text('Statement'),
+        centerTitle: true,
       ),
       body: BlocBuilder<ViewStatementPageCubit, ViewStatementPageState>(
         builder: (context, state) {
           return PdfPreview(
             build: (pageFormat) => state.pdfData!,
+            canChangePageFormat: false,
+            canChangeOrientation: false,
+            canDebug: false,
           );
         },
       ),

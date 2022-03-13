@@ -1,10 +1,11 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:collection/src/list_extensions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:habllen/model/statement.dart';
 import 'package:habllen/shared/utils/date_util.dart';
-import 'package:habllen/model/company.dart';
+import 'package:habllen/model/customer.dart';
 import 'package:pdf/pdf.dart' as pdfs;
 import 'package:pdf/widgets.dart' as w;
 
@@ -20,9 +21,9 @@ class PdfStatementMaker {
   final String customerAddress1;
   final String? customerAddress2;
   final String customerGst;
-  late final data = statementList.map((statement) {
+  late final data = statementList.mapIndexed((index, statement) {
     return [
-      statement.siNo.toString(),
+      index + 1,
       statement.description,
       statement.date.toDateString(),
       statement.debit.toString(),

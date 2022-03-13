@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:habllen/model/product.dart';
 import 'package:habllen/shared/widgets/custom_paddings.dart';
+import 'package:habllen/shared/widgets/custom_progress_indicator.dart';
 import 'package:habllen/shared/widgets/product_card.dart';
 import 'package:habllen/ui/invoice_page/subpages/add_invoice_product_dialog/bloc/addinvoiceproductform_bloc.dart';
 import 'package:habllen/shared/widgets/custom_autocomplete.dart';
@@ -35,8 +36,10 @@ class _AddInvoiceProductPageState extends State<AddInvoiceProductPage> {
           context.pop();
         } else if (state.product.value != null &&
             state.invoiceProduct == null) {
+          final bloc = context.read<AddinvoiceproductformBloc>();
           context.pushNamed(AddInvoiceProductDetailsPage.routeName,
-              extra: context.read<AddinvoiceproductformBloc>());
+              extra: AddInvoiceProductDetailsPageArguments(
+                  addinvoiceproductformBloc: bloc));
         }
       },
       listenWhen: (previous, current) {
@@ -83,10 +86,16 @@ class RescentProductsListView extends StatelessWidget {
   Widget build(BuildContext context) {
     final products =
         context.watch<AddinvoiceproductformBloc>().state.productList;
+    final isLoading =
+        context.watch<AddinvoiceproductformBloc>().state.fetchStatus ==
+            ProductFetchStatus.loading;
     return Expanded(
       child: ListView.builder(
-          itemCount: products.length,
+          itemCount: isLoading ? 1 : products.length,
           itemBuilder: (context, index) {
+            if (isLoading) {
+              return Center(child: CustomProgressIndicator());
+            }
             final item = products[index];
             return InkWell(
               onTap: () => context

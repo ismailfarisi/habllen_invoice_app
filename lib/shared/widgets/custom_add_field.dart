@@ -33,9 +33,18 @@ class _CustomAddFieldState extends State<CustomAddField> {
   void initState() {
     super.initState();
     if (widget.value != null) value = widget.value;
-    _controller.addListener(() {
-      if (widget.onChanged != null) widget.onChanged!(_controller.value.text);
-    });
+    _controller..addListener(textListener);
+  }
+
+  void textListener() {
+    if (widget.onChanged != null) widget.onChanged!(_controller.value.text);
+  }
+
+  @override
+  void dispose() {
+    _controller.removeListener(textListener);
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -61,56 +70,55 @@ class _CustomAddFieldState extends State<CustomAddField> {
           ),
         ),
       ),
-      child: InkWell(
-        onTap: () async {
-          if (widget.onTap != null) {
-            widget.onTap!();
-          } else {
-            final string = await showDialogAndChangeText(context, value);
-            if (string != null) {
-              setState(() {
-                value = string;
-              });
-            }
-          }
-        },
-        child: HorizonalPadding(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 8),
-              Text(widget.fieldName,
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle1
-                      ?.copyWith(fontWeight: FontWeight.bold)),
-              SizedBox(
-                height: 8,
-              ),
-              Align(
-                  alignment: Alignment.bottomLeft,
-                  child: (value == null)
-                      ? Expanded(
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.add_circle_outline_rounded,
-                                color: theme.primaryColor,
-                              ),
-                              SizedBox(
-                                width: 6,
-                              ),
-                              Text("add",
-                                  style: theme.textTheme.subtitle1
-                                      ?.copyWith(color: theme.primaryColor)),
-                            ],
-                          ),
-                        )
-                      : Expanded(
-                          child: Text(value!),
-                        ))
-            ],
-          ),
+      child: HorizonalPadding(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(height: 8),
+            Text(widget.fieldName,
+                style: Theme.of(context)
+                    .textTheme
+                    .subtitle1
+                    ?.copyWith(fontWeight: FontWeight.bold)),
+            SizedBox(
+              height: 8,
+            ),
+            InkWell(
+              onTap: () async {
+                if (widget.onTap != null) {
+                  widget.onTap!();
+                } else {
+                  final string = await showDialogAndChangeText(context, value);
+                  if (string != null) {
+                    setState(() {
+                      value = string;
+                    });
+                  }
+                }
+              },
+              child: (value == null)
+                  ? Row(
+                      children: [
+                        Icon(
+                          Icons.add_circle_outline_rounded,
+                          color: theme.primaryColor,
+                        ),
+                        SizedBox(
+                          width: 6,
+                        ),
+                        Text("add",
+                            style: theme.textTheme.subtitle1
+                                ?.copyWith(color: theme.primaryColor)),
+                      ],
+                    )
+                  : Row(
+                      children: [
+                        Text(value!),
+                      ],
+                    ),
+            )
+          ],
         ),
       ),
     );
@@ -141,6 +149,7 @@ class _CustomAddFieldState extends State<CustomAddField> {
                           height: 4,
                         ),
                         TextField(
+                          key: Key("dialog_text_field"),
                           autofocus: true,
                           controller: _controller,
                           decoration: InputDecoration(

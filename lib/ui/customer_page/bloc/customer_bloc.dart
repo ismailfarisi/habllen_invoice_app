@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:habllen/model/company.dart';
+import 'package:habllen/model/customer.dart';
 import 'package:habllen/model/firestore_failure.dart';
 import 'package:habllen/model/result.dart';
 import 'package:habllen/repository/repository.dart';

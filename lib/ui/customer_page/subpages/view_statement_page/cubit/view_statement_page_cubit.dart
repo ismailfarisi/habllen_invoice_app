@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:habllen/model/company.dart';
+import 'package:habllen/model/customer.dart';
 import 'package:habllen/model/invoice.dart';
 import 'package:habllen/model/payment.dart';
 import 'package:habllen/model/statement.dart';
@@ -30,14 +30,16 @@ class ViewStatementPageCubit extends Cubit<ViewStatementPageState> {
               debit: 0.0,
             ))
         .toList()
-      ..addAll(invoiceList
-          .map((invoice) => Statement(
-                date: invoice.date!,
-                description: invoice.invoiceNo!.toString(),
-                credit: 0.0,
-                debit: invoice.totalPrice!,
-              ))
-          .toList())
+      ..addAll((invoiceList.isNotEmpty)
+          ? invoiceList
+              .map((invoice) => Statement(
+                    date: invoice.date!,
+                    description: invoice.invoiceNo!.toString(),
+                    credit: 0.0,
+                    debit: invoice.totalPrice!,
+                  ))
+              .toList()
+          : [])
       ..sort((a, b) => a.date.compareTo(b.date))
       ..reversed;
 
@@ -45,7 +47,6 @@ class ViewStatementPageCubit extends Cubit<ViewStatementPageState> {
     final List<Statement> last = statementList.mapIndexed((index, element) {
       balance += element.debit - element.credit;
       return element.copyWith(
-        siNo: index + 1,
         balance: balance,
       );
     }).toList();

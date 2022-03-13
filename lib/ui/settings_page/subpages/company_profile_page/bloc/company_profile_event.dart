@@ -4,13 +4,19 @@ part of 'company_profile_bloc.dart';
 class CompanyProfileEvent with _$CompanyProfileEvent {
   const factory CompanyProfileEvent.companyNameChanged(String name) =
       CompanyNameChanged;
-  const factory CompanyProfileEvent.companyAddress1Changed(String address) =
-      CompanyAddress1Changed;
-  const factory CompanyProfileEvent.companyAddress2Changed(String address) =
-      CompanyAddress2Changed;
+  const factory CompanyProfileEvent.companyCityChanged(String city) =
+      CompanyCityChanged;
+  const factory CompanyProfileEvent.postCodeChanged(String postCode) =
+      CompanyPostCodeChanged;
+  const factory CompanyProfileEvent.companyStateChanged(String state) =
+      CompanyStateChanged;
+  const factory CompanyProfileEvent.companyCountryChanged(String country) =
+      CompanyCountryChanged;
+  const factory CompanyProfileEvent.companyGstChanged(String gst) =
+      CompanyGstChanged;
   const factory CompanyProfileEvent.companyPhoneChanged(String phone) =
-      PhoneChanged;
+      CompanyPhoneChanged;
   const factory CompanyProfileEvent.companyEmailChanged(String email) =
-      EmailChanged;
-  const factory CompanyProfileEvent.onSaved() = OnSaved;
+      CompanyEmailChanged;
+  const factory CompanyProfileEvent.saved() = Saved;
 }

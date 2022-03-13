@@ -51,7 +51,10 @@ class _ListDetailsState extends State<ListDetails> {
     invoiceBloc = context.watch<InvoiceBloc>();
     return RefreshIndicator(
       onRefresh: () async {
-        context.read<InvoiceBloc>().add(FilesFetched());
+        final bloc = context.read<InvoiceBloc>();
+        bloc.add(FilesFetched());
+        await bloc.stream
+            .firstWhere((element) => element.status != FileFetchStatus.loading);
       },
       child: ListView.builder(
         shrinkWrap: true,

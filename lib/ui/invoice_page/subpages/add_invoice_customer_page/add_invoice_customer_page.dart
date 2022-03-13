@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:habllen/model/company.dart';
+import 'package:habllen/model/customer.dart';
 import 'package:habllen/shared/widgets/custom_autocomplete.dart';
 import 'package:habllen/shared/widgets/custom_paddings.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

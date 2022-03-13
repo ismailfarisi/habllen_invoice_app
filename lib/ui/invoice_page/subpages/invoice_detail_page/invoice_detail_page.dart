@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:go_router/go_router.dart';
-import 'package:habllen/model/company.dart';
+import 'package:habllen/model/customer.dart';
 import 'package:habllen/model/invoice.dart';
 import 'package:habllen/model/invoice_product.dart';
 import 'package:habllen/shared/widgets/icon_text_button.dart';
@@ -229,7 +229,8 @@ class InvoiceDetailBody extends InvoiceDetails {
   void onProductTap(InvoiceProduct invoiceProduct) {
     if (isEditableMode) {
       context.pushNamed(AddInvoiceProductDetailsPage.routeName,
-          extra: invoiceProduct);
+          extra:
+              AddInvoiceProductDetailsPageArguments(product: invoiceProduct));
     }
   }
 

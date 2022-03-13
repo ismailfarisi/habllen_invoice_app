@@ -26,6 +26,7 @@ class InvoiceBloc extends Bloc<InvoiceEvent, InvoiceState> {
   void _onFilesFetched(FilesFetched event, Emitter<InvoiceState> emit) async {
     if (state.hasReachedMax) emit(state.copywith(hasReachedMax: true));
     try {
+      emit(state.copywith(status: FileFetchStatus.loading));
       final result = await _getInvoiceDetailsList(repository);
       result.when(
           success: (data) => emit(state.copywith(

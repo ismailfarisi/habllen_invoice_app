@@ -24,32 +24,50 @@ class _$CompanyProfileEventTearOff {
     );
   }
 
-  CompanyAddress1Changed companyAddress1Changed(String address) {
-    return CompanyAddress1Changed(
-      address,
+  CompanyCityChanged companyCityChanged(String city) {
+    return CompanyCityChanged(
+      city,
     );
   }
 
-  CompanyAddress2Changed companyAddress2Changed(String address) {
-    return CompanyAddress2Changed(
-      address,
+  CompanyPostCodeChanged postCodeChanged(String postCode) {
+    return CompanyPostCodeChanged(
+      postCode,
     );
   }
 
-  PhoneChanged companyPhoneChanged(String phone) {
-    return PhoneChanged(
+  CompanyStateChanged companyStateChanged(String state) {
+    return CompanyStateChanged(
+      state,
+    );
+  }
+
+  CompanyCountryChanged companyCountryChanged(String country) {
+    return CompanyCountryChanged(
+      country,
+    );
+  }
+
+  CompanyGstChanged companyGstChanged(String gst) {
+    return CompanyGstChanged(
+      gst,
+    );
+  }
+
+  CompanyPhoneChanged companyPhoneChanged(String phone) {
+    return CompanyPhoneChanged(
       phone,
     );
   }
 
-  EmailChanged companyEmailChanged(String email) {
-    return EmailChanged(
+  CompanyEmailChanged companyEmailChanged(String email) {
+    return CompanyEmailChanged(
       email,
     );
   }
 
-  OnSaved onSaved() {
-    return const OnSaved();
+  Saved saved() {
+    return const Saved();
   }
 }
 
@@ -61,64 +79,81 @@ mixin _$CompanyProfileEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String name) companyNameChanged,
-    required TResult Function(String address) companyAddress1Changed,
-    required TResult Function(String address) companyAddress2Changed,
+    required TResult Function(String city) companyCityChanged,
+    required TResult Function(String postCode) postCodeChanged,
+    required TResult Function(String state) companyStateChanged,
+    required TResult Function(String country) companyCountryChanged,
+    required TResult Function(String gst) companyGstChanged,
     required TResult Function(String phone) companyPhoneChanged,
     required TResult Function(String email) companyEmailChanged,
-    required TResult Function() onSaved,
+    required TResult Function() saved,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String name)? companyNameChanged,
-    TResult Function(String address)? companyAddress1Changed,
-    TResult Function(String address)? companyAddress2Changed,
+    TResult Function(String city)? companyCityChanged,
+    TResult Function(String postCode)? postCodeChanged,
+    TResult Function(String state)? companyStateChanged,
+    TResult Function(String country)? companyCountryChanged,
+    TResult Function(String gst)? companyGstChanged,
     TResult Function(String phone)? companyPhoneChanged,
     TResult Function(String email)? companyEmailChanged,
-    TResult Function()? onSaved,
+    TResult Function()? saved,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String name)? companyNameChanged,
-    TResult Function(String address)? companyAddress1Changed,
-    TResult Function(String address)? companyAddress2Changed,
+    TResult Function(String city)? companyCityChanged,
+    TResult Function(String postCode)? postCodeChanged,
+    TResult Function(String state)? companyStateChanged,
+    TResult Function(String country)? companyCountryChanged,
+    TResult Function(String gst)? companyGstChanged,
     TResult Function(String phone)? companyPhoneChanged,
     TResult Function(String email)? companyEmailChanged,
-    TResult Function()? onSaved,
+    TResult Function()? saved,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(CompanyNameChanged value) companyNameChanged,
-    required TResult Function(CompanyAddress1Changed value)
-        companyAddress1Changed,
-    required TResult Function(CompanyAddress2Changed value)
-        companyAddress2Changed,
-    required TResult Function(PhoneChanged value) companyPhoneChanged,
-    required TResult Function(EmailChanged value) companyEmailChanged,
-    required TResult Function(OnSaved value) onSaved,
+    required TResult Function(CompanyCityChanged value) companyCityChanged,
+    required TResult Function(CompanyPostCodeChanged value) postCodeChanged,
+    required TResult Function(CompanyStateChanged value) companyStateChanged,
+    required TResult Function(CompanyCountryChanged value)
+        companyCountryChanged,
+    required TResult Function(CompanyGstChanged value) companyGstChanged,
+    required TResult Function(CompanyPhoneChanged value) companyPhoneChanged,
+    required TResult Function(CompanyEmailChanged value) companyEmailChanged,
+    required TResult Function(Saved value) saved,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(CompanyNameChanged value)? companyNameChanged,
-    TResult Function(CompanyAddress1Changed value)? companyAddress1Changed,
-    TResult Function(CompanyAddress2Changed value)? companyAddress2Changed,
-    TResult Function(PhoneChanged value)? companyPhoneChanged,
-    TResult Function(EmailChanged value)? companyEmailChanged,
-    TResult Function(OnSaved value)? onSaved,
+    TResult Function(CompanyCityChanged value)? companyCityChanged,
+    TResult Function(CompanyPostCodeChanged value)? postCodeChanged,
+    TResult Function(CompanyStateChanged value)? companyStateChanged,
+    TResult Function(CompanyCountryChanged value)? companyCountryChanged,
+    TResult Function(CompanyGstChanged value)? companyGstChanged,
+    TResult Function(CompanyPhoneChanged value)? companyPhoneChanged,
+    TResult Function(CompanyEmailChanged value)? companyEmailChanged,
+    TResult Function(Saved value)? saved,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(CompanyNameChanged value)? companyNameChanged,
-    TResult Function(CompanyAddress1Changed value)? companyAddress1Changed,
-    TResult Function(CompanyAddress2Changed value)? companyAddress2Changed,
-    TResult Function(PhoneChanged value)? companyPhoneChanged,
-    TResult Function(EmailChanged value)? companyEmailChanged,
-    TResult Function(OnSaved value)? onSaved,
+    TResult Function(CompanyCityChanged value)? companyCityChanged,
+    TResult Function(CompanyPostCodeChanged value)? postCodeChanged,
+    TResult Function(CompanyStateChanged value)? companyStateChanged,
+    TResult Function(CompanyCountryChanged value)? companyCountryChanged,
+    TResult Function(CompanyGstChanged value)? companyGstChanged,
+    TResult Function(CompanyPhoneChanged value)? companyPhoneChanged,
+    TResult Function(CompanyEmailChanged value)? companyEmailChanged,
+    TResult Function(Saved value)? saved,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -207,11 +242,14 @@ class _$CompanyNameChanged implements CompanyNameChanged {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String name) companyNameChanged,
-    required TResult Function(String address) companyAddress1Changed,
-    required TResult Function(String address) companyAddress2Changed,
+    required TResult Function(String city) companyCityChanged,
+    required TResult Function(String postCode) postCodeChanged,
+    required TResult Function(String state) companyStateChanged,
+    required TResult Function(String country) companyCountryChanged,
+    required TResult Function(String gst) companyGstChanged,
     required TResult Function(String phone) companyPhoneChanged,
     required TResult Function(String email) companyEmailChanged,
-    required TResult Function() onSaved,
+    required TResult Function() saved,
   }) {
     return companyNameChanged(name);
   }
@@ -220,11 +258,14 @@ class _$CompanyNameChanged implements CompanyNameChanged {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String name)? companyNameChanged,
-    TResult Function(String address)? companyAddress1Changed,
-    TResult Function(String address)? companyAddress2Changed,
+    TResult Function(String city)? companyCityChanged,
+    TResult Function(String postCode)? postCodeChanged,
+    TResult Function(String state)? companyStateChanged,
+    TResult Function(String country)? companyCountryChanged,
+    TResult Function(String gst)? companyGstChanged,
     TResult Function(String phone)? companyPhoneChanged,
     TResult Function(String email)? companyEmailChanged,
-    TResult Function()? onSaved,
+    TResult Function()? saved,
   }) {
     return companyNameChanged?.call(name);
   }
@@ -233,11 +274,14 @@ class _$CompanyNameChanged implements CompanyNameChanged {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String name)? companyNameChanged,
-    TResult Function(String address)? companyAddress1Changed,
-    TResult Function(String address)? companyAddress2Changed,
+    TResult Function(String city)? companyCityChanged,
+    TResult Function(String postCode)? postCodeChanged,
+    TResult Function(String state)? companyStateChanged,
+    TResult Function(String country)? companyCountryChanged,
+    TResult Function(String gst)? companyGstChanged,
     TResult Function(String phone)? companyPhoneChanged,
     TResult Function(String email)? companyEmailChanged,
-    TResult Function()? onSaved,
+    TResult Function()? saved,
     required TResult orElse(),
   }) {
     if (companyNameChanged != null) {
@@ -250,13 +294,15 @@ class _$CompanyNameChanged implements CompanyNameChanged {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(CompanyNameChanged value) companyNameChanged,
-    required TResult Function(CompanyAddress1Changed value)
-        companyAddress1Changed,
-    required TResult Function(CompanyAddress2Changed value)
-        companyAddress2Changed,
-    required TResult Function(PhoneChanged value) companyPhoneChanged,
-    required TResult Function(EmailChanged value) companyEmailChanged,
-    required TResult Function(OnSaved value) onSaved,
+    required TResult Function(CompanyCityChanged value) companyCityChanged,
+    required TResult Function(CompanyPostCodeChanged value) postCodeChanged,
+    required TResult Function(CompanyStateChanged value) companyStateChanged,
+    required TResult Function(CompanyCountryChanged value)
+        companyCountryChanged,
+    required TResult Function(CompanyGstChanged value) companyGstChanged,
+    required TResult Function(CompanyPhoneChanged value) companyPhoneChanged,
+    required TResult Function(CompanyEmailChanged value) companyEmailChanged,
+    required TResult Function(Saved value) saved,
   }) {
     return companyNameChanged(this);
   }
@@ -265,11 +311,14 @@ class _$CompanyNameChanged implements CompanyNameChanged {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(CompanyNameChanged value)? companyNameChanged,
-    TResult Function(CompanyAddress1Changed value)? companyAddress1Changed,
-    TResult Function(CompanyAddress2Changed value)? companyAddress2Changed,
-    TResult Function(PhoneChanged value)? companyPhoneChanged,
-    TResult Function(EmailChanged value)? companyEmailChanged,
-    TResult Function(OnSaved value)? onSaved,
+    TResult Function(CompanyCityChanged value)? companyCityChanged,
+    TResult Function(CompanyPostCodeChanged value)? postCodeChanged,
+    TResult Function(CompanyStateChanged value)? companyStateChanged,
+    TResult Function(CompanyCountryChanged value)? companyCountryChanged,
+    TResult Function(CompanyGstChanged value)? companyGstChanged,
+    TResult Function(CompanyPhoneChanged value)? companyPhoneChanged,
+    TResult Function(CompanyEmailChanged value)? companyEmailChanged,
+    TResult Function(Saved value)? saved,
   }) {
     return companyNameChanged?.call(this);
   }
@@ -278,11 +327,14 @@ class _$CompanyNameChanged implements CompanyNameChanged {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(CompanyNameChanged value)? companyNameChanged,
-    TResult Function(CompanyAddress1Changed value)? companyAddress1Changed,
-    TResult Function(CompanyAddress2Changed value)? companyAddress2Changed,
-    TResult Function(PhoneChanged value)? companyPhoneChanged,
-    TResult Function(EmailChanged value)? companyEmailChanged,
-    TResult Function(OnSaved value)? onSaved,
+    TResult Function(CompanyCityChanged value)? companyCityChanged,
+    TResult Function(CompanyPostCodeChanged value)? postCodeChanged,
+    TResult Function(CompanyStateChanged value)? companyStateChanged,
+    TResult Function(CompanyCountryChanged value)? companyCountryChanged,
+    TResult Function(CompanyGstChanged value)? companyGstChanged,
+    TResult Function(CompanyPhoneChanged value)? companyPhoneChanged,
+    TResult Function(CompanyEmailChanged value)? companyEmailChanged,
+    TResult Function(Saved value)? saved,
     required TResult orElse(),
   }) {
     if (companyNameChanged != null) {
@@ -302,32 +354,32 @@ abstract class CompanyNameChanged implements CompanyProfileEvent {
 }
 
 /// @nodoc
-abstract class $CompanyAddress1ChangedCopyWith<$Res> {
-  factory $CompanyAddress1ChangedCopyWith(CompanyAddress1Changed value,
-          $Res Function(CompanyAddress1Changed) then) =
-      _$CompanyAddress1ChangedCopyWithImpl<$Res>;
-  $Res call({String address});
+abstract class $CompanyCityChangedCopyWith<$Res> {
+  factory $CompanyCityChangedCopyWith(
+          CompanyCityChanged value, $Res Function(CompanyCityChanged) then) =
+      _$CompanyCityChangedCopyWithImpl<$Res>;
+  $Res call({String city});
 }
 
 /// @nodoc
-class _$CompanyAddress1ChangedCopyWithImpl<$Res>
+class _$CompanyCityChangedCopyWithImpl<$Res>
     extends _$CompanyProfileEventCopyWithImpl<$Res>
-    implements $CompanyAddress1ChangedCopyWith<$Res> {
-  _$CompanyAddress1ChangedCopyWithImpl(CompanyAddress1Changed _value,
-      $Res Function(CompanyAddress1Changed) _then)
-      : super(_value, (v) => _then(v as CompanyAddress1Changed));
+    implements $CompanyCityChangedCopyWith<$Res> {
+  _$CompanyCityChangedCopyWithImpl(
+      CompanyCityChanged _value, $Res Function(CompanyCityChanged) _then)
+      : super(_value, (v) => _then(v as CompanyCityChanged));
 
   @override
-  CompanyAddress1Changed get _value => super._value as CompanyAddress1Changed;
+  CompanyCityChanged get _value => super._value as CompanyCityChanged;
 
   @override
   $Res call({
-    Object? address = freezed,
+    Object? city = freezed,
   }) {
-    return _then(CompanyAddress1Changed(
-      address == freezed
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
+    return _then(CompanyCityChanged(
+      city == freezed
+          ? _value.city
+          : city // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -335,74 +387,82 @@ class _$CompanyAddress1ChangedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$CompanyAddress1Changed implements CompanyAddress1Changed {
-  const _$CompanyAddress1Changed(this.address);
+class _$CompanyCityChanged implements CompanyCityChanged {
+  const _$CompanyCityChanged(this.city);
 
   @override
-  final String address;
+  final String city;
 
   @override
   String toString() {
-    return 'CompanyProfileEvent.companyAddress1Changed(address: $address)';
+    return 'CompanyProfileEvent.companyCityChanged(city: $city)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is CompanyAddress1Changed &&
-            const DeepCollectionEquality().equals(other.address, address));
+            other is CompanyCityChanged &&
+            const DeepCollectionEquality().equals(other.city, city));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(address));
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(city));
 
   @JsonKey(ignore: true)
   @override
-  $CompanyAddress1ChangedCopyWith<CompanyAddress1Changed> get copyWith =>
-      _$CompanyAddress1ChangedCopyWithImpl<CompanyAddress1Changed>(
-          this, _$identity);
+  $CompanyCityChangedCopyWith<CompanyCityChanged> get copyWith =>
+      _$CompanyCityChangedCopyWithImpl<CompanyCityChanged>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String name) companyNameChanged,
-    required TResult Function(String address) companyAddress1Changed,
-    required TResult Function(String address) companyAddress2Changed,
+    required TResult Function(String city) companyCityChanged,
+    required TResult Function(String postCode) postCodeChanged,
+    required TResult Function(String state) companyStateChanged,
+    required TResult Function(String country) companyCountryChanged,
+    required TResult Function(String gst) companyGstChanged,
     required TResult Function(String phone) companyPhoneChanged,
     required TResult Function(String email) companyEmailChanged,
-    required TResult Function() onSaved,
+    required TResult Function() saved,
   }) {
-    return companyAddress1Changed(address);
+    return companyCityChanged(city);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String name)? companyNameChanged,
-    TResult Function(String address)? companyAddress1Changed,
-    TResult Function(String address)? companyAddress2Changed,
+    TResult Function(String city)? companyCityChanged,
+    TResult Function(String postCode)? postCodeChanged,
+    TResult Function(String state)? companyStateChanged,
+    TResult Function(String country)? companyCountryChanged,
+    TResult Function(String gst)? companyGstChanged,
     TResult Function(String phone)? companyPhoneChanged,
     TResult Function(String email)? companyEmailChanged,
-    TResult Function()? onSaved,
+    TResult Function()? saved,
   }) {
-    return companyAddress1Changed?.call(address);
+    return companyCityChanged?.call(city);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String name)? companyNameChanged,
-    TResult Function(String address)? companyAddress1Changed,
-    TResult Function(String address)? companyAddress2Changed,
+    TResult Function(String city)? companyCityChanged,
+    TResult Function(String postCode)? postCodeChanged,
+    TResult Function(String state)? companyStateChanged,
+    TResult Function(String country)? companyCountryChanged,
+    TResult Function(String gst)? companyGstChanged,
     TResult Function(String phone)? companyPhoneChanged,
     TResult Function(String email)? companyEmailChanged,
-    TResult Function()? onSaved,
+    TResult Function()? saved,
     required TResult orElse(),
   }) {
-    if (companyAddress1Changed != null) {
-      return companyAddress1Changed(address);
+    if (companyCityChanged != null) {
+      return companyCityChanged(city);
     }
     return orElse();
   }
@@ -411,85 +471,92 @@ class _$CompanyAddress1Changed implements CompanyAddress1Changed {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(CompanyNameChanged value) companyNameChanged,
-    required TResult Function(CompanyAddress1Changed value)
-        companyAddress1Changed,
-    required TResult Function(CompanyAddress2Changed value)
-        companyAddress2Changed,
-    required TResult Function(PhoneChanged value) companyPhoneChanged,
-    required TResult Function(EmailChanged value) companyEmailChanged,
-    required TResult Function(OnSaved value) onSaved,
+    required TResult Function(CompanyCityChanged value) companyCityChanged,
+    required TResult Function(CompanyPostCodeChanged value) postCodeChanged,
+    required TResult Function(CompanyStateChanged value) companyStateChanged,
+    required TResult Function(CompanyCountryChanged value)
+        companyCountryChanged,
+    required TResult Function(CompanyGstChanged value) companyGstChanged,
+    required TResult Function(CompanyPhoneChanged value) companyPhoneChanged,
+    required TResult Function(CompanyEmailChanged value) companyEmailChanged,
+    required TResult Function(Saved value) saved,
   }) {
-    return companyAddress1Changed(this);
+    return companyCityChanged(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(CompanyNameChanged value)? companyNameChanged,
-    TResult Function(CompanyAddress1Changed value)? companyAddress1Changed,
-    TResult Function(CompanyAddress2Changed value)? companyAddress2Changed,
-    TResult Function(PhoneChanged value)? companyPhoneChanged,
-    TResult Function(EmailChanged value)? companyEmailChanged,
-    TResult Function(OnSaved value)? onSaved,
+    TResult Function(CompanyCityChanged value)? companyCityChanged,
+    TResult Function(CompanyPostCodeChanged value)? postCodeChanged,
+    TResult Function(CompanyStateChanged value)? companyStateChanged,
+    TResult Function(CompanyCountryChanged value)? companyCountryChanged,
+    TResult Function(CompanyGstChanged value)? companyGstChanged,
+    TResult Function(CompanyPhoneChanged value)? companyPhoneChanged,
+    TResult Function(CompanyEmailChanged value)? companyEmailChanged,
+    TResult Function(Saved value)? saved,
   }) {
-    return companyAddress1Changed?.call(this);
+    return companyCityChanged?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(CompanyNameChanged value)? companyNameChanged,
-    TResult Function(CompanyAddress1Changed value)? companyAddress1Changed,
-    TResult Function(CompanyAddress2Changed value)? companyAddress2Changed,
-    TResult Function(PhoneChanged value)? companyPhoneChanged,
-    TResult Function(EmailChanged value)? companyEmailChanged,
-    TResult Function(OnSaved value)? onSaved,
+    TResult Function(CompanyCityChanged value)? companyCityChanged,
+    TResult Function(CompanyPostCodeChanged value)? postCodeChanged,
+    TResult Function(CompanyStateChanged value)? companyStateChanged,
+    TResult Function(CompanyCountryChanged value)? companyCountryChanged,
+    TResult Function(CompanyGstChanged value)? companyGstChanged,
+    TResult Function(CompanyPhoneChanged value)? companyPhoneChanged,
+    TResult Function(CompanyEmailChanged value)? companyEmailChanged,
+    TResult Function(Saved value)? saved,
     required TResult orElse(),
   }) {
-    if (companyAddress1Changed != null) {
-      return companyAddress1Changed(this);
+    if (companyCityChanged != null) {
+      return companyCityChanged(this);
     }
     return orElse();
   }
 }
 
-abstract class CompanyAddress1Changed implements CompanyProfileEvent {
-  const factory CompanyAddress1Changed(String address) =
-      _$CompanyAddress1Changed;
+abstract class CompanyCityChanged implements CompanyProfileEvent {
+  const factory CompanyCityChanged(String city) = _$CompanyCityChanged;
 
-  String get address;
+  String get city;
   @JsonKey(ignore: true)
-  $CompanyAddress1ChangedCopyWith<CompanyAddress1Changed> get copyWith =>
+  $CompanyCityChangedCopyWith<CompanyCityChanged> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CompanyAddress2ChangedCopyWith<$Res> {
-  factory $CompanyAddress2ChangedCopyWith(CompanyAddress2Changed value,
-          $Res Function(CompanyAddress2Changed) then) =
-      _$CompanyAddress2ChangedCopyWithImpl<$Res>;
-  $Res call({String address});
+abstract class $CompanyPostCodeChangedCopyWith<$Res> {
+  factory $CompanyPostCodeChangedCopyWith(CompanyPostCodeChanged value,
+          $Res Function(CompanyPostCodeChanged) then) =
+      _$CompanyPostCodeChangedCopyWithImpl<$Res>;
+  $Res call({String postCode});
 }
 
 /// @nodoc
-class _$CompanyAddress2ChangedCopyWithImpl<$Res>
+class _$CompanyPostCodeChangedCopyWithImpl<$Res>
     extends _$CompanyProfileEventCopyWithImpl<$Res>
-    implements $CompanyAddress2ChangedCopyWith<$Res> {
-  _$CompanyAddress2ChangedCopyWithImpl(CompanyAddress2Changed _value,
-      $Res Function(CompanyAddress2Changed) _then)
-      : super(_value, (v) => _then(v as CompanyAddress2Changed));
+    implements $CompanyPostCodeChangedCopyWith<$Res> {
+  _$CompanyPostCodeChangedCopyWithImpl(CompanyPostCodeChanged _value,
+      $Res Function(CompanyPostCodeChanged) _then)
+      : super(_value, (v) => _then(v as CompanyPostCodeChanged));
 
   @override
-  CompanyAddress2Changed get _value => super._value as CompanyAddress2Changed;
+  CompanyPostCodeChanged get _value => super._value as CompanyPostCodeChanged;
 
   @override
   $Res call({
-    Object? address = freezed,
+    Object? postCode = freezed,
   }) {
-    return _then(CompanyAddress2Changed(
-      address == freezed
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
+    return _then(CompanyPostCodeChanged(
+      postCode == freezed
+          ? _value.postCode
+          : postCode // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -497,74 +564,83 @@ class _$CompanyAddress2ChangedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$CompanyAddress2Changed implements CompanyAddress2Changed {
-  const _$CompanyAddress2Changed(this.address);
+class _$CompanyPostCodeChanged implements CompanyPostCodeChanged {
+  const _$CompanyPostCodeChanged(this.postCode);
 
   @override
-  final String address;
+  final String postCode;
 
   @override
   String toString() {
-    return 'CompanyProfileEvent.companyAddress2Changed(address: $address)';
+    return 'CompanyProfileEvent.postCodeChanged(postCode: $postCode)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is CompanyAddress2Changed &&
-            const DeepCollectionEquality().equals(other.address, address));
+            other is CompanyPostCodeChanged &&
+            const DeepCollectionEquality().equals(other.postCode, postCode));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(address));
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(postCode));
 
   @JsonKey(ignore: true)
   @override
-  $CompanyAddress2ChangedCopyWith<CompanyAddress2Changed> get copyWith =>
-      _$CompanyAddress2ChangedCopyWithImpl<CompanyAddress2Changed>(
+  $CompanyPostCodeChangedCopyWith<CompanyPostCodeChanged> get copyWith =>
+      _$CompanyPostCodeChangedCopyWithImpl<CompanyPostCodeChanged>(
           this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String name) companyNameChanged,
-    required TResult Function(String address) companyAddress1Changed,
-    required TResult Function(String address) companyAddress2Changed,
+    required TResult Function(String city) companyCityChanged,
+    required TResult Function(String postCode) postCodeChanged,
+    required TResult Function(String state) companyStateChanged,
+    required TResult Function(String country) companyCountryChanged,
+    required TResult Function(String gst) companyGstChanged,
     required TResult Function(String phone) companyPhoneChanged,
     required TResult Function(String email) companyEmailChanged,
-    required TResult Function() onSaved,
+    required TResult Function() saved,
   }) {
-    return companyAddress2Changed(address);
+    return postCodeChanged(postCode);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String name)? companyNameChanged,
-    TResult Function(String address)? companyAddress1Changed,
-    TResult Function(String address)? companyAddress2Changed,
+    TResult Function(String city)? companyCityChanged,
+    TResult Function(String postCode)? postCodeChanged,
+    TResult Function(String state)? companyStateChanged,
+    TResult Function(String country)? companyCountryChanged,
+    TResult Function(String gst)? companyGstChanged,
     TResult Function(String phone)? companyPhoneChanged,
     TResult Function(String email)? companyEmailChanged,
-    TResult Function()? onSaved,
+    TResult Function()? saved,
   }) {
-    return companyAddress2Changed?.call(address);
+    return postCodeChanged?.call(postCode);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String name)? companyNameChanged,
-    TResult Function(String address)? companyAddress1Changed,
-    TResult Function(String address)? companyAddress2Changed,
+    TResult Function(String city)? companyCityChanged,
+    TResult Function(String postCode)? postCodeChanged,
+    TResult Function(String state)? companyStateChanged,
+    TResult Function(String country)? companyCountryChanged,
+    TResult Function(String gst)? companyGstChanged,
     TResult Function(String phone)? companyPhoneChanged,
     TResult Function(String email)? companyEmailChanged,
-    TResult Function()? onSaved,
+    TResult Function()? saved,
     required TResult orElse(),
   }) {
-    if (companyAddress2Changed != null) {
-      return companyAddress2Changed(address);
+    if (postCodeChanged != null) {
+      return postCodeChanged(postCode);
     }
     return orElse();
   }
@@ -573,82 +649,622 @@ class _$CompanyAddress2Changed implements CompanyAddress2Changed {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(CompanyNameChanged value) companyNameChanged,
-    required TResult Function(CompanyAddress1Changed value)
-        companyAddress1Changed,
-    required TResult Function(CompanyAddress2Changed value)
-        companyAddress2Changed,
-    required TResult Function(PhoneChanged value) companyPhoneChanged,
-    required TResult Function(EmailChanged value) companyEmailChanged,
-    required TResult Function(OnSaved value) onSaved,
+    required TResult Function(CompanyCityChanged value) companyCityChanged,
+    required TResult Function(CompanyPostCodeChanged value) postCodeChanged,
+    required TResult Function(CompanyStateChanged value) companyStateChanged,
+    required TResult Function(CompanyCountryChanged value)
+        companyCountryChanged,
+    required TResult Function(CompanyGstChanged value) companyGstChanged,
+    required TResult Function(CompanyPhoneChanged value) companyPhoneChanged,
+    required TResult Function(CompanyEmailChanged value) companyEmailChanged,
+    required TResult Function(Saved value) saved,
   }) {
-    return companyAddress2Changed(this);
+    return postCodeChanged(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(CompanyNameChanged value)? companyNameChanged,
-    TResult Function(CompanyAddress1Changed value)? companyAddress1Changed,
-    TResult Function(CompanyAddress2Changed value)? companyAddress2Changed,
-    TResult Function(PhoneChanged value)? companyPhoneChanged,
-    TResult Function(EmailChanged value)? companyEmailChanged,
-    TResult Function(OnSaved value)? onSaved,
+    TResult Function(CompanyCityChanged value)? companyCityChanged,
+    TResult Function(CompanyPostCodeChanged value)? postCodeChanged,
+    TResult Function(CompanyStateChanged value)? companyStateChanged,
+    TResult Function(CompanyCountryChanged value)? companyCountryChanged,
+    TResult Function(CompanyGstChanged value)? companyGstChanged,
+    TResult Function(CompanyPhoneChanged value)? companyPhoneChanged,
+    TResult Function(CompanyEmailChanged value)? companyEmailChanged,
+    TResult Function(Saved value)? saved,
   }) {
-    return companyAddress2Changed?.call(this);
+    return postCodeChanged?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(CompanyNameChanged value)? companyNameChanged,
-    TResult Function(CompanyAddress1Changed value)? companyAddress1Changed,
-    TResult Function(CompanyAddress2Changed value)? companyAddress2Changed,
-    TResult Function(PhoneChanged value)? companyPhoneChanged,
-    TResult Function(EmailChanged value)? companyEmailChanged,
-    TResult Function(OnSaved value)? onSaved,
+    TResult Function(CompanyCityChanged value)? companyCityChanged,
+    TResult Function(CompanyPostCodeChanged value)? postCodeChanged,
+    TResult Function(CompanyStateChanged value)? companyStateChanged,
+    TResult Function(CompanyCountryChanged value)? companyCountryChanged,
+    TResult Function(CompanyGstChanged value)? companyGstChanged,
+    TResult Function(CompanyPhoneChanged value)? companyPhoneChanged,
+    TResult Function(CompanyEmailChanged value)? companyEmailChanged,
+    TResult Function(Saved value)? saved,
     required TResult orElse(),
   }) {
-    if (companyAddress2Changed != null) {
-      return companyAddress2Changed(this);
+    if (postCodeChanged != null) {
+      return postCodeChanged(this);
     }
     return orElse();
   }
 }
 
-abstract class CompanyAddress2Changed implements CompanyProfileEvent {
-  const factory CompanyAddress2Changed(String address) =
-      _$CompanyAddress2Changed;
+abstract class CompanyPostCodeChanged implements CompanyProfileEvent {
+  const factory CompanyPostCodeChanged(String postCode) =
+      _$CompanyPostCodeChanged;
 
-  String get address;
+  String get postCode;
   @JsonKey(ignore: true)
-  $CompanyAddress2ChangedCopyWith<CompanyAddress2Changed> get copyWith =>
+  $CompanyPostCodeChangedCopyWith<CompanyPostCodeChanged> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $PhoneChangedCopyWith<$Res> {
-  factory $PhoneChangedCopyWith(
-          PhoneChanged value, $Res Function(PhoneChanged) then) =
-      _$PhoneChangedCopyWithImpl<$Res>;
+abstract class $CompanyStateChangedCopyWith<$Res> {
+  factory $CompanyStateChangedCopyWith(
+          CompanyStateChanged value, $Res Function(CompanyStateChanged) then) =
+      _$CompanyStateChangedCopyWithImpl<$Res>;
+  $Res call({String state});
+}
+
+/// @nodoc
+class _$CompanyStateChangedCopyWithImpl<$Res>
+    extends _$CompanyProfileEventCopyWithImpl<$Res>
+    implements $CompanyStateChangedCopyWith<$Res> {
+  _$CompanyStateChangedCopyWithImpl(
+      CompanyStateChanged _value, $Res Function(CompanyStateChanged) _then)
+      : super(_value, (v) => _then(v as CompanyStateChanged));
+
+  @override
+  CompanyStateChanged get _value => super._value as CompanyStateChanged;
+
+  @override
+  $Res call({
+    Object? state = freezed,
+  }) {
+    return _then(CompanyStateChanged(
+      state == freezed
+          ? _value.state
+          : state // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$CompanyStateChanged implements CompanyStateChanged {
+  const _$CompanyStateChanged(this.state);
+
+  @override
+  final String state;
+
+  @override
+  String toString() {
+    return 'CompanyProfileEvent.companyStateChanged(state: $state)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is CompanyStateChanged &&
+            const DeepCollectionEquality().equals(other.state, state));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(state));
+
+  @JsonKey(ignore: true)
+  @override
+  $CompanyStateChangedCopyWith<CompanyStateChanged> get copyWith =>
+      _$CompanyStateChangedCopyWithImpl<CompanyStateChanged>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String name) companyNameChanged,
+    required TResult Function(String city) companyCityChanged,
+    required TResult Function(String postCode) postCodeChanged,
+    required TResult Function(String state) companyStateChanged,
+    required TResult Function(String country) companyCountryChanged,
+    required TResult Function(String gst) companyGstChanged,
+    required TResult Function(String phone) companyPhoneChanged,
+    required TResult Function(String email) companyEmailChanged,
+    required TResult Function() saved,
+  }) {
+    return companyStateChanged(state);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(String name)? companyNameChanged,
+    TResult Function(String city)? companyCityChanged,
+    TResult Function(String postCode)? postCodeChanged,
+    TResult Function(String state)? companyStateChanged,
+    TResult Function(String country)? companyCountryChanged,
+    TResult Function(String gst)? companyGstChanged,
+    TResult Function(String phone)? companyPhoneChanged,
+    TResult Function(String email)? companyEmailChanged,
+    TResult Function()? saved,
+  }) {
+    return companyStateChanged?.call(state);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String name)? companyNameChanged,
+    TResult Function(String city)? companyCityChanged,
+    TResult Function(String postCode)? postCodeChanged,
+    TResult Function(String state)? companyStateChanged,
+    TResult Function(String country)? companyCountryChanged,
+    TResult Function(String gst)? companyGstChanged,
+    TResult Function(String phone)? companyPhoneChanged,
+    TResult Function(String email)? companyEmailChanged,
+    TResult Function()? saved,
+    required TResult orElse(),
+  }) {
+    if (companyStateChanged != null) {
+      return companyStateChanged(state);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(CompanyNameChanged value) companyNameChanged,
+    required TResult Function(CompanyCityChanged value) companyCityChanged,
+    required TResult Function(CompanyPostCodeChanged value) postCodeChanged,
+    required TResult Function(CompanyStateChanged value) companyStateChanged,
+    required TResult Function(CompanyCountryChanged value)
+        companyCountryChanged,
+    required TResult Function(CompanyGstChanged value) companyGstChanged,
+    required TResult Function(CompanyPhoneChanged value) companyPhoneChanged,
+    required TResult Function(CompanyEmailChanged value) companyEmailChanged,
+    required TResult Function(Saved value) saved,
+  }) {
+    return companyStateChanged(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(CompanyNameChanged value)? companyNameChanged,
+    TResult Function(CompanyCityChanged value)? companyCityChanged,
+    TResult Function(CompanyPostCodeChanged value)? postCodeChanged,
+    TResult Function(CompanyStateChanged value)? companyStateChanged,
+    TResult Function(CompanyCountryChanged value)? companyCountryChanged,
+    TResult Function(CompanyGstChanged value)? companyGstChanged,
+    TResult Function(CompanyPhoneChanged value)? companyPhoneChanged,
+    TResult Function(CompanyEmailChanged value)? companyEmailChanged,
+    TResult Function(Saved value)? saved,
+  }) {
+    return companyStateChanged?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CompanyNameChanged value)? companyNameChanged,
+    TResult Function(CompanyCityChanged value)? companyCityChanged,
+    TResult Function(CompanyPostCodeChanged value)? postCodeChanged,
+    TResult Function(CompanyStateChanged value)? companyStateChanged,
+    TResult Function(CompanyCountryChanged value)? companyCountryChanged,
+    TResult Function(CompanyGstChanged value)? companyGstChanged,
+    TResult Function(CompanyPhoneChanged value)? companyPhoneChanged,
+    TResult Function(CompanyEmailChanged value)? companyEmailChanged,
+    TResult Function(Saved value)? saved,
+    required TResult orElse(),
+  }) {
+    if (companyStateChanged != null) {
+      return companyStateChanged(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class CompanyStateChanged implements CompanyProfileEvent {
+  const factory CompanyStateChanged(String state) = _$CompanyStateChanged;
+
+  String get state;
+  @JsonKey(ignore: true)
+  $CompanyStateChangedCopyWith<CompanyStateChanged> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CompanyCountryChangedCopyWith<$Res> {
+  factory $CompanyCountryChangedCopyWith(CompanyCountryChanged value,
+          $Res Function(CompanyCountryChanged) then) =
+      _$CompanyCountryChangedCopyWithImpl<$Res>;
+  $Res call({String country});
+}
+
+/// @nodoc
+class _$CompanyCountryChangedCopyWithImpl<$Res>
+    extends _$CompanyProfileEventCopyWithImpl<$Res>
+    implements $CompanyCountryChangedCopyWith<$Res> {
+  _$CompanyCountryChangedCopyWithImpl(
+      CompanyCountryChanged _value, $Res Function(CompanyCountryChanged) _then)
+      : super(_value, (v) => _then(v as CompanyCountryChanged));
+
+  @override
+  CompanyCountryChanged get _value => super._value as CompanyCountryChanged;
+
+  @override
+  $Res call({
+    Object? country = freezed,
+  }) {
+    return _then(CompanyCountryChanged(
+      country == freezed
+          ? _value.country
+          : country // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$CompanyCountryChanged implements CompanyCountryChanged {
+  const _$CompanyCountryChanged(this.country);
+
+  @override
+  final String country;
+
+  @override
+  String toString() {
+    return 'CompanyProfileEvent.companyCountryChanged(country: $country)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is CompanyCountryChanged &&
+            const DeepCollectionEquality().equals(other.country, country));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(country));
+
+  @JsonKey(ignore: true)
+  @override
+  $CompanyCountryChangedCopyWith<CompanyCountryChanged> get copyWith =>
+      _$CompanyCountryChangedCopyWithImpl<CompanyCountryChanged>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String name) companyNameChanged,
+    required TResult Function(String city) companyCityChanged,
+    required TResult Function(String postCode) postCodeChanged,
+    required TResult Function(String state) companyStateChanged,
+    required TResult Function(String country) companyCountryChanged,
+    required TResult Function(String gst) companyGstChanged,
+    required TResult Function(String phone) companyPhoneChanged,
+    required TResult Function(String email) companyEmailChanged,
+    required TResult Function() saved,
+  }) {
+    return companyCountryChanged(country);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(String name)? companyNameChanged,
+    TResult Function(String city)? companyCityChanged,
+    TResult Function(String postCode)? postCodeChanged,
+    TResult Function(String state)? companyStateChanged,
+    TResult Function(String country)? companyCountryChanged,
+    TResult Function(String gst)? companyGstChanged,
+    TResult Function(String phone)? companyPhoneChanged,
+    TResult Function(String email)? companyEmailChanged,
+    TResult Function()? saved,
+  }) {
+    return companyCountryChanged?.call(country);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String name)? companyNameChanged,
+    TResult Function(String city)? companyCityChanged,
+    TResult Function(String postCode)? postCodeChanged,
+    TResult Function(String state)? companyStateChanged,
+    TResult Function(String country)? companyCountryChanged,
+    TResult Function(String gst)? companyGstChanged,
+    TResult Function(String phone)? companyPhoneChanged,
+    TResult Function(String email)? companyEmailChanged,
+    TResult Function()? saved,
+    required TResult orElse(),
+  }) {
+    if (companyCountryChanged != null) {
+      return companyCountryChanged(country);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(CompanyNameChanged value) companyNameChanged,
+    required TResult Function(CompanyCityChanged value) companyCityChanged,
+    required TResult Function(CompanyPostCodeChanged value) postCodeChanged,
+    required TResult Function(CompanyStateChanged value) companyStateChanged,
+    required TResult Function(CompanyCountryChanged value)
+        companyCountryChanged,
+    required TResult Function(CompanyGstChanged value) companyGstChanged,
+    required TResult Function(CompanyPhoneChanged value) companyPhoneChanged,
+    required TResult Function(CompanyEmailChanged value) companyEmailChanged,
+    required TResult Function(Saved value) saved,
+  }) {
+    return companyCountryChanged(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(CompanyNameChanged value)? companyNameChanged,
+    TResult Function(CompanyCityChanged value)? companyCityChanged,
+    TResult Function(CompanyPostCodeChanged value)? postCodeChanged,
+    TResult Function(CompanyStateChanged value)? companyStateChanged,
+    TResult Function(CompanyCountryChanged value)? companyCountryChanged,
+    TResult Function(CompanyGstChanged value)? companyGstChanged,
+    TResult Function(CompanyPhoneChanged value)? companyPhoneChanged,
+    TResult Function(CompanyEmailChanged value)? companyEmailChanged,
+    TResult Function(Saved value)? saved,
+  }) {
+    return companyCountryChanged?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CompanyNameChanged value)? companyNameChanged,
+    TResult Function(CompanyCityChanged value)? companyCityChanged,
+    TResult Function(CompanyPostCodeChanged value)? postCodeChanged,
+    TResult Function(CompanyStateChanged value)? companyStateChanged,
+    TResult Function(CompanyCountryChanged value)? companyCountryChanged,
+    TResult Function(CompanyGstChanged value)? companyGstChanged,
+    TResult Function(CompanyPhoneChanged value)? companyPhoneChanged,
+    TResult Function(CompanyEmailChanged value)? companyEmailChanged,
+    TResult Function(Saved value)? saved,
+    required TResult orElse(),
+  }) {
+    if (companyCountryChanged != null) {
+      return companyCountryChanged(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class CompanyCountryChanged implements CompanyProfileEvent {
+  const factory CompanyCountryChanged(String country) = _$CompanyCountryChanged;
+
+  String get country;
+  @JsonKey(ignore: true)
+  $CompanyCountryChangedCopyWith<CompanyCountryChanged> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CompanyGstChangedCopyWith<$Res> {
+  factory $CompanyGstChangedCopyWith(
+          CompanyGstChanged value, $Res Function(CompanyGstChanged) then) =
+      _$CompanyGstChangedCopyWithImpl<$Res>;
+  $Res call({String gst});
+}
+
+/// @nodoc
+class _$CompanyGstChangedCopyWithImpl<$Res>
+    extends _$CompanyProfileEventCopyWithImpl<$Res>
+    implements $CompanyGstChangedCopyWith<$Res> {
+  _$CompanyGstChangedCopyWithImpl(
+      CompanyGstChanged _value, $Res Function(CompanyGstChanged) _then)
+      : super(_value, (v) => _then(v as CompanyGstChanged));
+
+  @override
+  CompanyGstChanged get _value => super._value as CompanyGstChanged;
+
+  @override
+  $Res call({
+    Object? gst = freezed,
+  }) {
+    return _then(CompanyGstChanged(
+      gst == freezed
+          ? _value.gst
+          : gst // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$CompanyGstChanged implements CompanyGstChanged {
+  const _$CompanyGstChanged(this.gst);
+
+  @override
+  final String gst;
+
+  @override
+  String toString() {
+    return 'CompanyProfileEvent.companyGstChanged(gst: $gst)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is CompanyGstChanged &&
+            const DeepCollectionEquality().equals(other.gst, gst));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(gst));
+
+  @JsonKey(ignore: true)
+  @override
+  $CompanyGstChangedCopyWith<CompanyGstChanged> get copyWith =>
+      _$CompanyGstChangedCopyWithImpl<CompanyGstChanged>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String name) companyNameChanged,
+    required TResult Function(String city) companyCityChanged,
+    required TResult Function(String postCode) postCodeChanged,
+    required TResult Function(String state) companyStateChanged,
+    required TResult Function(String country) companyCountryChanged,
+    required TResult Function(String gst) companyGstChanged,
+    required TResult Function(String phone) companyPhoneChanged,
+    required TResult Function(String email) companyEmailChanged,
+    required TResult Function() saved,
+  }) {
+    return companyGstChanged(gst);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(String name)? companyNameChanged,
+    TResult Function(String city)? companyCityChanged,
+    TResult Function(String postCode)? postCodeChanged,
+    TResult Function(String state)? companyStateChanged,
+    TResult Function(String country)? companyCountryChanged,
+    TResult Function(String gst)? companyGstChanged,
+    TResult Function(String phone)? companyPhoneChanged,
+    TResult Function(String email)? companyEmailChanged,
+    TResult Function()? saved,
+  }) {
+    return companyGstChanged?.call(gst);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String name)? companyNameChanged,
+    TResult Function(String city)? companyCityChanged,
+    TResult Function(String postCode)? postCodeChanged,
+    TResult Function(String state)? companyStateChanged,
+    TResult Function(String country)? companyCountryChanged,
+    TResult Function(String gst)? companyGstChanged,
+    TResult Function(String phone)? companyPhoneChanged,
+    TResult Function(String email)? companyEmailChanged,
+    TResult Function()? saved,
+    required TResult orElse(),
+  }) {
+    if (companyGstChanged != null) {
+      return companyGstChanged(gst);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(CompanyNameChanged value) companyNameChanged,
+    required TResult Function(CompanyCityChanged value) companyCityChanged,
+    required TResult Function(CompanyPostCodeChanged value) postCodeChanged,
+    required TResult Function(CompanyStateChanged value) companyStateChanged,
+    required TResult Function(CompanyCountryChanged value)
+        companyCountryChanged,
+    required TResult Function(CompanyGstChanged value) companyGstChanged,
+    required TResult Function(CompanyPhoneChanged value) companyPhoneChanged,
+    required TResult Function(CompanyEmailChanged value) companyEmailChanged,
+    required TResult Function(Saved value) saved,
+  }) {
+    return companyGstChanged(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(CompanyNameChanged value)? companyNameChanged,
+    TResult Function(CompanyCityChanged value)? companyCityChanged,
+    TResult Function(CompanyPostCodeChanged value)? postCodeChanged,
+    TResult Function(CompanyStateChanged value)? companyStateChanged,
+    TResult Function(CompanyCountryChanged value)? companyCountryChanged,
+    TResult Function(CompanyGstChanged value)? companyGstChanged,
+    TResult Function(CompanyPhoneChanged value)? companyPhoneChanged,
+    TResult Function(CompanyEmailChanged value)? companyEmailChanged,
+    TResult Function(Saved value)? saved,
+  }) {
+    return companyGstChanged?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CompanyNameChanged value)? companyNameChanged,
+    TResult Function(CompanyCityChanged value)? companyCityChanged,
+    TResult Function(CompanyPostCodeChanged value)? postCodeChanged,
+    TResult Function(CompanyStateChanged value)? companyStateChanged,
+    TResult Function(CompanyCountryChanged value)? companyCountryChanged,
+    TResult Function(CompanyGstChanged value)? companyGstChanged,
+    TResult Function(CompanyPhoneChanged value)? companyPhoneChanged,
+    TResult Function(CompanyEmailChanged value)? companyEmailChanged,
+    TResult Function(Saved value)? saved,
+    required TResult orElse(),
+  }) {
+    if (companyGstChanged != null) {
+      return companyGstChanged(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class CompanyGstChanged implements CompanyProfileEvent {
+  const factory CompanyGstChanged(String gst) = _$CompanyGstChanged;
+
+  String get gst;
+  @JsonKey(ignore: true)
+  $CompanyGstChangedCopyWith<CompanyGstChanged> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CompanyPhoneChangedCopyWith<$Res> {
+  factory $CompanyPhoneChangedCopyWith(
+          CompanyPhoneChanged value, $Res Function(CompanyPhoneChanged) then) =
+      _$CompanyPhoneChangedCopyWithImpl<$Res>;
   $Res call({String phone});
 }
 
 /// @nodoc
-class _$PhoneChangedCopyWithImpl<$Res>
+class _$CompanyPhoneChangedCopyWithImpl<$Res>
     extends _$CompanyProfileEventCopyWithImpl<$Res>
-    implements $PhoneChangedCopyWith<$Res> {
-  _$PhoneChangedCopyWithImpl(
-      PhoneChanged _value, $Res Function(PhoneChanged) _then)
-      : super(_value, (v) => _then(v as PhoneChanged));
+    implements $CompanyPhoneChangedCopyWith<$Res> {
+  _$CompanyPhoneChangedCopyWithImpl(
+      CompanyPhoneChanged _value, $Res Function(CompanyPhoneChanged) _then)
+      : super(_value, (v) => _then(v as CompanyPhoneChanged));
 
   @override
-  PhoneChanged get _value => super._value as PhoneChanged;
+  CompanyPhoneChanged get _value => super._value as CompanyPhoneChanged;
 
   @override
   $Res call({
     Object? phone = freezed,
   }) {
-    return _then(PhoneChanged(
+    return _then(CompanyPhoneChanged(
       phone == freezed
           ? _value.phone
           : phone // ignore: cast_nullable_to_non_nullable
@@ -659,8 +1275,8 @@ class _$PhoneChangedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$PhoneChanged implements PhoneChanged {
-  const _$PhoneChanged(this.phone);
+class _$CompanyPhoneChanged implements CompanyPhoneChanged {
+  const _$CompanyPhoneChanged(this.phone);
 
   @override
   final String phone;
@@ -674,7 +1290,7 @@ class _$PhoneChanged implements PhoneChanged {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is PhoneChanged &&
+            other is CompanyPhoneChanged &&
             const DeepCollectionEquality().equals(other.phone, phone));
   }
 
@@ -684,18 +1300,21 @@ class _$PhoneChanged implements PhoneChanged {
 
   @JsonKey(ignore: true)
   @override
-  $PhoneChangedCopyWith<PhoneChanged> get copyWith =>
-      _$PhoneChangedCopyWithImpl<PhoneChanged>(this, _$identity);
+  $CompanyPhoneChangedCopyWith<CompanyPhoneChanged> get copyWith =>
+      _$CompanyPhoneChangedCopyWithImpl<CompanyPhoneChanged>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String name) companyNameChanged,
-    required TResult Function(String address) companyAddress1Changed,
-    required TResult Function(String address) companyAddress2Changed,
+    required TResult Function(String city) companyCityChanged,
+    required TResult Function(String postCode) postCodeChanged,
+    required TResult Function(String state) companyStateChanged,
+    required TResult Function(String country) companyCountryChanged,
+    required TResult Function(String gst) companyGstChanged,
     required TResult Function(String phone) companyPhoneChanged,
     required TResult Function(String email) companyEmailChanged,
-    required TResult Function() onSaved,
+    required TResult Function() saved,
   }) {
     return companyPhoneChanged(phone);
   }
@@ -704,11 +1323,14 @@ class _$PhoneChanged implements PhoneChanged {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String name)? companyNameChanged,
-    TResult Function(String address)? companyAddress1Changed,
-    TResult Function(String address)? companyAddress2Changed,
+    TResult Function(String city)? companyCityChanged,
+    TResult Function(String postCode)? postCodeChanged,
+    TResult Function(String state)? companyStateChanged,
+    TResult Function(String country)? companyCountryChanged,
+    TResult Function(String gst)? companyGstChanged,
     TResult Function(String phone)? companyPhoneChanged,
     TResult Function(String email)? companyEmailChanged,
-    TResult Function()? onSaved,
+    TResult Function()? saved,
   }) {
     return companyPhoneChanged?.call(phone);
   }
@@ -717,11 +1339,14 @@ class _$PhoneChanged implements PhoneChanged {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String name)? companyNameChanged,
-    TResult Function(String address)? companyAddress1Changed,
-    TResult Function(String address)? companyAddress2Changed,
+    TResult Function(String city)? companyCityChanged,
+    TResult Function(String postCode)? postCodeChanged,
+    TResult Function(String state)? companyStateChanged,
+    TResult Function(String country)? companyCountryChanged,
+    TResult Function(String gst)? companyGstChanged,
     TResult Function(String phone)? companyPhoneChanged,
     TResult Function(String email)? companyEmailChanged,
-    TResult Function()? onSaved,
+    TResult Function()? saved,
     required TResult orElse(),
   }) {
     if (companyPhoneChanged != null) {
@@ -734,13 +1359,15 @@ class _$PhoneChanged implements PhoneChanged {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(CompanyNameChanged value) companyNameChanged,
-    required TResult Function(CompanyAddress1Changed value)
-        companyAddress1Changed,
-    required TResult Function(CompanyAddress2Changed value)
-        companyAddress2Changed,
-    required TResult Function(PhoneChanged value) companyPhoneChanged,
-    required TResult Function(EmailChanged value) companyEmailChanged,
-    required TResult Function(OnSaved value) onSaved,
+    required TResult Function(CompanyCityChanged value) companyCityChanged,
+    required TResult Function(CompanyPostCodeChanged value) postCodeChanged,
+    required TResult Function(CompanyStateChanged value) companyStateChanged,
+    required TResult Function(CompanyCountryChanged value)
+        companyCountryChanged,
+    required TResult Function(CompanyGstChanged value) companyGstChanged,
+    required TResult Function(CompanyPhoneChanged value) companyPhoneChanged,
+    required TResult Function(CompanyEmailChanged value) companyEmailChanged,
+    required TResult Function(Saved value) saved,
   }) {
     return companyPhoneChanged(this);
   }
@@ -749,11 +1376,14 @@ class _$PhoneChanged implements PhoneChanged {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(CompanyNameChanged value)? companyNameChanged,
-    TResult Function(CompanyAddress1Changed value)? companyAddress1Changed,
-    TResult Function(CompanyAddress2Changed value)? companyAddress2Changed,
-    TResult Function(PhoneChanged value)? companyPhoneChanged,
-    TResult Function(EmailChanged value)? companyEmailChanged,
-    TResult Function(OnSaved value)? onSaved,
+    TResult Function(CompanyCityChanged value)? companyCityChanged,
+    TResult Function(CompanyPostCodeChanged value)? postCodeChanged,
+    TResult Function(CompanyStateChanged value)? companyStateChanged,
+    TResult Function(CompanyCountryChanged value)? companyCountryChanged,
+    TResult Function(CompanyGstChanged value)? companyGstChanged,
+    TResult Function(CompanyPhoneChanged value)? companyPhoneChanged,
+    TResult Function(CompanyEmailChanged value)? companyEmailChanged,
+    TResult Function(Saved value)? saved,
   }) {
     return companyPhoneChanged?.call(this);
   }
@@ -762,11 +1392,14 @@ class _$PhoneChanged implements PhoneChanged {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(CompanyNameChanged value)? companyNameChanged,
-    TResult Function(CompanyAddress1Changed value)? companyAddress1Changed,
-    TResult Function(CompanyAddress2Changed value)? companyAddress2Changed,
-    TResult Function(PhoneChanged value)? companyPhoneChanged,
-    TResult Function(EmailChanged value)? companyEmailChanged,
-    TResult Function(OnSaved value)? onSaved,
+    TResult Function(CompanyCityChanged value)? companyCityChanged,
+    TResult Function(CompanyPostCodeChanged value)? postCodeChanged,
+    TResult Function(CompanyStateChanged value)? companyStateChanged,
+    TResult Function(CompanyCountryChanged value)? companyCountryChanged,
+    TResult Function(CompanyGstChanged value)? companyGstChanged,
+    TResult Function(CompanyPhoneChanged value)? companyPhoneChanged,
+    TResult Function(CompanyEmailChanged value)? companyEmailChanged,
+    TResult Function(Saved value)? saved,
     required TResult orElse(),
   }) {
     if (companyPhoneChanged != null) {
@@ -776,39 +1409,39 @@ class _$PhoneChanged implements PhoneChanged {
   }
 }
 
-abstract class PhoneChanged implements CompanyProfileEvent {
-  const factory PhoneChanged(String phone) = _$PhoneChanged;
+abstract class CompanyPhoneChanged implements CompanyProfileEvent {
+  const factory CompanyPhoneChanged(String phone) = _$CompanyPhoneChanged;
 
   String get phone;
   @JsonKey(ignore: true)
-  $PhoneChangedCopyWith<PhoneChanged> get copyWith =>
+  $CompanyPhoneChangedCopyWith<CompanyPhoneChanged> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $EmailChangedCopyWith<$Res> {
-  factory $EmailChangedCopyWith(
-          EmailChanged value, $Res Function(EmailChanged) then) =
-      _$EmailChangedCopyWithImpl<$Res>;
+abstract class $CompanyEmailChangedCopyWith<$Res> {
+  factory $CompanyEmailChangedCopyWith(
+          CompanyEmailChanged value, $Res Function(CompanyEmailChanged) then) =
+      _$CompanyEmailChangedCopyWithImpl<$Res>;
   $Res call({String email});
 }
 
 /// @nodoc
-class _$EmailChangedCopyWithImpl<$Res>
+class _$CompanyEmailChangedCopyWithImpl<$Res>
     extends _$CompanyProfileEventCopyWithImpl<$Res>
-    implements $EmailChangedCopyWith<$Res> {
-  _$EmailChangedCopyWithImpl(
-      EmailChanged _value, $Res Function(EmailChanged) _then)
-      : super(_value, (v) => _then(v as EmailChanged));
+    implements $CompanyEmailChangedCopyWith<$Res> {
+  _$CompanyEmailChangedCopyWithImpl(
+      CompanyEmailChanged _value, $Res Function(CompanyEmailChanged) _then)
+      : super(_value, (v) => _then(v as CompanyEmailChanged));
 
   @override
-  EmailChanged get _value => super._value as EmailChanged;
+  CompanyEmailChanged get _value => super._value as CompanyEmailChanged;
 
   @override
   $Res call({
     Object? email = freezed,
   }) {
-    return _then(EmailChanged(
+    return _then(CompanyEmailChanged(
       email == freezed
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -819,8 +1452,8 @@ class _$EmailChangedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$EmailChanged implements EmailChanged {
-  const _$EmailChanged(this.email);
+class _$CompanyEmailChanged implements CompanyEmailChanged {
+  const _$CompanyEmailChanged(this.email);
 
   @override
   final String email;
@@ -834,7 +1467,7 @@ class _$EmailChanged implements EmailChanged {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is EmailChanged &&
+            other is CompanyEmailChanged &&
             const DeepCollectionEquality().equals(other.email, email));
   }
 
@@ -844,18 +1477,21 @@ class _$EmailChanged implements EmailChanged {
 
   @JsonKey(ignore: true)
   @override
-  $EmailChangedCopyWith<EmailChanged> get copyWith =>
-      _$EmailChangedCopyWithImpl<EmailChanged>(this, _$identity);
+  $CompanyEmailChangedCopyWith<CompanyEmailChanged> get copyWith =>
+      _$CompanyEmailChangedCopyWithImpl<CompanyEmailChanged>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String name) companyNameChanged,
-    required TResult Function(String address) companyAddress1Changed,
-    required TResult Function(String address) companyAddress2Changed,
+    required TResult Function(String city) companyCityChanged,
+    required TResult Function(String postCode) postCodeChanged,
+    required TResult Function(String state) companyStateChanged,
+    required TResult Function(String country) companyCountryChanged,
+    required TResult Function(String gst) companyGstChanged,
     required TResult Function(String phone) companyPhoneChanged,
     required TResult Function(String email) companyEmailChanged,
-    required TResult Function() onSaved,
+    required TResult Function() saved,
   }) {
     return companyEmailChanged(email);
   }
@@ -864,11 +1500,14 @@ class _$EmailChanged implements EmailChanged {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String name)? companyNameChanged,
-    TResult Function(String address)? companyAddress1Changed,
-    TResult Function(String address)? companyAddress2Changed,
+    TResult Function(String city)? companyCityChanged,
+    TResult Function(String postCode)? postCodeChanged,
+    TResult Function(String state)? companyStateChanged,
+    TResult Function(String country)? companyCountryChanged,
+    TResult Function(String gst)? companyGstChanged,
     TResult Function(String phone)? companyPhoneChanged,
     TResult Function(String email)? companyEmailChanged,
-    TResult Function()? onSaved,
+    TResult Function()? saved,
   }) {
     return companyEmailChanged?.call(email);
   }
@@ -877,11 +1516,14 @@ class _$EmailChanged implements EmailChanged {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String name)? companyNameChanged,
-    TResult Function(String address)? companyAddress1Changed,
-    TResult Function(String address)? companyAddress2Changed,
+    TResult Function(String city)? companyCityChanged,
+    TResult Function(String postCode)? postCodeChanged,
+    TResult Function(String state)? companyStateChanged,
+    TResult Function(String country)? companyCountryChanged,
+    TResult Function(String gst)? companyGstChanged,
     TResult Function(String phone)? companyPhoneChanged,
     TResult Function(String email)? companyEmailChanged,
-    TResult Function()? onSaved,
+    TResult Function()? saved,
     required TResult orElse(),
   }) {
     if (companyEmailChanged != null) {
@@ -894,13 +1536,15 @@ class _$EmailChanged implements EmailChanged {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(CompanyNameChanged value) companyNameChanged,
-    required TResult Function(CompanyAddress1Changed value)
-        companyAddress1Changed,
-    required TResult Function(CompanyAddress2Changed value)
-        companyAddress2Changed,
-    required TResult Function(PhoneChanged value) companyPhoneChanged,
-    required TResult Function(EmailChanged value) companyEmailChanged,
-    required TResult Function(OnSaved value) onSaved,
+    required TResult Function(CompanyCityChanged value) companyCityChanged,
+    required TResult Function(CompanyPostCodeChanged value) postCodeChanged,
+    required TResult Function(CompanyStateChanged value) companyStateChanged,
+    required TResult Function(CompanyCountryChanged value)
+        companyCountryChanged,
+    required TResult Function(CompanyGstChanged value) companyGstChanged,
+    required TResult Function(CompanyPhoneChanged value) companyPhoneChanged,
+    required TResult Function(CompanyEmailChanged value) companyEmailChanged,
+    required TResult Function(Saved value) saved,
   }) {
     return companyEmailChanged(this);
   }
@@ -909,11 +1553,14 @@ class _$EmailChanged implements EmailChanged {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(CompanyNameChanged value)? companyNameChanged,
-    TResult Function(CompanyAddress1Changed value)? companyAddress1Changed,
-    TResult Function(CompanyAddress2Changed value)? companyAddress2Changed,
-    TResult Function(PhoneChanged value)? companyPhoneChanged,
-    TResult Function(EmailChanged value)? companyEmailChanged,
-    TResult Function(OnSaved value)? onSaved,
+    TResult Function(CompanyCityChanged value)? companyCityChanged,
+    TResult Function(CompanyPostCodeChanged value)? postCodeChanged,
+    TResult Function(CompanyStateChanged value)? companyStateChanged,
+    TResult Function(CompanyCountryChanged value)? companyCountryChanged,
+    TResult Function(CompanyGstChanged value)? companyGstChanged,
+    TResult Function(CompanyPhoneChanged value)? companyPhoneChanged,
+    TResult Function(CompanyEmailChanged value)? companyEmailChanged,
+    TResult Function(Saved value)? saved,
   }) {
     return companyEmailChanged?.call(this);
   }
@@ -922,11 +1569,14 @@ class _$EmailChanged implements EmailChanged {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(CompanyNameChanged value)? companyNameChanged,
-    TResult Function(CompanyAddress1Changed value)? companyAddress1Changed,
-    TResult Function(CompanyAddress2Changed value)? companyAddress2Changed,
-    TResult Function(PhoneChanged value)? companyPhoneChanged,
-    TResult Function(EmailChanged value)? companyEmailChanged,
-    TResult Function(OnSaved value)? onSaved,
+    TResult Function(CompanyCityChanged value)? companyCityChanged,
+    TResult Function(CompanyPostCodeChanged value)? postCodeChanged,
+    TResult Function(CompanyStateChanged value)? companyStateChanged,
+    TResult Function(CompanyCountryChanged value)? companyCountryChanged,
+    TResult Function(CompanyGstChanged value)? companyGstChanged,
+    TResult Function(CompanyPhoneChanged value)? companyPhoneChanged,
+    TResult Function(CompanyEmailChanged value)? companyEmailChanged,
+    TResult Function(Saved value)? saved,
     required TResult orElse(),
   }) {
     if (companyEmailChanged != null) {
@@ -936,46 +1586,45 @@ class _$EmailChanged implements EmailChanged {
   }
 }
 
-abstract class EmailChanged implements CompanyProfileEvent {
-  const factory EmailChanged(String email) = _$EmailChanged;
+abstract class CompanyEmailChanged implements CompanyProfileEvent {
+  const factory CompanyEmailChanged(String email) = _$CompanyEmailChanged;
 
   String get email;
   @JsonKey(ignore: true)
-  $EmailChangedCopyWith<EmailChanged> get copyWith =>
+  $CompanyEmailChangedCopyWith<CompanyEmailChanged> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $OnSavedCopyWith<$Res> {
-  factory $OnSavedCopyWith(OnSaved value, $Res Function(OnSaved) then) =
-      _$OnSavedCopyWithImpl<$Res>;
+abstract class $SavedCopyWith<$Res> {
+  factory $SavedCopyWith(Saved value, $Res Function(Saved) then) =
+      _$SavedCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class _$OnSavedCopyWithImpl<$Res>
-    extends _$CompanyProfileEventCopyWithImpl<$Res>
-    implements $OnSavedCopyWith<$Res> {
-  _$OnSavedCopyWithImpl(OnSaved _value, $Res Function(OnSaved) _then)
-      : super(_value, (v) => _then(v as OnSaved));
+class _$SavedCopyWithImpl<$Res> extends _$CompanyProfileEventCopyWithImpl<$Res>
+    implements $SavedCopyWith<$Res> {
+  _$SavedCopyWithImpl(Saved _value, $Res Function(Saved) _then)
+      : super(_value, (v) => _then(v as Saved));
 
   @override
-  OnSaved get _value => super._value as OnSaved;
+  Saved get _value => super._value as Saved;
 }
 
 /// @nodoc
 
-class _$OnSaved implements OnSaved {
-  const _$OnSaved();
+class _$Saved implements Saved {
+  const _$Saved();
 
   @override
   String toString() {
-    return 'CompanyProfileEvent.onSaved()';
+    return 'CompanyProfileEvent.saved()';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is OnSaved);
+        (other.runtimeType == runtimeType && other is Saved);
   }
 
   @override
@@ -985,41 +1634,50 @@ class _$OnSaved implements OnSaved {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String name) companyNameChanged,
-    required TResult Function(String address) companyAddress1Changed,
-    required TResult Function(String address) companyAddress2Changed,
+    required TResult Function(String city) companyCityChanged,
+    required TResult Function(String postCode) postCodeChanged,
+    required TResult Function(String state) companyStateChanged,
+    required TResult Function(String country) companyCountryChanged,
+    required TResult Function(String gst) companyGstChanged,
     required TResult Function(String phone) companyPhoneChanged,
     required TResult Function(String email) companyEmailChanged,
-    required TResult Function() onSaved,
+    required TResult Function() saved,
   }) {
-    return onSaved();
+    return saved();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String name)? companyNameChanged,
-    TResult Function(String address)? companyAddress1Changed,
-    TResult Function(String address)? companyAddress2Changed,
+    TResult Function(String city)? companyCityChanged,
+    TResult Function(String postCode)? postCodeChanged,
+    TResult Function(String state)? companyStateChanged,
+    TResult Function(String country)? companyCountryChanged,
+    TResult Function(String gst)? companyGstChanged,
     TResult Function(String phone)? companyPhoneChanged,
     TResult Function(String email)? companyEmailChanged,
-    TResult Function()? onSaved,
+    TResult Function()? saved,
   }) {
-    return onSaved?.call();
+    return saved?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String name)? companyNameChanged,
-    TResult Function(String address)? companyAddress1Changed,
-    TResult Function(String address)? companyAddress2Changed,
+    TResult Function(String city)? companyCityChanged,
+    TResult Function(String postCode)? postCodeChanged,
+    TResult Function(String state)? companyStateChanged,
+    TResult Function(String country)? companyCountryChanged,
+    TResult Function(String gst)? companyGstChanged,
     TResult Function(String phone)? companyPhoneChanged,
     TResult Function(String email)? companyEmailChanged,
-    TResult Function()? onSaved,
+    TResult Function()? saved,
     required TResult orElse(),
   }) {
-    if (onSaved != null) {
-      return onSaved();
+    if (saved != null) {
+      return saved();
     }
     return orElse();
   }
@@ -1028,50 +1686,58 @@ class _$OnSaved implements OnSaved {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(CompanyNameChanged value) companyNameChanged,
-    required TResult Function(CompanyAddress1Changed value)
-        companyAddress1Changed,
-    required TResult Function(CompanyAddress2Changed value)
-        companyAddress2Changed,
-    required TResult Function(PhoneChanged value) companyPhoneChanged,
-    required TResult Function(EmailChanged value) companyEmailChanged,
-    required TResult Function(OnSaved value) onSaved,
+    required TResult Function(CompanyCityChanged value) companyCityChanged,
+    required TResult Function(CompanyPostCodeChanged value) postCodeChanged,
+    required TResult Function(CompanyStateChanged value) companyStateChanged,
+    required TResult Function(CompanyCountryChanged value)
+        companyCountryChanged,
+    required TResult Function(CompanyGstChanged value) companyGstChanged,
+    required TResult Function(CompanyPhoneChanged value) companyPhoneChanged,
+    required TResult Function(CompanyEmailChanged value) companyEmailChanged,
+    required TResult Function(Saved value) saved,
   }) {
-    return onSaved(this);
+    return saved(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(CompanyNameChanged value)? companyNameChanged,
-    TResult Function(CompanyAddress1Changed value)? companyAddress1Changed,
-    TResult Function(CompanyAddress2Changed value)? companyAddress2Changed,
-    TResult Function(PhoneChanged value)? companyPhoneChanged,
-    TResult Function(EmailChanged value)? companyEmailChanged,
-    TResult Function(OnSaved value)? onSaved,
+    TResult Function(CompanyCityChanged value)? companyCityChanged,
+    TResult Function(CompanyPostCodeChanged value)? postCodeChanged,
+    TResult Function(CompanyStateChanged value)? companyStateChanged,
+    TResult Function(CompanyCountryChanged value)? companyCountryChanged,
+    TResult Function(CompanyGstChanged value)? companyGstChanged,
+    TResult Function(CompanyPhoneChanged value)? companyPhoneChanged,
+    TResult Function(CompanyEmailChanged value)? companyEmailChanged,
+    TResult Function(Saved value)? saved,
   }) {
-    return onSaved?.call(this);
+    return saved?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(CompanyNameChanged value)? companyNameChanged,
-    TResult Function(CompanyAddress1Changed value)? companyAddress1Changed,
-    TResult Function(CompanyAddress2Changed value)? companyAddress2Changed,
-    TResult Function(PhoneChanged value)? companyPhoneChanged,
-    TResult Function(EmailChanged value)? companyEmailChanged,
-    TResult Function(OnSaved value)? onSaved,
+    TResult Function(CompanyCityChanged value)? companyCityChanged,
+    TResult Function(CompanyPostCodeChanged value)? postCodeChanged,
+    TResult Function(CompanyStateChanged value)? companyStateChanged,
+    TResult Function(CompanyCountryChanged value)? companyCountryChanged,
+    TResult Function(CompanyGstChanged value)? companyGstChanged,
+    TResult Function(CompanyPhoneChanged value)? companyPhoneChanged,
+    TResult Function(CompanyEmailChanged value)? companyEmailChanged,
+    TResult Function(Saved value)? saved,
     required TResult orElse(),
   }) {
-    if (onSaved != null) {
-      return onSaved(this);
+    if (saved != null) {
+      return saved(this);
     }
     return orElse();
   }
 }
 
-abstract class OnSaved implements CompanyProfileEvent {
-  const factory OnSaved() = _$OnSaved;
+abstract class Saved implements CompanyProfileEvent {
+  const factory Saved() = _$Saved;
 }
 
 /// @nodoc
@@ -1080,18 +1746,26 @@ class _$CompanyProfileStateTearOff {
 
   _CompanyProfileState call(
       {InputString companyName = const InputString.pure(),
-      InputString companyAddress1 = const InputString.pure(),
-      InputString companyAddress2 = const InputString.pure(),
+      InputString companyCity = const InputString.pure(),
+      InputString companyState = const InputString.pure(),
+      InputString companyCountry = const InputString.pure(),
+      InputIdCode companyPostalCode = const InputIdCode.pure(),
       InputGst gst = const InputGst.pure(),
       InputString companyPhone = const InputString.pure(),
-      InputString companyEmail = const InputString.pure()}) {
+      InputString companyEmail = const InputString.pure(),
+      InputString companyWebsite = const InputString.pure(),
+      FormzStatus status = FormzStatus.pure}) {
     return _CompanyProfileState(
       companyName: companyName,
-      companyAddress1: companyAddress1,
-      companyAddress2: companyAddress2,
+      companyCity: companyCity,
+      companyState: companyState,
+      companyCountry: companyCountry,
+      companyPostalCode: companyPostalCode,
       gst: gst,
       companyPhone: companyPhone,
       companyEmail: companyEmail,
+      companyWebsite: companyWebsite,
+      status: status,
     );
   }
 }
@@ -1102,11 +1776,15 @@ const $CompanyProfileState = _$CompanyProfileStateTearOff();
 /// @nodoc
 mixin _$CompanyProfileState {
   InputString get companyName => throw _privateConstructorUsedError;
-  InputString get companyAddress1 => throw _privateConstructorUsedError;
-  InputString get companyAddress2 => throw _privateConstructorUsedError;
+  InputString get companyCity => throw _privateConstructorUsedError;
+  InputString get companyState => throw _privateConstructorUsedError;
+  InputString get companyCountry => throw _privateConstructorUsedError;
+  InputIdCode get companyPostalCode => throw _privateConstructorUsedError;
   InputGst get gst => throw _privateConstructorUsedError;
   InputString get companyPhone => throw _privateConstructorUsedError;
   InputString get companyEmail => throw _privateConstructorUsedError;
+  InputString get companyWebsite => throw _privateConstructorUsedError;
+  FormzStatus get status => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CompanyProfileStateCopyWith<CompanyProfileState> get copyWith =>
@@ -1120,11 +1798,15 @@ abstract class $CompanyProfileStateCopyWith<$Res> {
       _$CompanyProfileStateCopyWithImpl<$Res>;
   $Res call(
       {InputString companyName,
-      InputString companyAddress1,
-      InputString companyAddress2,
+      InputString companyCity,
+      InputString companyState,
+      InputString companyCountry,
+      InputIdCode companyPostalCode,
       InputGst gst,
       InputString companyPhone,
-      InputString companyEmail});
+      InputString companyEmail,
+      InputString companyWebsite,
+      FormzStatus status});
 }
 
 /// @nodoc
@@ -1139,25 +1821,37 @@ class _$CompanyProfileStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? companyName = freezed,
-    Object? companyAddress1 = freezed,
-    Object? companyAddress2 = freezed,
+    Object? companyCity = freezed,
+    Object? companyState = freezed,
+    Object? companyCountry = freezed,
+    Object? companyPostalCode = freezed,
     Object? gst = freezed,
     Object? companyPhone = freezed,
     Object? companyEmail = freezed,
+    Object? companyWebsite = freezed,
+    Object? status = freezed,
   }) {
     return _then(_value.copyWith(
       companyName: companyName == freezed
           ? _value.companyName
           : companyName // ignore: cast_nullable_to_non_nullable
               as InputString,
-      companyAddress1: companyAddress1 == freezed
-          ? _value.companyAddress1
-          : companyAddress1 // ignore: cast_nullable_to_non_nullable
+      companyCity: companyCity == freezed
+          ? _value.companyCity
+          : companyCity // ignore: cast_nullable_to_non_nullable
               as InputString,
-      companyAddress2: companyAddress2 == freezed
-          ? _value.companyAddress2
-          : companyAddress2 // ignore: cast_nullable_to_non_nullable
+      companyState: companyState == freezed
+          ? _value.companyState
+          : companyState // ignore: cast_nullable_to_non_nullable
               as InputString,
+      companyCountry: companyCountry == freezed
+          ? _value.companyCountry
+          : companyCountry // ignore: cast_nullable_to_non_nullable
+              as InputString,
+      companyPostalCode: companyPostalCode == freezed
+          ? _value.companyPostalCode
+          : companyPostalCode // ignore: cast_nullable_to_non_nullable
+              as InputIdCode,
       gst: gst == freezed
           ? _value.gst
           : gst // ignore: cast_nullable_to_non_nullable
@@ -1170,6 +1864,14 @@ class _$CompanyProfileStateCopyWithImpl<$Res>
           ? _value.companyEmail
           : companyEmail // ignore: cast_nullable_to_non_nullable
               as InputString,
+      companyWebsite: companyWebsite == freezed
+          ? _value.companyWebsite
+          : companyWebsite // ignore: cast_nullable_to_non_nullable
+              as InputString,
+      status: status == freezed
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as FormzStatus,
     ));
   }
 }
@@ -1183,11 +1885,15 @@ abstract class _$CompanyProfileStateCopyWith<$Res>
   @override
   $Res call(
       {InputString companyName,
-      InputString companyAddress1,
-      InputString companyAddress2,
+      InputString companyCity,
+      InputString companyState,
+      InputString companyCountry,
+      InputIdCode companyPostalCode,
       InputGst gst,
       InputString companyPhone,
-      InputString companyEmail});
+      InputString companyEmail,
+      InputString companyWebsite,
+      FormzStatus status});
 }
 
 /// @nodoc
@@ -1204,25 +1910,37 @@ class __$CompanyProfileStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? companyName = freezed,
-    Object? companyAddress1 = freezed,
-    Object? companyAddress2 = freezed,
+    Object? companyCity = freezed,
+    Object? companyState = freezed,
+    Object? companyCountry = freezed,
+    Object? companyPostalCode = freezed,
     Object? gst = freezed,
     Object? companyPhone = freezed,
     Object? companyEmail = freezed,
+    Object? companyWebsite = freezed,
+    Object? status = freezed,
   }) {
     return _then(_CompanyProfileState(
       companyName: companyName == freezed
           ? _value.companyName
           : companyName // ignore: cast_nullable_to_non_nullable
               as InputString,
-      companyAddress1: companyAddress1 == freezed
-          ? _value.companyAddress1
-          : companyAddress1 // ignore: cast_nullable_to_non_nullable
+      companyCity: companyCity == freezed
+          ? _value.companyCity
+          : companyCity // ignore: cast_nullable_to_non_nullable
               as InputString,
-      companyAddress2: companyAddress2 == freezed
-          ? _value.companyAddress2
-          : companyAddress2 // ignore: cast_nullable_to_non_nullable
+      companyState: companyState == freezed
+          ? _value.companyState
+          : companyState // ignore: cast_nullable_to_non_nullable
               as InputString,
+      companyCountry: companyCountry == freezed
+          ? _value.companyCountry
+          : companyCountry // ignore: cast_nullable_to_non_nullable
+              as InputString,
+      companyPostalCode: companyPostalCode == freezed
+          ? _value.companyPostalCode
+          : companyPostalCode // ignore: cast_nullable_to_non_nullable
+              as InputIdCode,
       gst: gst == freezed
           ? _value.gst
           : gst // ignore: cast_nullable_to_non_nullable
@@ -1235,6 +1953,14 @@ class __$CompanyProfileStateCopyWithImpl<$Res>
           ? _value.companyEmail
           : companyEmail // ignore: cast_nullable_to_non_nullable
               as InputString,
+      companyWebsite: companyWebsite == freezed
+          ? _value.companyWebsite
+          : companyWebsite // ignore: cast_nullable_to_non_nullable
+              as InputString,
+      status: status == freezed
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as FormzStatus,
     ));
   }
 }
@@ -1244,21 +1970,31 @@ class __$CompanyProfileStateCopyWithImpl<$Res>
 class _$_CompanyProfileState implements _CompanyProfileState {
   const _$_CompanyProfileState(
       {this.companyName = const InputString.pure(),
-      this.companyAddress1 = const InputString.pure(),
-      this.companyAddress2 = const InputString.pure(),
+      this.companyCity = const InputString.pure(),
+      this.companyState = const InputString.pure(),
+      this.companyCountry = const InputString.pure(),
+      this.companyPostalCode = const InputIdCode.pure(),
       this.gst = const InputGst.pure(),
       this.companyPhone = const InputString.pure(),
-      this.companyEmail = const InputString.pure()});
+      this.companyEmail = const InputString.pure(),
+      this.companyWebsite = const InputString.pure(),
+      this.status = FormzStatus.pure});
 
   @JsonKey()
   @override
   final InputString companyName;
   @JsonKey()
   @override
-  final InputString companyAddress1;
+  final InputString companyCity;
   @JsonKey()
   @override
-  final InputString companyAddress2;
+  final InputString companyState;
+  @JsonKey()
+  @override
+  final InputString companyCountry;
+  @JsonKey()
+  @override
+  final InputIdCode companyPostalCode;
   @JsonKey()
   @override
   final InputGst gst;
@@ -1268,10 +2004,16 @@ class _$_CompanyProfileState implements _CompanyProfileState {
   @JsonKey()
   @override
   final InputString companyEmail;
+  @JsonKey()
+  @override
+  final InputString companyWebsite;
+  @JsonKey()
+  @override
+  final FormzStatus status;
 
   @override
   String toString() {
-    return 'CompanyProfileState(companyName: $companyName, companyAddress1: $companyAddress1, companyAddress2: $companyAddress2, gst: $gst, companyPhone: $companyPhone, companyEmail: $companyEmail)';
+    return 'CompanyProfileState(companyName: $companyName, companyCity: $companyCity, companyState: $companyState, companyCountry: $companyCountry, companyPostalCode: $companyPostalCode, gst: $gst, companyPhone: $companyPhone, companyEmail: $companyEmail, companyWebsite: $companyWebsite, status: $status)';
   }
 
   @override
@@ -1282,25 +2024,36 @@ class _$_CompanyProfileState implements _CompanyProfileState {
             const DeepCollectionEquality()
                 .equals(other.companyName, companyName) &&
             const DeepCollectionEquality()
-                .equals(other.companyAddress1, companyAddress1) &&
+                .equals(other.companyCity, companyCity) &&
             const DeepCollectionEquality()
-                .equals(other.companyAddress2, companyAddress2) &&
+                .equals(other.companyState, companyState) &&
+            const DeepCollectionEquality()
+                .equals(other.companyCountry, companyCountry) &&
+            const DeepCollectionEquality()
+                .equals(other.companyPostalCode, companyPostalCode) &&
             const DeepCollectionEquality().equals(other.gst, gst) &&
             const DeepCollectionEquality()
                 .equals(other.companyPhone, companyPhone) &&
             const DeepCollectionEquality()
-                .equals(other.companyEmail, companyEmail));
+                .equals(other.companyEmail, companyEmail) &&
+            const DeepCollectionEquality()
+                .equals(other.companyWebsite, companyWebsite) &&
+            const DeepCollectionEquality().equals(other.status, status));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(companyName),
-      const DeepCollectionEquality().hash(companyAddress1),
-      const DeepCollectionEquality().hash(companyAddress2),
+      const DeepCollectionEquality().hash(companyCity),
+      const DeepCollectionEquality().hash(companyState),
+      const DeepCollectionEquality().hash(companyCountry),
+      const DeepCollectionEquality().hash(companyPostalCode),
       const DeepCollectionEquality().hash(gst),
       const DeepCollectionEquality().hash(companyPhone),
-      const DeepCollectionEquality().hash(companyEmail));
+      const DeepCollectionEquality().hash(companyEmail),
+      const DeepCollectionEquality().hash(companyWebsite),
+      const DeepCollectionEquality().hash(status));
 
   @JsonKey(ignore: true)
   @override
@@ -1312,24 +2065,36 @@ class _$_CompanyProfileState implements _CompanyProfileState {
 abstract class _CompanyProfileState implements CompanyProfileState {
   const factory _CompanyProfileState(
       {InputString companyName,
-      InputString companyAddress1,
-      InputString companyAddress2,
+      InputString companyCity,
+      InputString companyState,
+      InputString companyCountry,
+      InputIdCode companyPostalCode,
       InputGst gst,
       InputString companyPhone,
-      InputString companyEmail}) = _$_CompanyProfileState;
+      InputString companyEmail,
+      InputString companyWebsite,
+      FormzStatus status}) = _$_CompanyProfileState;
 
   @override
   InputString get companyName;
   @override
-  InputString get companyAddress1;
+  InputString get companyCity;
   @override
-  InputString get companyAddress2;
+  InputString get companyState;
+  @override
+  InputString get companyCountry;
+  @override
+  InputIdCode get companyPostalCode;
   @override
   InputGst get gst;
   @override
   InputString get companyPhone;
   @override
   InputString get companyEmail;
+  @override
+  InputString get companyWebsite;
+  @override
+  FormzStatus get status;
   @override
   @JsonKey(ignore: true)
   _$CompanyProfileStateCopyWith<_CompanyProfileState> get copyWith =>
